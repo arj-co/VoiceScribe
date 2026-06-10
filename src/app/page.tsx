@@ -101,39 +101,129 @@ function AnimatedWord({ children, delay, type = "normal" }: { children?: React.R
   );
 }
 
-// --- Signature Experience 3: Progress Visualizer ---
+// --- Signature Experience 3: Longitudinal Dashboard ---
+const sessionsData = [
+  {
+    id: "01",
+    duration: "04:12",
+    fluency: 72,
+    trend: "Baseline",
+    trendDir: "neutral",
+    metrics: { rep: 14, pro: 8, block: 5, pause: 11 },
+    phrase: "Project overview",
+    transcript: (
+      <>
+        The <span className="annotation-repetition text-copper">q-q-quarterly</span> metrics indicate a 
+        <span className="annotation-pause" /> <span className="annotation-prolongation">sssslight</span> 
+        increase in <span className="annotation-block">⌐revenue</span>.
+      </>
+    )
+  },
+  {
+    id: "12",
+    duration: "05:30",
+    fluency: 78,
+    trend: "+6%",
+    trendDir: "up",
+    metrics: { rep: 9, pro: 5, block: 3, pause: 8 },
+    phrase: "Revenue breakdown",
+    transcript: (
+      <>
+        The quarterly metrics indicate a 
+        <span className="annotation-pause" /> <span className="annotation-prolongation">sssslight</span> 
+        increase in <span className="annotation-block">⌐revenue</span>.
+      </>
+    )
+  },
+  {
+    id: "24",
+    duration: "06:15",
+    fluency: 85,
+    trend: "+7%",
+    trendDir: "up",
+    metrics: { rep: 4, pro: 2, block: 1, pause: 3 },
+    phrase: "Growth summary",
+    transcript: (
+      <>
+        The quarterly metrics indicate a slight 
+        increase in <span className="annotation-block">⌐revenue</span>.
+      </>
+    )
+  },
+  {
+    id: "40",
+    duration: "12:45",
+    fluency: 94,
+    trend: "+9%",
+    trendDir: "up",
+    metrics: { rep: 1, pro: 0, block: 0, pause: 1 },
+    phrase: "Board presentation",
+    transcript: (
+      <>
+        The quarterly metrics indicate a slight increase in revenue.
+      </>
+    )
+  }
+];
+
 function ProgressJourney() {
-  const { scrollYProgress } = useScroll();
-  const y1 = useTransform(scrollYProgress, [0.5, 1], [100, -50]);
-  const y2 = useTransform(scrollYProgress, [0.5, 1], [200, 0]);
-  const y3 = useTransform(scrollYProgress, [0.5, 1], [300, 50]);
-
   return (
-    <div className="relative w-full max-w-4xl h-[60vh] flex justify-center items-center perspective-[1000px]">
-      <motion.div style={{ y: y3, z: -200, opacity: 0.2 }} className="absolute w-full max-w-2xl bg-paper-warm dark:bg-rule-light border border-rule p-8 shadow-2xl">
-        <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mb-4">Month 1</div>
-        <p className="font-display text-2xl text-ink blur-[1px]">
-          <span className="annotation-repetition text-copper">I-I-I</span> wanted to <span className="annotation-block">⌐say</span> that <span className="annotation-pause" /> it <span className="annotation-prolongation">wwwas</span> difficult.
-        </p>
-      </motion.div>
-      
-      <motion.div style={{ y: y2, z: -100, opacity: 0.5 }} className="absolute w-full max-w-2xl bg-paper border border-rule p-8 shadow-xl">
-        <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mb-4">Month 2</div>
-        <p className="font-display text-2xl text-ink">
-          I wanted to <span className="annotation-block">⌐say</span> that <span className="annotation-pause" /> it was difficult.
-        </p>
-      </motion.div>
+    <div className="relative w-full max-w-3xl mx-auto pb-[10vh] mt-12">
+      {sessionsData.map((session, index) => (
+        <div 
+          key={session.id} 
+          className="sticky w-full bg-paper dark:bg-[#141211] border border-rule shadow-2xl rounded-2xl p-6 sm:p-8 flex flex-col gap-6 sm:gap-8 transition-colors duration-500 will-change-transform"
+          style={{ 
+            top: `calc(10vh + ${index * 1.5}rem)`, 
+            marginBottom: index === sessionsData.length - 1 ? "0" : "40vh" 
+          }}
+        >
+          {/* Header */}
+          <div className="flex justify-between items-start border-b border-rule pb-4">
+            <div>
+              <h4 className="font-sans text-xs font-bold tracking-widest text-ink dark:text-white uppercase">Session {session.id}</h4>
+              <p className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mt-1">Duration: {session.duration}</p>
+            </div>
+            <div className="text-right">
+              <div className="font-display text-3xl sm:text-4xl font-bold text-ink dark:text-white">{session.fluency}<span className="text-xl sm:text-2xl text-ink-muted">%</span></div>
+              <div className={`font-sans text-[9px] sm:text-[10px] uppercase tracking-widest font-bold mt-1 ${session.trendDir === 'up' ? 'text-sage dark:text-sage-light' : 'text-ink-muted'}`}>
+                Fluency Index • {session.trend}
+              </div>
+            </div>
+          </div>
 
-      <motion.div style={{ y: y1, z: 0 }} className="absolute w-full max-w-2xl bg-cream dark:bg-paper border border-copper/30 p-8 shadow-2xl shadow-copper/5">
-        <div className="font-mono text-[10px] text-copper uppercase tracking-widest mb-4">Month 4</div>
-        <p className="font-display text-2xl text-ink">
-          I wanted to say that it was difficult.
-        </p>
-        <div className="mt-8 flex items-center justify-between border-t border-rule pt-4">
-          <span className="font-mono text-[10px] text-sage uppercase tracking-widest">Fluency found</span>
-          <motion.div className="w-16 h-[1px] bg-sage" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ delay: 0.5, duration: 1 }} />
+          {/* Metrics Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+            <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
+              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Repetitions</div>
+              <div className="font-sans text-xl font-medium text-ink dark:text-white">{session.metrics.rep}</div>
+            </div>
+            <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
+              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Prolongations</div>
+              <div className="font-sans text-xl font-medium text-ink dark:text-white">{session.metrics.pro}</div>
+            </div>
+            <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
+              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Blocks</div>
+              <div className="font-sans text-xl font-medium text-ink dark:text-white">{session.metrics.block}</div>
+            </div>
+            <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
+              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Long Pauses</div>
+              <div className="font-sans text-xl font-medium text-ink dark:text-white">{session.metrics.pause}</div>
+            </div>
+          </div>
+
+          {/* Affected Phrase & Transcript */}
+          <div className="flex flex-col gap-4 border-t border-rule pt-6">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-2">
+              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest">Transcript Fragment</div>
+              <div className="font-sans text-[10px] text-ink-muted bg-rule-light/50 dark:bg-white/5 px-2 py-1 rounded-md w-fit">Context: {session.phrase}</div>
+            </div>
+            <p className="font-display text-2xl sm:text-3xl text-ink dark:text-white leading-relaxed">
+              {session.transcript}
+            </p>
+          </div>
         </div>
-      </motion.div>
+      ))}
     </div>
   );
 }
@@ -243,11 +333,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 3. Progress Journey */}
+        {/* 3. Longitudinal Dashboard */}
         <section className="relative min-h-[120svh] flex flex-col items-center justify-center px-6 py-32 z-10 overflow-hidden">
           <div className="w-full max-w-5xl mx-auto mb-16 text-center">
-            <h3 className="font-display text-4xl sm:text-6xl font-bold text-ink mb-6">Observe your rhythm.</h3>
-            <p className="font-display text-xl text-ink-light italic">Progress told through visual subtraction, not generic dashboards.</p>
+            <h3 className="font-sans text-xs sm:text-sm uppercase tracking-[0.2em] font-bold text-ink-muted mb-4">Longitudinal Analysis</h3>
+            <p className="font-display text-4xl sm:text-5xl font-medium text-ink dark:text-white tracking-tight">Speech data across recorded sessions.</p>
           </div>
           
           <ProgressJourney />
