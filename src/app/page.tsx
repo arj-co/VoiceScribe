@@ -105,7 +105,7 @@ function AnimatedWord({ children, delay, type = "normal" }: { children?: React.R
 const sessionsData = [
   {
     id: "01",
-    date: "Oct 12, 2025",
+    date: "Mar 12, 2026",
     duration: "04:12",
     fluency: 41,
     trend: "Baseline",
@@ -122,7 +122,7 @@ const sessionsData = [
   },
   {
     id: "12",
-    date: "Nov 04, 2025",
+    date: "Apr 04, 2026",
     duration: "05:30",
     fluency: 78,
     trend: "+37%",
@@ -139,7 +139,7 @@ const sessionsData = [
   },
   {
     id: "24",
-    date: "Dec 18, 2025",
+    date: "May 18, 2026",
     duration: "06:15",
     fluency: 89,
     trend: "+11%",
@@ -155,7 +155,7 @@ const sessionsData = [
   },
   {
     id: "40",
-    date: "Jan 22, 2026",
+    date: "Jun 22, 2026",
     duration: "12:45",
     fluency: 96,
     trend: "+7%",
