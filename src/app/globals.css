@@ -211,7 +211,6 @@ hr {
 
 .annotation-prolongation {
   letter-spacing: 0.25em;
-  color: var(--color-ink);
   font-weight: 700;
   font-style: italic;
 }
@@ -225,7 +224,6 @@ hr {
 
 .annotation-block::before {
   content: "⌐";
-  color: var(--color-ink);
   font-size: 0.95em;
   font-weight: 800;
 }

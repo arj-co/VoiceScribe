@@ -49,7 +49,7 @@ function SpeechLandscape() {
             y: { duration: 8 + i, repeat: Infinity, ease: "easeInOut" },
             opacity: { duration: 3, delay: frag.delay }
           }}
-          className="absolute font-display text-xl sm:text-3xl tracking-wide whitespace-nowrap text-ink blur-[0.5px] select-none"
+          className="absolute font-display text-xl sm:text-3xl tracking-wide whitespace-nowrap text-ink dark:text-white/80 blur-[0.5px] select-none"
           style={{ top: frag.top, left: frag.left }}
         >
           {frag.type === "rep" ? <span className="annotation-repetition text-copper">{frag.text}</span> :
@@ -73,29 +73,29 @@ function AnimatedWord({ children, delay, type = "normal" }: { children?: React.R
       className="inline-block mr-[0.25em] mb-[0.1em]"
     >
       {type === "pause" ? (
-        <span className="annotation-pause" />
+        <span className="annotation-pause dark:border-white/50" />
       ) : type === "rep" ? (
-        <span className="annotation-repetition text-copper relative">
+        <span className="annotation-repetition text-copper dark:text-white/90 relative">
           {children}
           <motion.span 
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay: delay + 0.4, duration: 0.5 }}
-            className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-copper uppercase tracking-widest opacity-0 group-hover:opacity-100"
+            className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-copper dark:text-white/70 uppercase tracking-widest opacity-0 group-hover:opacity-100"
           >
             Repetition
           </motion.span>
         </span>
       ) : type === "block" ? (
-        <span className="annotation-block relative">
+        <span className="annotation-block dark:text-white/90 relative">
           {children}
         </span>
       ) : type === "pro" ? (
-        <span className="annotation-prolongation relative text-sage dark:text-sage-light">
+        <span className="annotation-prolongation relative text-sage dark:text-white/80">
           {children}
         </span>
       ) : (
-        children
+        <span className="dark:text-white/90">{children}</span>
       )}
     </motion.span>
   );
@@ -201,7 +201,7 @@ export default function Home() {
               The Living Transcript
             </div>
             
-            <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.15] text-ink dark:text-white tracking-tight">
+            <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.15] text-ink dark:text-white/90 tracking-tight">
               <AnimatedWord delay={0.1}>I</AnimatedWord>
               <AnimatedWord delay={0.3} type="rep">w-w-want</AnimatedWord>
               <AnimatedWord delay={0.8}>to</AnimatedWord>
