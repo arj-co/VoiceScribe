@@ -1,241 +1,292 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useState, useEffect } from "react";
+
+// --- Signature Experience 1: Speech Landscape ---
+function SpeechLandscape() {
+  const fragments = [
+    { text: "s-s-sometimes", top: "25%", left: "65%", delay: 1.5, opacity: 0.6, type: "rep" },
+    { text: "⌐to find", top: "75%", left: "70%", delay: 2.5, opacity: 0.5, type: "block" },
+    { text: "the right woooords", top: "45%", left: "80%", delay: 4, opacity: 0.7, type: "pro" }
+  ];
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+      {/* Atmospheric Cinematic Glows (Explicitly for Dark Hero) */}
+      <motion.div 
+        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-[#A5F3FC]/15 blur-[100px] mix-blend-screen"
+      />
+      <motion.div 
+        animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.25, 0.1] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-[#9DB48C]/15 blur-[120px] mix-blend-screen -translate-x-1/4 translate-y-1/4"
+      />
+
+      {/* Subliminal Waveform Core */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-40">
+        {[2, 4, 3, 6, 8, 12, 7, 4, 9, 5, 3, 2].map((h, i) => (
+          <motion.div
+            key={i}
+            animate={{ height: [h * 8, h * 16, h * 8] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
+            className="w-[2px] rounded-full bg-[#F6F1EB]"
+          />
+        ))}
+      </div>
+
+      {/* Floating Fragments */}
+      {fragments.map((frag, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: frag.opacity, y: [0, -20, 0] }}
+          transition={{
+            y: { duration: 8 + i, repeat: Infinity, ease: "easeInOut" },
+            opacity: { duration: 3, delay: frag.delay }
+          }}
+          className="absolute font-display text-xl sm:text-3xl tracking-wide whitespace-nowrap text-[#F6F1EB] blur-[0.5px] select-none"
+          style={{ top: frag.top, left: frag.left }}
+        >
+          {frag.type === "rep" ? <span className="annotation-repetition text-[#A5F3FC]">{frag.text}</span> :
+           frag.type === "block" ? <span className="annotation-block">{frag.text}</span> :
+           frag.type === "pro" ? <span className="annotation-prolongation text-[#9DB48C]">{frag.text}</span> :
+           frag.text}
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+// --- Signature Experience 2: Living Transcript Word ---
+function AnimatedWord({ children, delay, type = "normal" }: { children?: React.ReactNode, delay: number, type?: "normal" | "rep" | "block" | "pro" | "pause" }) {
+  return (
+    <motion.span
+      initial={{ opacity: 0, filter: "blur(8px)", y: 10 }}
+      whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+      className="inline-block mr-[0.25em] mb-[0.1em]"
+    >
+      {type === "pause" ? (
+        <span className="annotation-pause" />
+      ) : type === "rep" ? (
+        <span className="annotation-repetition text-copper relative">
+          {children}
+          <motion.span 
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: delay + 0.4, duration: 0.5 }}
+            className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-copper uppercase tracking-widest opacity-0 group-hover:opacity-100"
+          >
+            Repetition
+          </motion.span>
+        </span>
+      ) : type === "block" ? (
+        <span className="annotation-block relative">
+          {children}
+        </span>
+      ) : type === "pro" ? (
+        <span className="annotation-prolongation relative text-sage dark:text-sage-light">
+          {children}
+        </span>
+      ) : (
+        children
+      )}
+    </motion.span>
+  );
+}
+
+// --- Signature Experience 3: Progress Visualizer ---
+function ProgressJourney() {
+  const { scrollYProgress } = useScroll();
+  const y1 = useTransform(scrollYProgress, [0.5, 1], [100, -50]);
+  const y2 = useTransform(scrollYProgress, [0.5, 1], [200, 0]);
+  const y3 = useTransform(scrollYProgress, [0.5, 1], [300, 50]);
+
+  return (
+    <div className="relative w-full max-w-4xl h-[60vh] flex justify-center items-center perspective-[1000px]">
+      <motion.div style={{ y: y3, z: -200, opacity: 0.2 }} className="absolute w-full max-w-2xl bg-paper-warm dark:bg-rule-light border border-rule p-8 shadow-2xl">
+        <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mb-4">Month 1</div>
+        <p className="font-display text-2xl text-ink blur-[1px]">
+          <span className="annotation-repetition text-copper">I-I-I</span> wanted to <span className="annotation-block">⌐say</span> that <span className="annotation-pause" /> it <span className="annotation-prolongation">wwwas</span> difficult.
+        </p>
+      </motion.div>
+      
+      <motion.div style={{ y: y2, z: -100, opacity: 0.5 }} className="absolute w-full max-w-2xl bg-paper border border-rule p-8 shadow-xl">
+        <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mb-4">Month 2</div>
+        <p className="font-display text-2xl text-ink">
+          I wanted to <span className="annotation-block">⌐say</span> that <span className="annotation-pause" /> it was difficult.
+        </p>
+      </motion.div>
+
+      <motion.div style={{ y: y1, z: 0 }} className="absolute w-full max-w-2xl bg-cream dark:bg-paper border border-copper/30 p-8 shadow-2xl shadow-copper/5">
+        <div className="font-mono text-[10px] text-copper uppercase tracking-widest mb-4">Month 4</div>
+        <p className="font-display text-2xl text-ink">
+          I wanted to say that it was difficult.
+        </p>
+        <div className="mt-8 flex items-center justify-between border-t border-rule pt-4">
+          <span className="font-mono text-[10px] text-sage uppercase tracking-widest">Fluency found</span>
+          <motion.div className="w-16 h-[1px] bg-sage" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ delay: 0.5, duration: 1 }} />
+        </div>
+      </motion.div>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-bg text-text-main flex flex-col font-sans selection:bg-panel transition-colors duration-300">
+    <div className="min-h-screen bg-paper flex flex-col selection:bg-copper-faint selection:text-ink relative transition-colors duration-700 overflow-x-hidden">
       
-      {/* Navbar */}
-      <header className="sticky top-0 w-full px-6 py-4 flex justify-between items-center z-50 bg-bg/80 backdrop-blur-md">
-        <div className="font-bold text-lg tracking-tight">VoiceScribe</div>
-        <div className="flex items-center gap-6">
-          <Link href="/practice" className="text-sm font-medium hover:text-accent transition-colors">
-            Sign In
-          </Link>
+      {/* Header */}
+      <header className="fixed top-0 left-0 w-full px-6 sm:px-8 py-6 flex justify-between items-center z-50 bg-paper/80 backdrop-blur-md dark:bg-[#0A0908]/80 text-ink dark:text-white border-b border-rule/50 dark:border-rule-light/50 transition-colors duration-500">
+        <h1 className="font-display text-2xl font-semibold tracking-tight">
+          Voice<em className="not-italic font-bold">Scribe</em>
+        </h1>
+        <div className="flex items-center gap-8">
+          <nav className="hidden sm:flex gap-6 font-sans text-[10px] tracking-widest uppercase opacity-70 font-bold">
+            <span>Demonstration</span>
+          </nav>
           <ThemeToggle />
         </div>
       </header>
 
-      <main className="flex-grow w-full pb-32">
-        
-        {/* --- HERO: Product Showcase --- */}
-        <section className="w-full max-w-7xl mx-auto px-6 pt-24 pb-32 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <main className="flex-grow w-full">
+        {/* 1. Speech Landscape Hero */}
+        <section className="relative min-h-[100svh] flex flex-col items-center justify-center px-6 bg-[#0A0908] overflow-hidden">
+          <SpeechLandscape />
           
-          {/* Left: Copy */}
-          <div className="flex flex-col items-start gap-8">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
-              Practice speaking.<br />
-              <span className="text-text-muted">See what happens.</span>
-            </h1>
-            <p className="text-lg text-text-muted max-w-md leading-relaxed">
-              A private, browser-based instrument built for people who stutter. Analyze your speech patterns in real-time, completely locally.
-            </p>
-            <Link 
-              href="/practice"
-              className="px-6 py-3 bg-text-main text-bg rounded-lg font-medium shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-2"
+          <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-start justify-center">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
+              className="max-w-4xl"
             >
-              Open VoiceScribe
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </Link>
-          </div>
-
-          {/* Right: Actual Interface Mockup */}
-          <div className="w-full rounded-xl border border-border bg-panel shadow-2xl overflow-hidden flex flex-col h-[400px] sm:h-[500px]">
-            {/* Window Header */}
-            <div className="h-12 border-b border-border flex items-center justify-between px-4 bg-bg/50">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-400/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-400/80" />
-                <div className="w-3 h-3 rounded-full bg-green-400/80" />
-              </div>
-              <div className="flex items-center gap-2 text-xs font-mono text-text-muted bg-bg px-2 py-1 rounded border border-border">
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                Recording Session
-              </div>
-            </div>
-            
-            {/* Interface Body */}
-            <div className="p-6 sm:p-8 flex-grow flex flex-col justify-center relative">
-              <div className="font-sans text-2xl sm:text-3xl text-text-main leading-relaxed font-medium">
-                I <span className="underline decoration-rep decoration-2 underline-offset-4">w-w-want</span> to talk 
-                about the meeting. It went <span className="tracking-[0.2em] text-pro">wwwell</span>, but 
-                <span className="font-bold border-l-2 border-block pl-1 ml-1">sometimes</span> I felt stuck.
-              </div>
-
-              {/* Data Overlays */}
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="absolute bottom-6 left-6 right-6 flex items-end justify-between"
-              >
-                <div className="space-y-2">
-                  <div className="text-[10px] font-mono text-text-muted uppercase tracking-wider">Live Analysis</div>
-                  <div className="flex gap-2">
-                    <div className="px-2 py-1 rounded bg-bg text-text-main text-xs border border-border font-mono shadow-sm">
-                      <span className="text-rep font-bold mr-1">R</span> Repetition
-                    </div>
-                    <div className="px-2 py-1 rounded bg-bg text-text-main text-xs border border-border font-mono shadow-sm">
-                      <span className="text-pro font-bold mr-1">P</span> Prolongation
-                    </div>
-                  </div>
-                </div>
-                <div className="w-12 h-12 rounded-full bg-bg border border-border flex items-center justify-center shadow-sm">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-muted">
-                    <path d="M12 2v20M17 5v14M7 5v14M22 9v6M2 9v6" />
-                  </svg>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* --- SECTION 1: Live Transcript --- */}
-        <section className="w-full max-w-7xl mx-auto px-6 py-32 flex flex-col items-center">
-          <div className="text-center mb-16 max-w-2xl">
-            <h2 className="text-3xl font-bold mb-4">The Live Transcript</h2>
-            <p className="text-text-muted">
-              Watch your speech transform into structured data. Every repetition, prolongation, and block is visually categorized in real-time. Not decoration—clinical feedback.
-            </p>
-          </div>
-
-          <div className="w-full max-w-4xl bg-panel border border-border rounded-xl p-8 sm:p-12 shadow-sm">
-            <div className="text-2xl sm:text-4xl font-medium leading-[1.6] text-text-main">
-              <span className="opacity-50">I</span>{" "}
-              <span className="inline-flex flex-col relative">
-                <span className="underline decoration-rep decoration-2 underline-offset-4">w-w-want</span>
-                <span className="absolute -top-5 left-0 text-[9px] font-mono text-rep uppercase font-bold tracking-widest">Repetition</span>
-              </span>{" "}
-              <span className="opacity-50">to speak more confidently.</span>
-              <br /><br />
-              <span className="opacity-50">Sometimes my voice</span>{" "}
-              <span className="inline-flex flex-col relative">
-                <span className="tracking-[0.2em] text-pro">sssssstretches.</span>
-                <span className="absolute -top-5 left-0 text-[9px] font-mono text-pro uppercase font-bold tracking-widest">Prolongation</span>
-              </span>
-              <br /><br />
-              <span className="opacity-50">And occasionally it</span>{" "}
-              <span className="inline-flex flex-col relative">
-                <span className="font-bold border-l-2 border-block pl-1 ml-1">blocks.</span>
-                <span className="absolute -top-5 left-0 text-[9px] font-mono text-block uppercase font-bold tracking-widest">Block</span>
-              </span>
-            </div>
-          </div>
-        </section>
-
-        {/* --- SECTION 2: Analysis Engine --- */}
-        <section className="w-full bg-panel py-32">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="mb-16">
-              <h2 className="text-3xl font-bold mb-4">Analysis Engine</h2>
-              <p className="text-text-muted max-w-xl">
-                Raw audio goes in. Structured cognitive insights come out. See exactly what patterns dominate your speech.
+              <h2 className="font-display text-6xl sm:text-8xl md:text-9xl font-bold tracking-tighter text-[#F6F1EB] leading-[0.9] mb-8">
+                Speech, <br />
+                <span className="italic font-light text-[#A8A29E]">visualized.</span>
+              </h2>
+              <p className="font-sans text-xs sm:text-sm tracking-widest uppercase text-[#78716C] max-w-md leading-relaxed">
+                A private, browser-based instrument built for people who stutter. Not a dashboard. Not a clinic. A sanctuary.
               </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Raw Speech */}
-              <div className="bg-bg border border-border rounded-xl p-8 shadow-sm">
-                <div className="text-xs font-mono text-text-muted uppercase tracking-wider border-b border-border pb-4 mb-6">Input: Raw Audio</div>
-                <div className="h-48 flex items-center justify-center border border-dashed border-border rounded-lg bg-panel/50">
-                   <div className="flex items-center gap-1 opacity-50">
-                     {[2, 4, 3, 6, 8, 12, 16, 12, 8, 5, 3, 2, 4].map((h, i) => (
-                        <div key={i} className="w-1 bg-text-muted rounded-full" style={{ height: `${h * 4}px` }} />
-                     ))}
-                   </div>
-                </div>
-              </div>
-
-              {/* Insights */}
-              <div className="bg-bg border border-border rounded-xl p-8 shadow-sm flex flex-col">
-                <div className="text-xs font-mono text-text-muted uppercase tracking-wider border-b border-border pb-4 mb-6">Output: Insights</div>
-                
-                <div className="space-y-4 flex-grow">
-                  <div className="flex items-center justify-between p-3 rounded-lg border border-border bg-panel">
-                    <span className="font-medium text-sm text-rep">Repetitions</span>
-                    <span className="font-mono text-xs font-bold">12 detected</span>
-                  </div>
-                  <div className="flex items-center justify-between p-3 rounded-lg border border-border bg-panel">
-                    <span className="font-medium text-sm text-pro">Prolongations</span>
-                    <span className="font-mono text-xs font-bold">4 detected</span>
-                  </div>
-                  <div className="flex items-center justify-between p-3 rounded-lg border border-border bg-panel">
-                    <span className="font-medium text-sm text-block">Blocks</span>
-                    <span className="font-mono text-xs font-bold">2 detected</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+              
+              <motion.div className="mt-16">
+                <Link 
+                  href="/practice"
+                  className="group relative inline-flex justify-center items-center px-8 py-4 bg-[#F6F1EB] text-[#171514] text-[11px] font-sans tracking-widest uppercase font-bold overflow-hidden rounded-full"
+                >
+                  <div className="absolute inset-0 w-full h-full bg-[#A5F3FC] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.21,0.47,0.32,0.98]" />
+                  <span className="relative z-10 flex items-center gap-3">
+                    Open The Instrument
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-x-1 transition-transform">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </span>
+                </Link>
+              </motion.div>
+            </motion.div>
           </div>
         </section>
 
-        {/* --- SECTION 3: Progress Timeline --- */}
-        <section className="w-full max-w-5xl mx-auto px-6 py-32">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">Track Your Reality</h2>
-            <p className="text-text-muted">A personal speech journal mapping your fluency over time.</p>
-          </div>
-
-          <div className="relative border-l border-border ml-4 sm:ml-8 pl-8 space-y-16">
+        {/* 2. Living Transcript */}
+        <section className="relative min-h-[100svh] flex items-center justify-center px-6 py-24 bg-paper-warm dark:bg-[#110F0E] border-y border-rule z-10">
+          <div className="w-full max-w-6xl mx-auto">
+            <div className="font-mono text-[10px] text-copper uppercase tracking-widest mb-12 flex items-center gap-4">
+              <span className="w-8 h-px bg-copper" />
+              The Living Transcript
+            </div>
             
-            {/* Month 1 */}
-            <div className="relative">
-              <div className="absolute w-3 h-3 rounded-full bg-border -left-[38px] top-1.5" />
-              <div className="text-sm font-mono text-text-muted mb-2">Month 1</div>
-              <div className="p-6 bg-panel border border-border rounded-lg shadow-sm">
-                <p className="text-xl">
-                  <span className="text-rep underline decoration-rep">I-I-I</span> wanted to <span className="border-l-2 border-block pl-1 ml-1 font-bold">say</span> that it <span className="text-pro tracking-widest">wwwas</span> difficult.
-                </p>
-                <div className="mt-4 flex gap-2">
-                  <span className="px-2 py-1 bg-bg border border-border rounded text-[10px] font-mono text-rep">High Dysfluency</span>
-                </div>
-              </div>
+            <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.15] text-ink dark:text-white tracking-tight">
+              <AnimatedWord delay={0.1}>I</AnimatedWord>
+              <AnimatedWord delay={0.3} type="rep">w-w-want</AnimatedWord>
+              <AnimatedWord delay={0.8}>to</AnimatedWord>
+              <AnimatedWord delay={1.0}>speak</AnimatedWord>
+              <AnimatedWord delay={1.2}>more</AnimatedWord>
+              <AnimatedWord delay={1.4}>confidently.</AnimatedWord>
+              <br className="hidden md:block" />
+              <AnimatedWord delay={1.8} type="pause" />
+              <AnimatedWord delay={2.4}>But</AnimatedWord>
+              <AnimatedWord delay={2.8} type="pro">ssssometimes</AnimatedWord>
+              <AnimatedWord delay={3.6}>my</AnimatedWord>
+              <AnimatedWord delay={3.8}>voice</AnimatedWord>
+              <AnimatedWord delay={4.2} type="block">⌐stops.</AnimatedWord>
             </div>
 
-            {/* Month 2 */}
-            <div className="relative">
-              <div className="absolute w-3 h-3 rounded-full bg-border -left-[38px] top-1.5" />
-              <div className="text-sm font-mono text-text-muted mb-2">Month 2</div>
-              <div className="p-6 bg-panel border border-border rounded-lg shadow-sm">
-                <p className="text-xl">
-                  I wanted to <span className="border-l-2 border-block pl-1 ml-1 font-bold">say</span> that it was difficult.
-                </p>
-                <div className="mt-4 flex gap-2">
-                  <span className="px-2 py-1 bg-bg border border-border rounded text-[10px] font-mono text-block">Moderate</span>
-                </div>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ delay: 5, duration: 1 }}
+              className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 font-mono text-[10px] uppercase tracking-widest text-ink-muted border-t border-rule pt-8"
+            >
+              <div>
+                <span className="block text-copper mb-2 font-sans font-medium">Double Underline</span>
+                Repetition
               </div>
-            </div>
-
-            {/* Month 4 */}
-            <div className="relative">
-              <div className="absolute w-3 h-3 rounded-full bg-accent -left-[38px] top-1.5 shadow-[0_0_8px_rgba(58,100,115,0.5)] dark:shadow-[0_0_8px_rgba(142,197,214,0.5)]" />
-              <div className="text-sm font-mono text-accent font-bold mb-2">Month 4</div>
-              <div className="p-6 bg-bg border-2 border-accent rounded-lg shadow-md">
-                <p className="text-xl font-medium">
-                  I wanted to say that it was difficult.
-                </p>
-                <div className="mt-4 flex gap-2">
-                  <span className="px-2 py-1 bg-panel border border-accent rounded text-[10px] font-mono text-accent font-bold">Fluency Found</span>
-                </div>
+              <div>
+                <span className="block text-sage dark:text-sage-light mb-2 font-sans font-medium">Spaced Italic</span>
+                Prolongation
               </div>
-            </div>
-
+              <div>
+                <span className="block text-ink dark:text-white font-bold mb-2 font-sans font-medium">Bracket Marker</span>
+                Block
+              </div>
+              <div>
+                <span className="block text-ink-light dark:text-ink-faint mb-2 font-sans font-medium">Line Break</span>
+                Long Pause
+              </div>
+            </motion.div>
           </div>
         </section>
 
+        {/* 3. Progress Journey */}
+        <section className="relative min-h-[120svh] flex flex-col items-center justify-center px-6 py-32 z-10 overflow-hidden">
+          <div className="w-full max-w-5xl mx-auto mb-16 text-center">
+            <h3 className="font-display text-4xl sm:text-6xl font-bold text-ink mb-6">Observe your rhythm.</h3>
+            <p className="font-display text-xl text-ink-light italic">Progress told through visual subtraction, not generic dashboards.</p>
+          </div>
+          
+          <ProgressJourney />
+        </section>
       </main>
 
-      <footer className="w-full bg-panel py-12 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-mono text-text-muted uppercase tracking-wider">
-          <div>© 2026 VoiceScribe. Built for dignity.</div>
-          <div className="flex gap-6">
-            <Link href="/practice" className="hover:text-text-main transition-colors">Enter Studio</Link>
-            <span className="cursor-not-allowed opacity-50">Privacy Policy</span>
+      {/* Premium Footer */}
+      <footer className="bg-ink dark:bg-[#0A0908] text-paper py-16 sm:py-24 border-t border-ink-light dark:border-rule">
+        <div className="mx-auto max-w-5xl px-6 sm:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
+            <div className="md:col-span-1">
+              <h2 className="font-display text-3xl font-semibold tracking-tight text-paper mb-6">
+                Voice<em className="not-italic font-bold text-copper">Scribe</em>
+              </h2>
+            </div>
+            
+            <div className="md:col-span-2 grid grid-cols-2 gap-8">
+              <div className="flex flex-col gap-4 font-mono text-[10px] tracking-widest uppercase">
+                <span className="text-ink-muted mb-2">The Instrument</span>
+                <Link href="/practice" className="text-paper hover:text-copper transition-colors">Enter Studio</Link>
+                <span className="text-ink-faint hover:text-paper transition-colors cursor-pointer">Manifesto</span>
+              </div>
+
+              <div className="flex flex-col gap-4 font-mono text-[10px] tracking-widest uppercase">
+                <span className="text-ink-muted mb-2">Commitment</span>
+                <span className="text-ink-faint hover:text-paper transition-colors cursor-pointer">Privacy First</span>
+                <span className="text-ink-faint hover:text-paper transition-colors cursor-pointer">Local Data Only</span>
+                <span className="text-ink-faint hover:text-paper transition-colors cursor-pointer">Accessibility</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="pt-8 border-t border-ink-light dark:border-rule flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+            <p className="font-mono text-[9px] tracking-widest text-ink-muted uppercase">
+              © 2026 VoiceScribe. Built for dignity.
+            </p>
+            <p className="font-mono text-[9px] tracking-widest text-ink-faint max-w-sm text-left sm:text-right leading-relaxed uppercase">
+              Not a medical tool. Designed for personal practice and reflection.
+            </p>
           </div>
         </div>
       </footer>
