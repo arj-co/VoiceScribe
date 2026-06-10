@@ -22,15 +22,15 @@ export function Header() {
           </p>
         </div>
 
-        {/* Mascot element */}
-        <div className="flex-shrink-0 flex justify-center sm:justify-end">
-          <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-full overflow-hidden border border-rule bg-cream p-1 shadow-sm">
+        {/* Mascot element — clean rectangular image on the right */}
+        <div className="flex-shrink-0 flex justify-center sm:justify-end items-center">
+          <div className="relative w-28 h-28 sm:w-36 sm:h-36">
             <Image
               src="/VoiceScribe.png"
-              alt="VoiceScribe Mascot"
+              alt="VoiceScribe Illustration"
               fill
-              sizes="(max-width: 640px) 80px, 96px"
-              className="object-contain p-1 rounded-full"
+              sizes="(max-width: 640px) 112px, 144px"
+              className="object-contain"
               priority
             />
           </div>

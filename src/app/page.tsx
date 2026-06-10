@@ -5,27 +5,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-paper flex flex-col justify-between">
       {/* Editorial Navigation */}
-      <header className="mx-auto max-w-5xl w-full px-6 sm:px-8 pt-12 flex justify-between items-center">
+      <header className="mx-auto max-w-5xl w-full px-6 sm:px-8 pt-12 flex justify-between items-baseline">
         <h1 className="font-display text-3xl font-semibold tracking-tight text-ink">
           Voice<em className="not-italic font-bold text-copper">Scribe</em>
         </h1>
-        <div className="flex items-center gap-6">
-          <nav className="flex gap-6 font-mono text-[11px] tracking-wider uppercase text-ink-muted">
-            <span className="text-ink font-bold">Home</span>
-            <Link href="/practice" className="hover:text-copper transition-colors">
-              Workspace
-            </Link>
-          </nav>
-          <div className="relative h-10 w-10 rounded-full overflow-hidden border border-rule bg-cream p-0.5 shadow-sm flex-shrink-0">
-            <Image
-              src="/VoiceScribe.png"
-              alt="VoiceScribe Mascot"
-              fill
-              className="object-contain p-0.5 rounded-full"
-              priority
-            />
-          </div>
-        </div>
+        <nav className="flex gap-6 font-mono text-[11px] tracking-wider uppercase text-ink-muted">
+          <span className="text-ink font-bold">Home</span>
+          <Link href="/practice" className="hover:text-copper transition-colors">
+            Workspace
+          </Link>
+        </nav>
       </header>
 
       {/* Hero Section */}
@@ -59,14 +48,14 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Hero Mascot (1 column on md) */}
-          <div className="flex justify-center md:justify-end">
-            <div className="relative h-60 w-60 sm:h-72 sm:w-72 md:h-80 md:w-80 rounded-full overflow-hidden border border-rule bg-cream p-3 shadow-sm flex-shrink-0 animate-breathe">
+          {/* Hero Mascot (1 column on md) — raw rectangular image */}
+          <div className="flex justify-center md:justify-end items-center">
+            <div className="relative w-full max-w-[280px] aspect-square sm:max-w-[320px] md:max-w-[340px]">
               <Image
                 src="/VoiceScribe.png"
-                alt="VoiceScribe Brand Mascot"
+                alt="VoiceScribe Illustration"
                 fill
-                className="object-contain p-2 rounded-full"
+                className="object-contain"
                 priority
               />
             </div>
