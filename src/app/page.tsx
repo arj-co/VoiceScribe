@@ -49,7 +49,7 @@ function SpeechLandscape() {
             y: { duration: 8 + i, repeat: Infinity, ease: "easeInOut" },
             opacity: { duration: 3, delay: frag.delay }
           }}
-          className="absolute font-display text-xl sm:text-3xl tracking-wide whitespace-nowrap text-ink dark:text-white/80 blur-[0.5px] select-none"
+          className="absolute font-display text-xl sm:text-3xl tracking-wide whitespace-nowrap text-ink opacity-80 blur-[0.5px] select-none"
           style={{ top: frag.top, left: frag.left }}
         >
           {frag.type === "rep" ? <span className="annotation-repetition text-copper">{frag.text}</span> :
@@ -73,29 +73,29 @@ function AnimatedWord({ children, delay, type = "normal" }: { children?: React.R
       className="inline-block mr-[0.25em] mb-[0.1em]"
     >
       {type === "pause" ? (
-        <span className="annotation-pause dark:border-white/50" />
+        <span className="annotation-pause opacity-50 border-ink" />
       ) : type === "rep" ? (
-        <span className="annotation-repetition text-copper dark:text-white/90 relative">
+        <span className="annotation-repetition text-copper opacity-90 relative">
           {children}
           <motion.span 
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay: delay + 0.4, duration: 0.5 }}
-            className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-copper dark:text-white/70 uppercase tracking-widest opacity-0 group-hover:opacity-100"
+            className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-copper opacity-0 group-hover:opacity-100 uppercase tracking-widest transition-opacity"
           >
             Repetition
           </motion.span>
         </span>
       ) : type === "block" ? (
-        <span className="annotation-block dark:text-white/90 relative">
+        <span className="annotation-block opacity-90 relative">
           {children}
         </span>
       ) : type === "pro" ? (
-        <span className="annotation-prolongation relative text-sage dark:text-white/80">
+        <span className="annotation-prolongation relative text-sage opacity-80">
           {children}
         </span>
       ) : (
-        <span className="dark:text-white/90">{children}</span>
+        <span className="opacity-90">{children}</span>
       )}
     </motion.span>
   );
@@ -165,13 +165,13 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="max-w-4xl mix-blend-darken dark:mix-blend-lighten"
+              className="max-w-4xl"
             >
-              <h2 className="font-display text-6xl sm:text-8xl md:text-9xl font-bold tracking-tighter text-ink dark:text-white leading-[0.9] mb-8">
+              <h2 className="font-display text-6xl sm:text-8xl md:text-9xl font-bold tracking-tighter text-ink leading-[0.9] mb-8">
                 Speech, <br />
-                <span className="italic font-light text-ink-light dark:text-ink-ghost">visualized.</span>
+                <span className="italic font-light opacity-80">visualized.</span>
               </h2>
-              <p className="font-sans text-xs sm:text-sm tracking-widest uppercase text-ink-muted dark:text-ink-ghost max-w-md leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm tracking-widest uppercase text-ink max-w-md leading-relaxed opacity-80">
                 A private, browser-based instrument built for people who stutter. Not a dashboard. Not a clinic. A sanctuary.
               </p>
               
@@ -201,7 +201,7 @@ export default function Home() {
               The Living Transcript
             </div>
             
-            <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.15] text-ink dark:text-white/90 tracking-tight">
+            <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.15] text-ink tracking-tight opacity-90">
               <AnimatedWord delay={0.1}>I</AnimatedWord>
               <AnimatedWord delay={0.3} type="rep">w-w-want</AnimatedWord>
               <AnimatedWord delay={0.8}>to</AnimatedWord>
@@ -228,15 +228,15 @@ export default function Home() {
                 Repetition
               </div>
               <div>
-                <span className="block text-sage dark:text-sage-light mb-2 font-sans font-medium">Spaced Italic</span>
+                <span className="block text-sage mb-2 font-sans font-medium">Spaced Italic</span>
                 Prolongation
               </div>
               <div>
-                <span className="block text-ink dark:text-white font-bold mb-2 font-sans font-medium">Bracket Marker</span>
+                <span className="block text-ink font-bold mb-2 font-sans font-medium">Bracket Marker</span>
                 Block
               </div>
               <div>
-                <span className="block text-ink-light dark:text-ink-faint mb-2 font-sans font-medium">Line Break</span>
+                <span className="block text-ink-light mb-2 font-sans font-medium">Line Break</span>
                 Long Pause
               </div>
             </motion.div>
