@@ -1,47 +1,75 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-paper flex flex-col justify-between">
       {/* Editorial Navigation */}
-      <header className="mx-auto max-w-5xl w-full px-6 sm:px-8 pt-12 flex justify-between items-baseline">
+      <header className="mx-auto max-w-5xl w-full px-6 sm:px-8 pt-12 flex justify-between items-center">
         <h1 className="font-display text-3xl font-semibold tracking-tight text-ink">
           Voice<em className="not-italic font-bold text-copper">Scribe</em>
         </h1>
-        <nav className="flex gap-6 font-mono text-[11px] tracking-wider uppercase text-ink-muted">
-          <span className="text-ink">Home</span>
-          <Link href="/practice" className="hover:text-copper transition-colors">
-            Workspace
-          </Link>
-        </nav>
+        <div className="flex items-center gap-6">
+          <nav className="flex gap-6 font-mono text-[11px] tracking-wider uppercase text-ink-muted">
+            <span className="text-ink font-bold">Home</span>
+            <Link href="/practice" className="hover:text-copper transition-colors">
+              Workspace
+            </Link>
+          </nav>
+          <div className="relative h-10 w-10 rounded-full overflow-hidden border border-rule bg-cream p-0.5 shadow-sm flex-shrink-0">
+            <Image
+              src="/VoiceScribe.png"
+              alt="VoiceScribe Mascot"
+              fill
+              className="object-contain p-0.5 rounded-full"
+              priority
+            />
+          </div>
+        </div>
       </header>
 
       {/* Hero Section */}
       <main className="mx-auto max-w-5xl w-full px-6 sm:px-8 py-16 sm:py-24 flex-grow flex flex-col justify-center">
-        <div className="max-w-3xl">
-          <p className="font-mono text-xs tracking-[0.2em] uppercase text-copper font-semibold mb-6">
-            A Thoughtful Speech Space
-          </p>
-          <h2 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-ink leading-[1.15] mb-8">
-            Centering the dignity of human speech.
-          </h2>
-          <p className="font-display text-2xl sm:text-3xl font-medium text-ink-light leading-relaxed italic mb-10">
-            For those who stutter, repeat, prolong, or pause — your voice has a unique rhythm. VoiceScribe is a quiet, premium practice space designed to help you listen, reflect, and find confidence.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link 
-              href="/practice"
-              className="inline-flex justify-center items-center px-8 py-4 bg-ink text-paper text-sm font-mono tracking-wider uppercase font-semibold hover:bg-copper transition-all duration-300 shadow-sm"
-            >
-              Enter the Workspace
-            </Link>
-            <a 
-              href="#philosophy"
-              className="inline-flex justify-center items-center px-8 py-4 border border-rule text-ink text-sm font-mono tracking-wider uppercase font-semibold hover:border-ink transition-all duration-300"
-            >
-              Read Our Philosophy
-            </a>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+          {/* Hero text (2 columns on md) */}
+          <div className="md:col-span-2 max-w-2xl">
+            <p className="font-mono text-xs tracking-[0.2em] uppercase text-copper font-semibold mb-6">
+              A Thoughtful Speech Space
+            </p>
+            <h2 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-ink leading-[1.15] mb-8">
+              Centering the dignity of human speech.
+            </h2>
+            <p className="font-display text-2xl sm:text-3xl font-medium text-ink-light leading-relaxed italic mb-10">
+              For those who stutter, repeat, prolong, or pause — your voice has a unique rhythm. VoiceScribe is a quiet, premium practice space designed to help you listen, reflect, and find confidence.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link 
+                href="/practice"
+                className="inline-flex justify-center items-center px-8 py-4 bg-ink text-paper text-sm font-mono tracking-wider uppercase font-semibold hover:bg-copper transition-all duration-300 shadow-sm"
+              >
+                Enter the Workspace
+              </Link>
+              <a 
+                href="#philosophy"
+                className="inline-flex justify-center items-center px-8 py-4 border border-rule text-ink text-sm font-mono tracking-wider uppercase font-semibold hover:border-ink transition-all duration-300"
+              >
+                Read Our Philosophy
+              </a>
+            </div>
+          </div>
+
+          {/* Hero Mascot (1 column on md) */}
+          <div className="flex justify-center md:justify-end">
+            <div className="relative h-60 w-60 sm:h-72 sm:w-72 md:h-80 md:w-80 rounded-full overflow-hidden border border-rule bg-cream p-3 shadow-sm flex-shrink-0 animate-breathe">
+              <Image
+                src="/VoiceScribe.png"
+                alt="VoiceScribe Brand Mascot"
+                fill
+                className="object-contain p-2 rounded-full"
+                priority
+              />
+            </div>
           </div>
         </div>
 
