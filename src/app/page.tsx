@@ -37,7 +37,7 @@ function SpeechLandscape() {
             key={i}
             animate={{ height: [h * 8, h * 16, h * 8] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
-            className="w-[2px] rounded-full bg-ink dark:bg-paper"
+            className="w-[2px] rounded-full bg-ink"
           />
         ))}
       </div>
@@ -52,7 +52,7 @@ function SpeechLandscape() {
             y: { duration: 8 + i, repeat: Infinity, ease: "easeInOut" },
             opacity: { duration: 3, delay: frag.delay }
           }}
-          className="absolute font-display text-xl sm:text-3xl tracking-wide whitespace-nowrap text-ink dark:text-paper blur-[0.5px] select-none"
+          className="absolute font-display text-xl sm:text-3xl tracking-wide whitespace-nowrap text-ink blur-[0.5px] select-none"
           style={{ top: frag.top, left: frag.left }}
         >
           {frag.type === "rep" ? <span className="annotation-repetition text-copper">{frag.text}</span> :
@@ -204,7 +204,7 @@ export default function Home() {
               The Living Transcript
             </div>
             
-            <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.15] text-ink dark:text-paper tracking-tight">
+            <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.15] text-ink tracking-tight">
               <AnimatedWord delay={0.1}>I</AnimatedWord>
               <AnimatedWord delay={0.3} type="rep">w-w-want</AnimatedWord>
               <AnimatedWord delay={0.8}>to</AnimatedWord>
@@ -235,7 +235,7 @@ export default function Home() {
                 Prolongation
               </div>
               <div>
-                <span className="block text-ink dark:text-paper font-bold mb-2">Bracket Marker</span>
+                <span className="block text-ink font-bold mb-2">Bracket Marker</span>
                 Block
               </div>
               <div>
