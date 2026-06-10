@@ -1,113 +1,52 @@
 @import "tailwindcss";
 
-/* ============================================================
-   VoiceScribe — Editorial Design System
-   "Clinical warmth meets literary editorial design."
-   ============================================================ */
-
 :root {
-  /* Paper & warmth (cool-warm balance for ocean theme) */
-  --color-paper: #FDFCF9;
-  --color-paper-warm: #F5F2EB;
-  --color-paper-deep: #EBE5D9;
-  --color-cream: #FFFFFF;
+  --color-bg: #F8F6F2;
+  --color-panel: #EDF3F4;
+  --color-text-muted: #6D8B94;
+  --color-text-main: #1A1F24;
+  --color-accent: #3A6473;
+  --color-border: #D8E4E7;
 
-  /* Charcoal typography */
-  --color-ink: #1C1917;
-  --color-ink-light: #44403C;
-  --color-ink-muted: #78716C;
-  --color-ink-faint: #A8A29E;
-  --color-ink-ghost: #D6D3D1;
+  /* Dysfluency Colors */
+  --color-rep: #E07A5F;
+  --color-pro: #3D5A80;
+  --color-block: #1A1F24;
 
-  /* Deep Ocean */
-  --color-ocean: #2563EB;
-  --color-ocean-light: #3B82F6;
-  --color-ocean-faint: #BFDBFE;
-  --color-ocean-wash: #EFF6FF;
-
-  /* Muted Teal */
-  --color-teal: #0D9488;
-  --color-teal-light: #14B8A6;
-  --color-teal-faint: #99F6E4;
-  --color-teal-wash: #F0FDFA;
-
-  /* Warm neutrals for borders & surfaces */
-  --color-rule: #D9D2C9;
-  --color-rule-light: #E8E3DC;
-  --color-rule-faint: #F0ECE7;
-
-  /* Typography */
-  --font-display: "Cormorant Garamond", "Georgia", serif;
-  --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
-  --font-mono: "IBM Plex Mono", "Menlo", monospace;
   --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", "Menlo", monospace;
 }
 
 .dark {
-  /* Studio dark mode - Deep Ocean Aesthetic */
-  --color-paper: #080D17;
-  --color-paper-warm: #0C1322;
-  --color-paper-deep: #121C30;
-  --color-cream: #040810;
+  --color-bg: #08131D;
+  --color-panel: #0F1C28;
+  --color-text-muted: #6FB4C0;
+  --color-text-main: #EAF4F6;
+  --color-accent: #8EC5D6;
+  --color-border: #182A3A;
 
-  /* Cool luminous typography */
-  --color-ink: #F8FAFC;
-  --color-ink-light: #E2E8F0;
-  --color-ink-muted: #94A3B8;
-  --color-ink-faint: #64748B;
-  --color-ink-ghost: #475569;
-
-  /* Atmospheric cyan glow */
-  --color-ocean: #38BDF8;
-  --color-ocean-light: #7DD3FC;
-  --color-ocean-faint: #0284C7;
-  --color-ocean-wash: #082F49;
-
-  /* Luminous teal */
-  --color-teal: #2DD4BF;
-  --color-teal-light: #5EEAD4;
-  --color-teal-faint: #0F766E;
-  --color-teal-wash: #134E4A;
-
-  /* Borders & surfaces */
-  --color-rule: #1E293B;
-  --color-rule-light: #0F172A;
-  --color-rule-faint: #020617;
+  /* Dysfluency Colors */
+  --color-rep: #E28C6E;
+  --color-pro: #8EC5D6;
+  --color-block: #EAF4F6;
 }
 
 @theme {
-  --color-paper: var(--color-paper);
-  --color-paper-warm: var(--color-paper-warm);
-  --color-paper-deep: var(--color-paper-deep);
-  --color-cream: var(--color-cream);
+  --color-bg: var(--color-bg);
+  --color-panel: var(--color-panel);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-main: var(--color-text-main);
+  --color-accent: var(--color-accent);
+  --color-border: var(--color-border);
+  
+  --color-rep: var(--color-rep);
+  --color-pro: var(--color-pro);
+  --color-block: var(--color-block);
 
-  --color-ink: var(--color-ink);
-  --color-ink-light: var(--color-ink-light);
-  --color-ink-muted: var(--color-ink-muted);
-  --color-ink-faint: var(--color-ink-faint);
-  --color-ink-ghost: var(--color-ink-ghost);
-
-  --color-ocean: var(--color-ocean);
-  --color-ocean-light: var(--color-ocean-light);
-  --color-ocean-faint: var(--color-ocean-faint);
-  --color-ocean-wash: var(--color-ocean-wash);
-
-  --color-teal: var(--color-teal);
-  --color-teal-light: var(--color-teal-light);
-  --color-teal-faint: var(--color-teal-faint);
-  --color-teal-wash: var(--color-teal-wash);
-
-  --color-rule: var(--color-rule);
-  --color-rule-light: var(--color-rule-light);
-  --color-rule-faint: var(--color-rule-faint);
-
-  --font-display: var(--font-display);
-  --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
   --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
-/* ---- Base ---- */
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -115,151 +54,37 @@ html {
 }
 
 body {
-  background-color: var(--color-paper);
-  color: var(--color-ink);
-  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  font-family: var(--font-sans);
   min-height: 100dvh;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.65;
-  letter-spacing: -0.01em;
-}
-
-/* ---- Typographic scale ---- */
-.font-display {
-  font-family: var(--font-display);
-}
-
-.font-mono {
-  font-family: var(--font-mono);
 }
 
 .font-sans {
   font-family: var(--font-sans);
 }
 
-/* ---- Subtle paper texture ---- */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 200px 200px;
+.font-mono {
+  font-family: var(--font-mono);
 }
 
-/* ---- Custom scrollbar (warm, subtle) ---- */
+::selection {
+  background-color: var(--color-panel);
+  color: var(--color-text-main);
+}
+
+/* Minimal Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: var(--color-paper);
+  background: var(--color-bg);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: var(--color-rule);
+  background: var(--color-border);
   border-radius: 4px;
-  border: 2px solid var(--color-paper);
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-ink-faint);
-}
-
-/* ---- Selection ---- */
-::selection {
-  background-color: var(--color-ocean-faint);
-  color: var(--color-ink);
-}
-
-/* ---- Focus ring ---- */
-*:focus-visible {
-  outline: 2px solid var(--color-ocean-light);
-  outline-offset: 2px;
-}
-
-/* ---- Horizontal rule ---- */
-hr {
-  border: none;
-  border-top: 1px.5px solid var(--color-rule);
-}
-
-/* ---- Editorial hairline dividers ---- */
-.editorial-rule {
-  height: 1.5px;
-  background: var(--color-rule);
-}
-
-.editorial-rule-fine {
-  height: 1px;
-  background: var(--color-rule);
-}
-
-/* ---- Dysfluency annotation styles ---- */
-.annotation-repetition {
-  text-decoration: underline;
-  text-decoration-color: var(--color-ocean);
-  text-decoration-thickness: 3px;
-  text-underline-offset: 3px;
-  text-decoration-style: double;
-}
-
-.annotation-prolongation {
-  letter-spacing: 0.25em;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.annotation-block {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.15em;
-  font-weight: 700;
-}
-
-.annotation-block::before {
-  content: "⌐";
-  font-size: 0.95em;
-  font-weight: 800;
-}
-
-.annotation-pause {
-  display: inline-block;
-  width: 2em;
-  border-bottom: 2px solid var(--color-rule);
-  vertical-align: middle;
-  margin: 0 0.25em;
-}
-
-.annotation-pause-long {
-  display: inline-block;
-  width: 4em;
-  border-bottom: 3px solid var(--color-ocean);
-  vertical-align: middle;
-  margin: 0 0.25em;
-}
-
-/* ---- Gentle pulse for recording ---- */
-@keyframes gentle-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-.animate-gentle-pulse {
-  animation: gentle-pulse 2.5s ease-in-out infinite;
-}
-
-/* ---- Breathing animation ---- */
-@keyframes breathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
-}
-
-.animate-breathe {
-  animation: breathe 4s ease-in-out infinite;
+  background: var(--color-text-muted);
 }
