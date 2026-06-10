@@ -8,9 +8,12 @@ import { useState, useEffect } from "react";
 // --- Signature Experience 1: Speech Landscape ---
 function SpeechLandscape() {
   const fragments = [
-    { text: "s-s-sometimes", top: "25%", left: "65%", delay: 1.5, opacity: 0.6, type: "rep" },
-    { text: "⌐to find", top: "75%", left: "70%", delay: 2.5, opacity: 0.5, type: "block" },
-    { text: "the right woooords", top: "45%", left: "80%", delay: 4, opacity: 0.7, type: "pro" }
+    { text: "s-s-sometimes", top: "20%", left: "60%", delay: 1.5, opacity: 0.6, type: "rep" },
+    { text: "⌐to find", top: "70%", left: "75%", delay: 2.5, opacity: 0.5, type: "block" },
+    { text: "the right woooords", top: "40%", left: "85%", delay: 4, opacity: 0.7, type: "pro" },
+    { text: "my voice stops", top: "80%", left: "30%", delay: 3, opacity: 0.4, type: "pause" },
+    { text: "I-I-I", top: "15%", left: "20%", delay: 0.5, opacity: 0.5, type: "rep" },
+    { text: "a long silence", top: "60%", left: "15%", delay: 5, opacity: 0.3, type: "pause" }
   ];
 
   return (
@@ -19,12 +22,12 @@ function SpeechLandscape() {
       <motion.div 
         animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-copper/20 blur-[100px] mix-blend-multiply dark:mix-blend-screen"
+        className="absolute w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-ocean/20 blur-[100px] mix-blend-multiply dark:mix-blend-screen"
       />
       <motion.div 
         animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.25, 0.1] }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-sage/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen -translate-x-1/4 translate-y-1/4"
+        className="absolute w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-teal/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen -translate-x-1/4 translate-y-1/4"
       />
 
       {/* Subliminal Waveform Core */}
@@ -52,9 +55,10 @@ function SpeechLandscape() {
           className="absolute font-display text-xl sm:text-3xl tracking-wide whitespace-nowrap text-ink opacity-80 blur-[0.5px] select-none"
           style={{ top: frag.top, left: frag.left }}
         >
-          {frag.type === "rep" ? <span className="annotation-repetition text-copper">{frag.text}</span> :
+          {frag.type === "rep" ? <span className="annotation-repetition text-ocean">{frag.text}</span> :
            frag.type === "block" ? <span className="annotation-block">{frag.text}</span> :
            frag.type === "pro" ? <span className="annotation-prolongation">{frag.text}</span> :
+           frag.type === "pause" ? <span className="flex items-center gap-2">{frag.text} <span className="annotation-pause opacity-50 border-ink" /></span> :
            frag.text}
         </motion.div>
       ))}
@@ -75,13 +79,13 @@ function AnimatedWord({ children, delay, type = "normal" }: { children?: React.R
       {type === "pause" ? (
         <span className="annotation-pause opacity-50 border-ink" />
       ) : type === "rep" ? (
-        <span className="annotation-repetition text-copper opacity-90 relative">
+        <span className="annotation-repetition text-ocean opacity-90 relative">
           {children}
           <motion.span 
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay: delay + 0.4, duration: 0.5 }}
-            className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-copper opacity-0 group-hover:opacity-100 uppercase tracking-widest transition-opacity"
+            className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-ocean opacity-0 group-hover:opacity-100 uppercase tracking-widest transition-opacity"
           >
             Repetition
           </motion.span>
@@ -91,7 +95,7 @@ function AnimatedWord({ children, delay, type = "normal" }: { children?: React.R
           {children}
         </span>
       ) : type === "pro" ? (
-        <span className="annotation-prolongation relative text-sage opacity-80">
+        <span className="annotation-prolongation relative text-teal opacity-80">
           {children}
         </span>
       ) : (
@@ -104,34 +108,42 @@ function AnimatedWord({ children, delay, type = "normal" }: { children?: React.R
 // --- Signature Experience 3: Progress Visualizer ---
 function ProgressJourney() {
   const { scrollYProgress } = useScroll();
-  const y1 = useTransform(scrollYProgress, [0.5, 1], [100, -50]);
-  const y2 = useTransform(scrollYProgress, [0.5, 1], [200, 0]);
-  const y3 = useTransform(scrollYProgress, [0.5, 1], [300, 50]);
+  const y1 = useTransform(scrollYProgress, [0.3, 1], [100, -50]); // Month 4
+  const y2 = useTransform(scrollYProgress, [0.3, 1], [200, 0]);   // Month 3
+  const y3 = useTransform(scrollYProgress, [0.3, 1], [300, 50]);  // Month 2
+  const y4 = useTransform(scrollYProgress, [0.3, 1], [400, 100]); // Month 1
 
   return (
-    <div className="relative w-full max-w-4xl h-[60vh] flex justify-center items-center perspective-[1000px]">
-      <motion.div style={{ y: y3, z: -200, opacity: 0.2 }} className="absolute w-full max-w-2xl bg-paper-warm dark:bg-rule-light border border-rule p-8 shadow-2xl">
+    <div className="relative w-full max-w-4xl h-[80vh] flex justify-center items-center perspective-[1000px]">
+      <motion.div style={{ y: y4, z: -300, opacity: 0.1 }} className="absolute w-full max-w-2xl bg-paper-warm dark:bg-rule-light border border-rule p-8 shadow-2xl">
         <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mb-4">Month 1</div>
-        <p className="font-display text-2xl text-ink blur-[1px]">
-          <span className="annotation-repetition text-copper">I-I-I</span> wanted to <span className="annotation-block">⌐say</span> that <span className="annotation-pause" /> it <span className="annotation-prolongation">wwwas</span> difficult.
+        <p className="font-display text-2xl text-ink blur-[2px]">
+          <span className="annotation-repetition text-ocean">I-I-I</span> wanted to <span className="annotation-block">⌐say</span> that <span className="annotation-pause" /> it <span className="annotation-prolongation">wwwas</span> difficult.
         </p>
       </motion.div>
-      
-      <motion.div style={{ y: y2, z: -100, opacity: 0.5 }} className="absolute w-full max-w-2xl bg-paper border border-rule p-8 shadow-xl">
+
+      <motion.div style={{ y: y3, z: -200, opacity: 0.3 }} className="absolute w-full max-w-2xl bg-paper-warm dark:bg-rule border border-rule p-8 shadow-2xl">
         <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mb-4">Month 2</div>
-        <p className="font-display text-2xl text-ink">
+        <p className="font-display text-2xl text-ink blur-[1px]">
           I wanted to <span className="annotation-block">⌐say</span> that <span className="annotation-pause" /> it was difficult.
         </p>
       </motion.div>
+      
+      <motion.div style={{ y: y2, z: -100, opacity: 0.6 }} className="absolute w-full max-w-2xl bg-paper border border-rule p-8 shadow-xl">
+        <div className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mb-4">Month 3</div>
+        <p className="font-display text-2xl text-ink">
+          I wanted to say that <span className="annotation-pause" /> it was difficult.
+        </p>
+      </motion.div>
 
-      <motion.div style={{ y: y1, z: 0 }} className="absolute w-full max-w-2xl bg-cream dark:bg-paper border border-copper/30 p-8 shadow-2xl shadow-copper/5">
-        <div className="font-mono text-[10px] text-copper uppercase tracking-widest mb-4">Month 4</div>
+      <motion.div style={{ y: y1, z: 0 }} className="absolute w-full max-w-2xl bg-cream dark:bg-paper border border-ocean/30 p-8 shadow-2xl shadow-ocean/5">
+        <div className="font-mono text-[10px] text-ocean uppercase tracking-widest mb-4">Month 4</div>
         <p className="font-display text-2xl text-ink">
           I wanted to say that it was difficult.
         </p>
         <div className="mt-8 flex items-center justify-between border-t border-rule pt-4">
-          <span className="font-mono text-[10px] text-sage uppercase tracking-widest">Fluency found</span>
-          <motion.div className="w-16 h-[1px] bg-sage" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ delay: 0.5, duration: 1 }} />
+          <span className="font-mono text-[10px] text-teal uppercase tracking-widest">Fluency found</span>
+          <motion.div className="w-16 h-[1px] bg-teal" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ delay: 0.5, duration: 1 }} />
         </div>
       </motion.div>
     </div>
@@ -140,7 +152,7 @@ function ProgressJourney() {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-paper flex flex-col selection:bg-copper-faint selection:text-ink relative transition-colors duration-700 overflow-x-hidden">
+    <div className="min-h-screen bg-paper flex flex-col selection:bg-ocean-faint selection:text-ink relative transition-colors duration-700 overflow-x-hidden">
       
       {/* Header */}
       <header className="fixed top-0 left-0 w-full px-6 sm:px-8 py-6 flex justify-between items-center z-50 mix-blend-difference text-paper dark:mix-blend-normal dark:text-ink">
@@ -180,7 +192,7 @@ export default function Home() {
                   href="/practice"
                   className="group relative inline-flex justify-center items-center px-8 py-4 bg-ink dark:bg-paper text-paper dark:text-ink text-[11px] font-mono tracking-widest uppercase font-bold overflow-hidden rounded-full"
                 >
-                  <div className="absolute inset-0 w-full h-full bg-copper translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.21,0.47,0.32,0.98]" />
+                  <div className="absolute inset-0 w-full h-full bg-ocean translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.21,0.47,0.32,0.98]" />
                   <span className="relative z-10 flex items-center gap-3">
                     Open The Instrument
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-x-1 transition-transform">
@@ -196,8 +208,8 @@ export default function Home() {
         {/* 2. Living Transcript */}
         <section className="relative min-h-[100svh] flex items-center justify-center px-6 py-24 bg-paper-warm dark:bg-[#110F0E] border-y border-rule z-10">
           <div className="w-full max-w-6xl mx-auto">
-            <div className="font-mono text-[10px] text-copper uppercase tracking-widest mb-12 flex items-center gap-4">
-              <span className="w-8 h-px bg-copper" />
+            <div className="font-mono text-[10px] text-ocean uppercase tracking-widest mb-12 flex items-center gap-4">
+              <span className="w-8 h-px bg-ocean" />
               The Living Transcript
             </div>
             
@@ -224,11 +236,11 @@ export default function Home() {
               className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 font-mono text-[10px] uppercase tracking-widest text-ink-muted border-t border-rule pt-8"
             >
               <div>
-                <span className="block text-copper mb-2 font-sans font-medium">Double Underline</span>
+                <span className="block text-ocean mb-2 font-sans font-medium">Double Underline</span>
                 Repetition
               </div>
               <div>
-                <span className="block text-sage mb-2 font-sans font-medium">Spaced Italic</span>
+                <span className="block text-teal mb-2 font-sans font-medium">Spaced Italic</span>
                 Prolongation
               </div>
               <div>
@@ -260,14 +272,14 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
             <div className="md:col-span-1">
               <h2 className="font-display text-3xl font-semibold tracking-tight text-paper mb-6">
-                Voice<em className="not-italic font-bold text-copper">Scribe</em>
+                Voice<em className="not-italic font-bold text-ocean">Scribe</em>
               </h2>
             </div>
             
             <div className="md:col-span-2 grid grid-cols-2 gap-8">
               <div className="flex flex-col gap-4 font-mono text-[10px] tracking-widest uppercase">
                 <span className="text-ink-muted mb-2">The Instrument</span>
-                <Link href="/practice" className="text-paper hover:text-copper transition-colors">Enter Studio</Link>
+                <Link href="/practice" className="text-paper hover:text-ocean transition-colors">Enter Studio</Link>
                 <span className="text-ink-faint hover:text-paper transition-colors cursor-pointer">Manifesto</span>
               </div>
 

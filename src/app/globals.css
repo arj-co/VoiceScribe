@@ -6,11 +6,11 @@
    ============================================================ */
 
 :root {
-  /* Paper & warmth */
-  --color-paper: #F6F1EB;
-  --color-paper-warm: #EDE7DF;
-  --color-paper-deep: #E4DDD4;
-  --color-cream: #FBF9F6;
+  /* Paper & warmth (cool-warm balance for ocean theme) */
+  --color-paper: #FDFCF9;
+  --color-paper-warm: #F5F2EB;
+  --color-paper-deep: #EBE5D9;
+  --color-cream: #FFFFFF;
 
   /* Charcoal typography */
   --color-ink: #1C1917;
@@ -19,17 +19,17 @@
   --color-ink-faint: #A8A29E;
   --color-ink-ghost: #D6D3D1;
 
-  /* Muted copper */
-  --color-copper: #B0845B;
-  --color-copper-light: #C9A47C;
-  --color-copper-faint: #E8D5BF;
-  --color-copper-wash: #F5EDE3;
+  /* Deep Ocean */
+  --color-ocean: #2563EB;
+  --color-ocean-light: #3B82F6;
+  --color-ocean-faint: #BFDBFE;
+  --color-ocean-wash: #EFF6FF;
 
-  /* Soft sage */
-  --color-sage: #7C8E6F;
-  --color-sage-light: #A3B195;
-  --color-sage-faint: #DCE4D6;
-  --color-sage-wash: #EFF2EB;
+  /* Muted Teal */
+  --color-teal: #0D9488;
+  --color-teal-light: #14B8A6;
+  --color-teal-faint: #99F6E4;
+  --color-teal-wash: #F0FDFA;
 
   /* Warm neutrals for borders & surfaces */
   --color-rule: #D9D2C9;
@@ -44,35 +44,35 @@
 }
 
 .dark {
-  /* Studio dark mode - Deep, warm, recording studio aesthetic */
-  --color-paper: #171514;
-  --color-paper-warm: #1F1D1A;
-  --color-paper-deep: #2A2624;
-  --color-cream: #110F0E;
+  /* Studio dark mode - Deep Ocean Aesthetic */
+  --color-paper: #080D17;
+  --color-paper-warm: #0C1322;
+  --color-paper-deep: #121C30;
+  --color-cream: #040810;
 
-  /* Light warm typography */
-  --color-ink: #F6F1EB;
-  --color-ink-light: #D6D3D1;
-  --color-ink-muted: #A8A29E;
-  --color-ink-faint: #78716C;
-  --color-ink-ghost: #44403C;
+  /* Cool luminous typography */
+  --color-ink: #F8FAFC;
+  --color-ink-light: #E2E8F0;
+  --color-ink-muted: #94A3B8;
+  --color-ink-faint: #64748B;
+  --color-ink-ghost: #475569;
 
-  /* Glowing copper for dark mode */
-  --color-copper: #D4A373;
-  --color-copper-light: #B0845B;
-  --color-copper-faint: #4A3522;
-  --color-copper-wash: #2D2014;
+  /* Atmospheric cyan glow */
+  --color-ocean: #38BDF8;
+  --color-ocean-light: #7DD3FC;
+  --color-ocean-faint: #0284C7;
+  --color-ocean-wash: #082F49;
 
-  /* Luminous sage */
-  --color-sage: #9DB48C;
-  --color-sage-light: #7C8E6F;
-  --color-sage-faint: #34402D;
-  --color-sage-wash: #20281B;
+  /* Luminous teal */
+  --color-teal: #2DD4BF;
+  --color-teal-light: #5EEAD4;
+  --color-teal-faint: #0F766E;
+  --color-teal-wash: #134E4A;
 
   /* Borders & surfaces */
-  --color-rule: #36322F;
-  --color-rule-light: #2A2624;
-  --color-rule-faint: #1F1D1A;
+  --color-rule: #1E293B;
+  --color-rule-light: #0F172A;
+  --color-rule-faint: #020617;
 }
 
 @theme {
@@ -87,15 +87,15 @@
   --color-ink-faint: var(--color-ink-faint);
   --color-ink-ghost: var(--color-ink-ghost);
 
-  --color-copper: var(--color-copper);
-  --color-copper-light: var(--color-copper-light);
-  --color-copper-faint: var(--color-copper-faint);
-  --color-copper-wash: var(--color-copper-wash);
+  --color-ocean: var(--color-ocean);
+  --color-ocean-light: var(--color-ocean-light);
+  --color-ocean-faint: var(--color-ocean-faint);
+  --color-ocean-wash: var(--color-ocean-wash);
 
-  --color-sage: var(--color-sage);
-  --color-sage-light: var(--color-sage-light);
-  --color-sage-faint: var(--color-sage-faint);
-  --color-sage-wash: var(--color-sage-wash);
+  --color-teal: var(--color-teal);
+  --color-teal-light: var(--color-teal-light);
+  --color-teal-faint: var(--color-teal-faint);
+  --color-teal-wash: var(--color-teal-wash);
 
   --color-rule: var(--color-rule);
   --color-rule-light: var(--color-rule-light);
@@ -173,13 +173,13 @@ body::before {
 
 /* ---- Selection ---- */
 ::selection {
-  background-color: var(--color-copper-faint);
+  background-color: var(--color-ocean-faint);
   color: var(--color-ink);
 }
 
 /* ---- Focus ring ---- */
 *:focus-visible {
-  outline: 2px solid var(--color-copper-light);
+  outline: 2px solid var(--color-ocean-light);
   outline-offset: 2px;
 }
 
@@ -203,7 +203,7 @@ hr {
 /* ---- Dysfluency annotation styles ---- */
 .annotation-repetition {
   text-decoration: underline;
-  text-decoration-color: var(--color-copper);
+  text-decoration-color: var(--color-ocean);
   text-decoration-thickness: 3px;
   text-underline-offset: 3px;
   text-decoration-style: double;
@@ -239,7 +239,7 @@ hr {
 .annotation-pause-long {
   display: inline-block;
   width: 4em;
-  border-bottom: 3px solid var(--color-copper);
+  border-bottom: 3px solid var(--color-ocean);
   vertical-align: middle;
   margin: 0 0.25em;
 }
