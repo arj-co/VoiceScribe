@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent, MotionValue } from "framer-motion";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // --- Signature Experience 1: Speech Landscape ---
 function SpeechLandscape() {
@@ -107,15 +107,15 @@ const sessionsData = [
     id: "01",
     date: "Oct 12, 2025",
     duration: "04:12",
-    fluency: 72,
+    fluency: 41,
     trend: "Baseline",
     trendDir: "neutral",
-    metrics: { rep: 14, pro: 8, block: 5, pause: 11 },
+    metrics: { rep: 18, pro: 11, block: 9, pause: 14 },
     phrase: "Project overview",
     transcript: (
       <>
         The <span className="annotation-repetition text-copper">q-q-quarterly</span> metrics indicate a 
-        <span className="annotation-pause" /> <span className="annotation-prolongation">sssslight</span> 
+        <span className="annotation-pause-long" /> <span className="annotation-prolongation">sssslight</span> 
         increase in <span className="annotation-block">revenue</span>.
       </>
     )
@@ -125,7 +125,7 @@ const sessionsData = [
     date: "Nov 04, 2025",
     duration: "05:30",
     fluency: 78,
-    trend: "+6%",
+    trend: "+37%",
     trendDir: "up",
     metrics: { rep: 9, pro: 5, block: 3, pause: 8 },
     phrase: "Revenue breakdown",
@@ -141,10 +141,10 @@ const sessionsData = [
     id: "24",
     date: "Dec 18, 2025",
     duration: "06:15",
-    fluency: 85,
-    trend: "+7%",
+    fluency: 89,
+    trend: "+11%",
     trendDir: "up",
-    metrics: { rep: 4, pro: 2, block: 1, pause: 3 },
+    metrics: { rep: 3, pro: 2, block: 1, pause: 3 },
     phrase: "Growth summary",
     transcript: (
       <>
@@ -157,44 +157,77 @@ const sessionsData = [
     id: "40",
     date: "Jan 22, 2026",
     duration: "12:45",
-    fluency: 94,
-    trend: "+9%",
+    fluency: 96,
+    trend: "+7%",
     trendDir: "up",
-    metrics: { rep: 1, pro: 0, block: 0, pause: 1 },
+    metrics: { rep: 0, pro: 1, block: 0, pause: 1 },
     phrase: "Board presentation",
     transcript: (
       <>
-        The quarterly metrics indicate a slight increase in revenue.
+        The quarterly metrics indicate a <span className="annotation-prolongation">ssslight</span> increase in revenue.
       </>
     )
   }
 ];
 
+function AnimatedNumber({ value }: { value: MotionValue<number> }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  useMotionValueEvent(value, "change", (latest) => {
+    if (ref.current) {
+      ref.current.textContent = Math.round(latest).toString();
+    }
+  });
+  return <span ref={ref}>{Math.round(value.get())}</span>;
+}
+
 function ProgressJourney() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start end", "end end"] });
+  
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (latest < 0.25) setActiveIndex(0);
+    else if (latest < 0.5) setActiveIndex(1);
+    else if (latest < 0.75) setActiveIndex(2);
+    else setActiveIndex(3);
+  });
+
+  const activeSession = sessionsData[activeIndex];
+
+  // Interpolate numerical metrics smoothly across the scroll
+  const fluencyValue = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [41, 78, 89, 96]);
+  const repValue = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [18, 9, 3, 0]);
+  const proValue = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [11, 5, 2, 1]);
+  const blockValue = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [9, 3, 1, 0]);
+  const pauseValue = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [14, 8, 3, 1]);
+
   return (
-    <div className="relative w-full max-w-3xl mx-auto pb-[10vh] mt-12">
-      {sessionsData.map((session, index) => (
-        <div 
-          key={session.id} 
-          className="sticky w-full bg-paper dark:bg-[#141211] border border-rule shadow-2xl rounded-2xl p-6 sm:p-8 flex flex-col gap-6 sm:gap-8 transition-colors duration-500 will-change-transform"
-          style={{ 
-            top: `calc(10vh + ${index * 1.5}rem)`, 
-            marginBottom: index === sessionsData.length - 1 ? "0" : "40vh" 
-          }}
-        >
+    <div ref={containerRef} className="relative w-full h-[300vh]">
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center pt-24 sm:pt-32">
+        <div className="w-full max-w-3xl bg-paper dark:bg-[#141211] border border-rule shadow-2xl rounded-2xl p-6 sm:p-8 flex flex-col gap-6 sm:gap-8 transition-colors duration-500">
+          
           {/* Header */}
           <div className="flex justify-between items-start border-b border-rule pb-4">
             <div>
               <div className="flex items-center gap-3 mb-1">
-                <h4 className="font-sans text-xs font-bold tracking-widest text-ink uppercase">Session {session.id}</h4>
-                <span className="font-mono text-[9px] text-ink-muted uppercase tracking-widest bg-rule-light/50 px-2 py-0.5 rounded-sm">{session.date}</span>
+                <h4 className="font-sans text-xs font-bold tracking-widest text-ink uppercase">
+                  Session {activeSession.id}
+                </h4>
+                <span className="font-mono text-[9px] text-ink-muted uppercase tracking-widest bg-rule-light/50 px-2 py-0.5 rounded-sm">
+                  {activeSession.date}
+                </span>
               </div>
-              <p className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mt-1">Duration: {session.duration}</p>
+              <p className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mt-1">
+                Duration: {activeSession.duration}
+              </p>
             </div>
             <div className="text-right">
-              <div className="font-display text-3xl sm:text-4xl font-bold text-ink dark:text-white">{session.fluency}<span className="text-xl sm:text-2xl text-ink-muted">%</span></div>
-              <div className={`font-sans text-[9px] sm:text-[10px] uppercase tracking-widest font-bold mt-1 ${session.trendDir === 'up' ? 'text-sage dark:text-sage-light' : 'text-ink-muted'}`}>
-                Fluency Index • {session.trend}
+              <div className="font-display text-3xl sm:text-4xl font-bold text-ink dark:text-white">
+                <AnimatedNumber value={fluencyValue} /><span className="text-xl sm:text-2xl text-ink-muted">%</span>
+              </div>
+              <div className={`font-sans text-[9px] sm:text-[10px] uppercase tracking-widest font-bold mt-1 ${activeSession.trendDir === 'up' ? 'text-sage dark:text-sage-light' : 'text-ink-muted'}`}>
+                Fluency Index • {activeSession.trend}
               </div>
             </div>
           </div>
@@ -203,19 +236,27 @@ function ProgressJourney() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
             <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
               <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Repetitions</div>
-              <div className="font-sans text-xl font-medium text-ink dark:text-white">{session.metrics.rep}</div>
+              <div className="font-sans text-xl font-medium text-ink dark:text-white">
+                <AnimatedNumber value={repValue} />
+              </div>
             </div>
             <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
               <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Prolongations</div>
-              <div className="font-sans text-xl font-medium text-ink dark:text-white">{session.metrics.pro}</div>
+              <div className="font-sans text-xl font-medium text-ink dark:text-white">
+                <AnimatedNumber value={proValue} />
+              </div>
             </div>
             <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
               <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Blocks</div>
-              <div className="font-sans text-xl font-medium text-ink dark:text-white">{session.metrics.block}</div>
+              <div className="font-sans text-xl font-medium text-ink dark:text-white">
+                <AnimatedNumber value={blockValue} />
+              </div>
             </div>
             <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
               <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Long Pauses</div>
-              <div className="font-sans text-xl font-medium text-ink dark:text-white">{session.metrics.pause}</div>
+              <div className="font-sans text-xl font-medium text-ink dark:text-white">
+                <AnimatedNumber value={pauseValue} />
+              </div>
             </div>
           </div>
 
@@ -223,14 +264,25 @@ function ProgressJourney() {
           <div className="flex flex-col gap-4 border-t border-rule pt-6">
             <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-2">
               <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest">Transcript Fragment</div>
-              <div className="font-sans text-[10px] text-ink-muted bg-rule-light/50 dark:bg-white/5 px-2 py-1 rounded-md w-fit">Context: {session.phrase}</div>
+              <div className="font-sans text-[10px] text-ink-muted bg-rule-light/50 dark:bg-white/5 px-2 py-1 rounded-md w-fit">Context: {activeSession.phrase}</div>
             </div>
-            <p className="font-display text-2xl sm:text-3xl text-ink dark:text-white leading-relaxed">
-              {session.transcript}
-            </p>
+            <div className="relative min-h-[5rem] sm:min-h-[4rem]">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={activeIndex}
+                  initial={{ opacity: 0, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, filter: "blur(4px)" }}
+                  transition={{ duration: 0.3 }}
+                  className="font-display text-2xl sm:text-3xl text-ink dark:text-white leading-relaxed absolute inset-0"
+                >
+                  {activeSession.transcript}
+                </motion.p>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
-      ))}
+      </div>
     </div>
   );
 }
