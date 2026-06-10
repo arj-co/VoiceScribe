@@ -102,72 +102,11 @@ function AnimatedWord({ children, delay, type = "normal" }: { children?: React.R
 }
 
 // --- Signature Experience 3: Longitudinal Dashboard ---
-const sessionsData = [
-  {
-    id: "01",
-    date: "Mar 12, 2026",
-    duration: "04:12",
-    fluency: 41,
-    trend: "Baseline",
-    trendDir: "neutral",
-    metrics: { rep: 18, pro: 11, block: 9, pause: 14 },
-    phrase: "Project overview",
-    transcript: (
-      <>
-        The <span className="annotation-repetition text-copper">q-q-quarterly</span> metrics indicate a 
-        <span className="annotation-pause-long" /> <span className="annotation-prolongation">sssslight</span> 
-        increase in <span className="annotation-block">revenue</span>.
-      </>
-    )
-  },
-  {
-    id: "12",
-    date: "Apr 04, 2026",
-    duration: "05:30",
-    fluency: 78,
-    trend: "+37%",
-    trendDir: "up",
-    metrics: { rep: 9, pro: 5, block: 3, pause: 8 },
-    phrase: "Revenue breakdown",
-    transcript: (
-      <>
-        The quarterly metrics indicate a 
-        <span className="annotation-pause" /> <span className="annotation-prolongation">sssslight</span> 
-        increase in <span className="annotation-block">revenue</span>.
-      </>
-    )
-  },
-  {
-    id: "24",
-    date: "May 18, 2026",
-    duration: "06:15",
-    fluency: 89,
-    trend: "+11%",
-    trendDir: "up",
-    metrics: { rep: 3, pro: 2, block: 1, pause: 3 },
-    phrase: "Growth summary",
-    transcript: (
-      <>
-        The quarterly metrics indicate a slight 
-        increase in <span className="annotation-block">revenue</span>.
-      </>
-    )
-  },
-  {
-    id: "40",
-    date: "Jun 22, 2026",
-    duration: "12:45",
-    fluency: 96,
-    trend: "+7%",
-    trendDir: "up",
-    metrics: { rep: 0, pro: 1, block: 0, pause: 1 },
-    phrase: "Board presentation",
-    transcript: (
-      <>
-        The quarterly metrics indicate a <span className="annotation-prolongation">ssslight</span> increase in revenue.
-      </>
-    )
-  }
+const sessionMilestones = [
+  { id: "01", date: "Mar 12, 2026", duration: "04:12" },
+  { id: "12", date: "Apr 04, 2026", duration: "05:30" },
+  { id: "24", date: "May 18, 2026", duration: "06:15" },
+  { id: "40", date: "Jun 22, 2026", duration: "12:45" },
 ];
 
 function AnimatedNumber({ value }: { value: MotionValue<number> }) {
@@ -182,7 +121,7 @@ function AnimatedNumber({ value }: { value: MotionValue<number> }) {
 
 function ProgressJourney() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start end", "end end"] });
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start center", "end end"] });
   
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -193,18 +132,31 @@ function ProgressJourney() {
     else setActiveIndex(3);
   });
 
-  const activeSession = sessionsData[activeIndex];
+  const activeSession = sessionMilestones[activeIndex];
 
   // Interpolate numerical metrics smoothly across the scroll
-  const fluencyValue = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [41, 78, 89, 96]);
-  const repValue = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [18, 9, 3, 0]);
-  const proValue = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [11, 5, 2, 1]);
-  const blockValue = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [9, 3, 1, 0]);
-  const pauseValue = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [14, 8, 3, 1]);
+  const fluencyValue = useTransform(scrollYProgress, [0, 1], [41, 96]);
+  const repValue = useTransform(scrollYProgress, [0, 1], [18, 0]);
+  const proValue = useTransform(scrollYProgress, [0, 1], [11, 1]);
+  const blockValue = useTransform(scrollYProgress, [0, 1], [9, 0]);
+  const pauseValue = useTransform(scrollYProgress, [0, 1], [14, 1]);
+
+  // Transcript Morphing Transforms
+  const repWidth = useTransform(scrollYProgress, [0.0, 0.3], ["2em", "0em"]);
+  const repOpacity = useTransform(scrollYProgress, [0.0, 0.25], [1, 0]);
+
+  const pauseWidth = useTransform(scrollYProgress, [0.2, 0.6], ["3em", "0em"]);
+  const pauseOpacity = useTransform(scrollYProgress, [0.2, 0.5], [1, 0]);
+
+  const proWidth = useTransform(scrollYProgress, [0.5, 0.8], ["1.5em", "0em"]);
+  const proOpacity = useTransform(scrollYProgress, [0.5, 0.75], [1, 0]);
+
+  const blockWidth = useTransform(scrollYProgress, [0.7, 0.95], ["1em", "0em"]);
+  const blockOpacity = useTransform(scrollYProgress, [0.7, 0.9], [1, 0]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-[300vh]">
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center pt-24 sm:pt-32">
+    <div ref={containerRef} className="relative w-full h-[250vh] mt-[-10vh]">
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center px-6">
         <div className="w-full max-w-3xl bg-paper dark:bg-[#141211] border border-rule shadow-2xl rounded-2xl p-6 sm:p-8 flex flex-col gap-6 sm:gap-8 transition-colors duration-500">
           
           {/* Header */}
@@ -226,8 +178,8 @@ function ProgressJourney() {
               <div className="font-display text-3xl sm:text-4xl font-bold text-ink dark:text-white">
                 <AnimatedNumber value={fluencyValue} /><span className="text-xl sm:text-2xl text-ink-muted">%</span>
               </div>
-              <div className={`font-sans text-[9px] sm:text-[10px] uppercase tracking-widest font-bold mt-1 ${activeSession.trendDir === 'up' ? 'text-sage dark:text-sage-light' : 'text-ink-muted'}`}>
-                Fluency Index • {activeSession.trend}
+              <div className="font-sans text-[9px] sm:text-[10px] uppercase tracking-widest font-bold mt-1 text-sage dark:text-sage-light">
+                Fluency Index • up
               </div>
             </div>
           </div>
@@ -264,21 +216,15 @@ function ProgressJourney() {
           <div className="flex flex-col gap-4 border-t border-rule pt-6">
             <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-2">
               <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest">Transcript Fragment</div>
-              <div className="font-sans text-[10px] text-ink-muted bg-rule-light/50 dark:bg-white/5 px-2 py-1 rounded-md w-fit">Context: {activeSession.phrase}</div>
+              <div className="font-sans text-[10px] text-ink-muted bg-rule-light/50 dark:bg-white/5 px-2 py-1 rounded-md w-fit">Context: Quarterly Metrics</div>
             </div>
-            <div className="relative min-h-[5rem] sm:min-h-[4rem]">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={activeIndex}
-                  initial={{ opacity: 0, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, filter: "blur(4px)" }}
-                  transition={{ duration: 0.3 }}
-                  className="font-display text-2xl sm:text-3xl text-ink dark:text-white leading-relaxed absolute inset-0"
-                >
-                  {activeSession.transcript}
-                </motion.p>
-              </AnimatePresence>
+            <div className="relative min-h-[5rem] sm:min-h-[4rem] flex items-center">
+              <p className="font-display text-2xl sm:text-3xl text-ink dark:text-white leading-relaxed w-full">
+                The <motion.span style={{ opacity: repOpacity, width: repWidth, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap" }} className="annotation-repetition text-copper">q-q-</motion.span>quarterly metrics indicate a 
+                <motion.span style={{ opacity: pauseOpacity, width: pauseWidth, display: "inline-flex", margin: useTransform(pauseWidth, v => v === "0em" ? "0" : "0 0.25em") }} className="annotation-pause-long" /> 
+                <motion.span style={{ opacity: proOpacity, width: proWidth, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap" }} className="annotation-prolongation">sss</motion.span>slight increase in 
+                <motion.span style={{ opacity: blockOpacity, width: blockWidth, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap" }} className="annotation-block mr-1" />revenue.
+              </p>
             </div>
           </div>
         </div>
@@ -392,8 +338,8 @@ export default function Home() {
         </section>
 
         {/* 3. Longitudinal Dashboard */}
-        <section className="relative min-h-[120svh] flex flex-col items-center justify-center px-6 py-32 z-10 overflow-hidden">
-          <div className="w-full max-w-5xl mx-auto mb-16 text-center">
+        <section className="relative w-full z-10">
+          <div className="w-full max-w-5xl mx-auto pt-32 mb-16 text-center px-6">
             <h3 className="font-sans text-xs sm:text-sm uppercase tracking-[0.2em] font-bold text-ink-muted mb-4">Longitudinal Analysis</h3>
             <p className="font-display text-4xl sm:text-5xl font-medium text-ink dark:text-white tracking-tight">Speech data across recorded sessions.</p>
           </div>

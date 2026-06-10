@@ -37,7 +37,7 @@
   --color-rule-faint: #15231D;
 
   /* Typography */
-  --font-display: "Cormorant Garamond", "Georgia", serif;
+  --font-display: "Montserrat", system-ui, -apple-system, sans-serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", "Menlo", monospace;
   --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
