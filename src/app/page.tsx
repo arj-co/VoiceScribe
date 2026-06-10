@@ -9,7 +9,7 @@ export default function Home() {
     <div className="min-h-screen bg-bg text-text-main flex flex-col font-sans selection:bg-panel transition-colors duration-300">
       
       {/* Navbar */}
-      <header className="sticky top-0 w-full px-6 py-4 flex justify-between items-center z-50 bg-bg/80 backdrop-blur-md border-b border-border">
+      <header className="sticky top-0 w-full px-6 py-4 flex justify-between items-center z-50 bg-bg/80 backdrop-blur-md">
         <div className="font-bold text-lg tracking-tight">VoiceScribe</div>
         <div className="flex items-center gap-6">
           <Link href="/practice" className="text-sm font-medium hover:text-accent transition-colors">
@@ -95,8 +95,6 @@ export default function Home() {
           </div>
         </section>
 
-        <hr className="border-border mx-6" />
-
         {/* --- SECTION 1: Live Transcript --- */}
         <section className="w-full max-w-7xl mx-auto px-6 py-32 flex flex-col items-center">
           <div className="text-center mb-16 max-w-2xl">
@@ -131,7 +129,7 @@ export default function Home() {
         </section>
 
         {/* --- SECTION 2: Analysis Engine --- */}
-        <section className="w-full bg-panel border-y border-border py-32">
+        <section className="w-full bg-panel py-32">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-16">
               <h2 className="text-3xl font-bold mb-4">Analysis Engine</h2>
@@ -232,7 +230,7 @@ export default function Home() {
 
       </main>
 
-      <footer className="w-full bg-panel border-t border-border py-12 px-6">
+      <footer className="w-full bg-panel py-12 px-6">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-mono text-text-muted uppercase tracking-wider">
           <div>© 2026 VoiceScribe. Built for dignity.</div>
           <div className="flex gap-6">
