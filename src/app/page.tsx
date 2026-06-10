@@ -8,12 +8,9 @@ import { useState, useEffect } from "react";
 // --- Signature Experience 1: Speech Landscape ---
 function SpeechLandscape() {
   const fragments = [
-    { text: "I wanted to share", top: "15%", left: "10%", delay: 0, opacity: 0.3 },
     { text: "s-s-sometimes", top: "25%", left: "65%", delay: 1.5, opacity: 0.6, type: "rep" },
-    { text: "it's hard", top: "65%", left: "15%", delay: 3, opacity: 0.4 },
     { text: "⌐to find", top: "75%", left: "70%", delay: 2.5, opacity: 0.5, type: "block" },
-    { text: "the right woooords", top: "45%", left: "80%", delay: 4, opacity: 0.7, type: "pro" },
-    { text: "but I'm trying", top: "85%", left: "40%", delay: 5, opacity: 0.3 }
+    { text: "the right woooords", top: "45%", left: "80%", delay: 4, opacity: 0.7, type: "pro" }
   ];
 
   return (
@@ -170,11 +167,11 @@ export default function Home() {
               transition={{ duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
               className="max-w-4xl mix-blend-darken dark:mix-blend-lighten"
             >
-              <h2 className="font-display text-6xl sm:text-8xl md:text-9xl font-bold tracking-tighter text-ink leading-[0.9] mb-8">
+              <h2 className="font-display text-6xl sm:text-8xl md:text-9xl font-bold tracking-tighter text-ink dark:text-white leading-[0.9] mb-8">
                 Speech, <br />
-                <span className="italic font-light text-ink-light">visualized.</span>
+                <span className="italic font-light text-ink-light dark:text-ink-ghost">visualized.</span>
               </h2>
-              <p className="font-mono text-xs sm:text-sm tracking-widest uppercase text-ink-muted max-w-md leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm tracking-widest uppercase text-ink-muted dark:text-ink-ghost max-w-md leading-relaxed">
                 A private, browser-based instrument built for people who stutter. Not a dashboard. Not a clinic. A sanctuary.
               </p>
               
@@ -204,7 +201,7 @@ export default function Home() {
               The Living Transcript
             </div>
             
-            <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.15] text-ink tracking-tight">
+            <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.15] text-ink dark:text-white tracking-tight">
               <AnimatedWord delay={0.1}>I</AnimatedWord>
               <AnimatedWord delay={0.3} type="rep">w-w-want</AnimatedWord>
               <AnimatedWord delay={0.8}>to</AnimatedWord>
@@ -227,19 +224,19 @@ export default function Home() {
               className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 font-mono text-[10px] uppercase tracking-widest text-ink-muted border-t border-rule pt-8"
             >
               <div>
-                <span className="block text-copper mb-2">Double Underline</span>
+                <span className="block text-copper mb-2 font-sans font-medium">Double Underline</span>
                 Repetition
               </div>
               <div>
-                <span className="block text-sage dark:text-sage-light mb-2">Spaced Italic</span>
+                <span className="block text-sage dark:text-sage-light mb-2 font-sans font-medium">Spaced Italic</span>
                 Prolongation
               </div>
               <div>
-                <span className="block text-ink font-bold mb-2">Bracket Marker</span>
+                <span className="block text-ink dark:text-white font-bold mb-2 font-sans font-medium">Bracket Marker</span>
                 Block
               </div>
               <div>
-                <span className="block text-ink-light mb-2">Line Break</span>
+                <span className="block text-ink-light dark:text-ink-faint mb-2 font-sans font-medium">Line Break</span>
                 Long Pause
               </div>
             </motion.div>
