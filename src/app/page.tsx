@@ -15,26 +15,26 @@ function SpeechLandscape() {
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
-      {/* Atmospheric Cinematic Glows (Explicitly for Dark Hero) */}
+      {/* Atmospheric Cinematic Glows */}
       <motion.div 
         animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-[#A5F3FC]/15 blur-[100px] mix-blend-screen"
+        className="absolute w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-copper/20 blur-[100px] mix-blend-multiply dark:mix-blend-screen"
       />
       <motion.div 
         animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.25, 0.1] }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-[#9DB48C]/15 blur-[120px] mix-blend-screen -translate-x-1/4 translate-y-1/4"
+        className="absolute w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-sage/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen -translate-x-1/4 translate-y-1/4"
       />
 
       {/* Subliminal Waveform Core */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-40">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-20 dark:opacity-40">
         {[2, 4, 3, 6, 8, 12, 7, 4, 9, 5, 3, 2].map((h, i) => (
           <motion.div
             key={i}
             animate={{ height: [h * 8, h * 16, h * 8] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
-            className="w-[2px] rounded-full bg-[#F6F1EB]"
+            className="w-[2px] rounded-full bg-ink"
           />
         ))}
       </div>
@@ -49,12 +49,12 @@ function SpeechLandscape() {
             y: { duration: 8 + i, repeat: Infinity, ease: "easeInOut" },
             opacity: { duration: 3, delay: frag.delay }
           }}
-          className="absolute font-display text-xl sm:text-3xl tracking-wide whitespace-nowrap text-[#F6F1EB] blur-[0.5px] select-none"
+          className="absolute font-display text-xl sm:text-3xl tracking-wide whitespace-nowrap text-ink blur-[0.5px] select-none"
           style={{ top: frag.top, left: frag.left }}
         >
-          {frag.type === "rep" ? <span className="annotation-repetition text-[#A5F3FC]">{frag.text}</span> :
+          {frag.type === "rep" ? <span className="annotation-repetition text-copper">{frag.text}</span> :
            frag.type === "block" ? <span className="annotation-block">{frag.text}</span> :
-           frag.type === "pro" ? <span className="annotation-prolongation text-[#9DB48C]">{frag.text}</span> :
+           frag.type === "pro" ? <span className="annotation-prolongation">{frag.text}</span> :
            frag.text}
         </motion.div>
       ))}
@@ -143,13 +143,13 @@ export default function Home() {
     <div className="min-h-screen bg-paper flex flex-col selection:bg-copper-faint selection:text-ink relative transition-colors duration-700 overflow-x-hidden">
       
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full px-6 sm:px-8 py-6 flex justify-between items-center z-50 bg-paper/80 backdrop-blur-md dark:bg-[#0A0908]/80 text-ink dark:text-white border-b border-rule/50 dark:border-rule-light/50 transition-colors duration-500">
+      <header className="fixed top-0 left-0 w-full px-6 sm:px-8 py-6 flex justify-between items-center z-50 mix-blend-difference text-paper dark:mix-blend-normal dark:text-ink">
         <h1 className="font-display text-2xl font-semibold tracking-tight">
           Voice<em className="not-italic font-bold">Scribe</em>
         </h1>
         <div className="flex items-center gap-8">
-          <nav className="hidden sm:flex gap-6 font-sans text-[10px] tracking-widest uppercase opacity-70 font-bold">
-            <span>Demonstration</span>
+          <nav className="hidden sm:flex gap-6 font-mono text-[10px] tracking-widest uppercase opacity-70">
+            <span className="font-bold">Demonstration</span>
           </nav>
           <ThemeToggle />
         </div>
@@ -157,7 +157,7 @@ export default function Home() {
 
       <main className="flex-grow w-full">
         {/* 1. Speech Landscape Hero */}
-        <section className="relative min-h-[100svh] flex flex-col items-center justify-center px-6 bg-[#0A0908] overflow-hidden">
+        <section className="relative min-h-[100svh] flex flex-col items-center justify-center px-6">
           <SpeechLandscape />
           
           <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-start justify-center">
@@ -165,22 +165,22 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="max-w-4xl"
+              className="max-w-4xl mix-blend-darken dark:mix-blend-lighten"
             >
-              <h2 className="font-display text-6xl sm:text-8xl md:text-9xl font-bold tracking-tighter text-[#F6F1EB] leading-[0.9] mb-8">
+              <h2 className="font-display text-6xl sm:text-8xl md:text-9xl font-bold tracking-tighter text-ink dark:text-white leading-[0.9] mb-8">
                 Speech, <br />
-                <span className="italic font-light text-[#A8A29E]">visualized.</span>
+                <span className="italic font-light text-ink-light dark:text-ink-ghost">visualized.</span>
               </h2>
-              <p className="font-sans text-xs sm:text-sm tracking-widest uppercase text-[#78716C] max-w-md leading-relaxed">
+              <p className="font-sans text-xs sm:text-sm tracking-widest uppercase text-ink-muted dark:text-ink-ghost max-w-md leading-relaxed">
                 A private, browser-based instrument built for people who stutter. Not a dashboard. Not a clinic. A sanctuary.
               </p>
               
               <motion.div className="mt-16">
                 <Link 
                   href="/practice"
-                  className="group relative inline-flex justify-center items-center px-8 py-4 bg-[#F6F1EB] text-[#171514] text-[11px] font-sans tracking-widest uppercase font-bold overflow-hidden rounded-full"
+                  className="group relative inline-flex justify-center items-center px-8 py-4 bg-ink dark:bg-paper text-paper dark:text-ink text-[11px] font-mono tracking-widest uppercase font-bold overflow-hidden rounded-full"
                 >
-                  <div className="absolute inset-0 w-full h-full bg-[#A5F3FC] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.21,0.47,0.32,0.98]" />
+                  <div className="absolute inset-0 w-full h-full bg-copper translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.21,0.47,0.32,0.98]" />
                   <span className="relative z-10 flex items-center gap-3">
                     Open The Instrument
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-x-1 transition-transform">

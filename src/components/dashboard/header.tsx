@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 
 export function Header() {
   return (
@@ -22,19 +21,6 @@ export function Header() {
           </p>
         </div>
 
-        {/* Mascot element — clean rectangular image on the right */}
-        <div className="flex-shrink-0 flex justify-center sm:justify-end items-center">
-          <div className="relative w-28 h-28 sm:w-36 sm:h-36">
-            <Image
-              src="/VoiceScribe.png"
-              alt="VoiceScribe Illustration"
-              fill
-              sizes="(max-width: 640px) 112px, 144px"
-              className="object-contain"
-              priority
-            />
-          </div>
-        </div>
       </div>
 
       {/* Thin editorial rule */}

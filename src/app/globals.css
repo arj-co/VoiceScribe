@@ -19,11 +19,11 @@
   --color-ink-faint: #A8A29E;
   --color-ink-ghost: #D6D3D1;
 
-  /* Creamy (formerly copper) */
-  --color-copper: #D4C5B9;
-  --color-copper-light: #E8DCCF;
-  --color-copper-faint: #F5EAE0;
-  --color-copper-wash: #FAF5F0;
+  /* Muted copper */
+  --color-copper: #B0845B;
+  --color-copper-light: #C9A47C;
+  --color-copper-faint: #E8D5BF;
+  --color-copper-wash: #F5EDE3;
 
   /* Soft sage */
   --color-sage: #7C8E6F;
@@ -57,11 +57,11 @@
   --color-ink-faint: #78716C;
   --color-ink-ghost: #44403C;
 
-  /* Soft bluish neon (formerly copper) */
-  --color-copper: #A5F3FC;
-  --color-copper-light: #CFFAFE;
-  --color-copper-faint: #164E63;
-  --color-copper-wash: #083344;
+  /* Glowing copper for dark mode */
+  --color-copper: #D4A373;
+  --color-copper-light: #B0845B;
+  --color-copper-faint: #4A3522;
+  --color-copper-wash: #2D2014;
 
   /* Luminous sage */
   --color-sage: #9DB48C;
