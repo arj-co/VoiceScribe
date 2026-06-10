@@ -5,7 +5,7 @@
    "Clinical warmth meets literary editorial design."
    ============================================================ */
 
-@theme {
+:root {
   /* Paper & warmth */
   --color-paper: #F6F1EB;
   --color-paper-warm: #EDE7DF;
@@ -40,6 +40,69 @@
   --font-display: "Cormorant Garamond", "Georgia", serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", "Menlo", monospace;
+}
+
+.dark {
+  /* Studio dark mode - Deep, warm, recording studio aesthetic */
+  --color-paper: #171514;
+  --color-paper-warm: #1F1D1A;
+  --color-paper-deep: #2A2624;
+  --color-cream: #110F0E;
+
+  /* Light warm typography */
+  --color-ink: #F6F1EB;
+  --color-ink-light: #D6D3D1;
+  --color-ink-muted: #A8A29E;
+  --color-ink-faint: #78716C;
+  --color-ink-ghost: #44403C;
+
+  /* Glowing copper for dark mode */
+  --color-copper: #D4A373;
+  --color-copper-light: #B0845B;
+  --color-copper-faint: #4A3522;
+  --color-copper-wash: #2D2014;
+
+  /* Luminous sage */
+  --color-sage: #9DB48C;
+  --color-sage-light: #7C8E6F;
+  --color-sage-faint: #34402D;
+  --color-sage-wash: #20281B;
+
+  /* Borders & surfaces */
+  --color-rule: #36322F;
+  --color-rule-light: #2A2624;
+  --color-rule-faint: #1F1D1A;
+}
+
+@theme {
+  --color-paper: var(--color-paper);
+  --color-paper-warm: var(--color-paper-warm);
+  --color-paper-deep: var(--color-paper-deep);
+  --color-cream: var(--color-cream);
+
+  --color-ink: var(--color-ink);
+  --color-ink-light: var(--color-ink-light);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-ink-faint: var(--color-ink-faint);
+  --color-ink-ghost: var(--color-ink-ghost);
+
+  --color-copper: var(--color-copper);
+  --color-copper-light: var(--color-copper-light);
+  --color-copper-faint: var(--color-copper-faint);
+  --color-copper-wash: var(--color-copper-wash);
+
+  --color-sage: var(--color-sage);
+  --color-sage-light: var(--color-sage-light);
+  --color-sage-faint: var(--color-sage-faint);
+  --color-sage-wash: var(--color-sage-wash);
+
+  --color-rule: var(--color-rule);
+  --color-rule-light: var(--color-rule-light);
+  --color-rule-faint: var(--color-rule-faint);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 }
 
 /* ---- Base ---- */
