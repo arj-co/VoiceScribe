@@ -5,74 +5,42 @@
    "Clinical warmth meets literary editorial design."
    ============================================================ */
 
-:root {
-  /* Paper & warmth */
-  --color-paper: #F6F1EB;
-  --color-paper-warm: #EDE7DF;
-  --color-paper-deep: #E4DDD4;
-  --color-cream: #FBF9F6;
+:root, .dark {
+  /* Deep forest-green foundation */
+  --color-paper: #0F1A16;
+  --color-paper-warm: #15231D;
+  --color-paper-deep: #1B2D25;
+  --color-cream: #1B2D25;
 
-  /* Charcoal typography */
-  --color-ink: #1C1917;
-  --color-ink-light: #44403C;
-  --color-ink-muted: #78716C;
-  --color-ink-faint: #A8A29E;
-  --color-ink-ghost: #D6D3D1;
+  /* Soft light typography */
+  --color-ink: #F2EEE6;
+  --color-ink-light: #DFE4DF;
+  --color-ink-muted: #C8CFC8;
+  --color-ink-faint: #819889;
+  --color-ink-ghost: #4B6355;
 
-  /* Muted copper */
-  --color-copper: #B0845B;
-  --color-copper-light: #C9A47C;
-  --color-copper-faint: #E8D5BF;
-  --color-copper-wash: #F5EDE3;
+  /* Accent (Replacing Copper) */
+  --color-copper: #8DB8A0;
+  --color-copper-light: #A3C9B4;
+  --color-copper-faint: #2C4236;
+  --color-copper-wash: #172920;
 
-  /* Soft sage */
-  --color-sage: #7C8E6F;
-  --color-sage-light: #A3B195;
-  --color-sage-faint: #DCE4D6;
-  --color-sage-wash: #EFF2EB;
+  /* Soft Highlight (Replacing Sage) */
+  --color-sage: #D6E3D4;
+  --color-sage-light: #E4ECE3;
+  --color-sage-faint: #3B5445;
+  --color-sage-wash: #1F3328;
 
-  /* Warm neutrals for borders & surfaces */
-  --color-rule: #D9D2C9;
-  --color-rule-light: #E8E3DC;
-  --color-rule-faint: #F0ECE7;
+  /* Borders & surfaces */
+  --color-rule: #283D33;
+  --color-rule-light: #1F3328;
+  --color-rule-faint: #15231D;
 
   /* Typography */
   --font-display: "Cormorant Garamond", "Georgia", serif;
   --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", "Menlo", monospace;
   --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
-}
-
-:root.dark {
-  /* Studio dark mode - Deep, warm, recording studio aesthetic */
-  --color-paper: #171514;
-  --color-paper-warm: #1F1D1A;
-  --color-paper-deep: #2A2624;
-  --color-cream: #110F0E;
-
-  /* Light warm typography */
-  --color-ink: #F6F1EB;
-  --color-ink-light: #D6D3D1;
-  --color-ink-muted: #A8A29E;
-  --color-ink-faint: #78716C;
-  --color-ink-ghost: #44403C;
-
-  /* Glowing copper for dark mode */
-  --color-copper: #D4A373;
-  --color-copper-light: #B0845B;
-  --color-copper-faint: #4A3522;
-  --color-copper-wash: #2D2014;
-
-  /* Luminous sage */
-  --color-sage: #9DB48C;
-  --color-sage-light: #7C8E6F;
-  --color-sage-faint: #34402D;
-  --color-sage-wash: #20281B;
-
-  /* Borders & surfaces */
-  --color-rule: #36322F;
-  --color-rule-light: #2A2624;
-  --color-rule-faint: #1F1D1A;
 }
 
 @theme {
@@ -200,48 +168,41 @@ hr {
   background: var(--color-rule);
 }
 
-/* ---- Dysfluency annotation styles ---- */
+/* ---- Dysfluency annotation styles (Analytical & Clinical) ---- */
 .annotation-repetition {
-  text-decoration: underline;
-  text-decoration-color: var(--color-copper);
-  text-decoration-thickness: 3px;
-  text-underline-offset: 3px;
-  text-decoration-style: double;
+  border-bottom: 2px dashed var(--color-copper);
+  padding-bottom: 1px;
 }
 
 .annotation-prolongation {
-  letter-spacing: 0.25em;
-  color: var(--color-ink);
-  font-weight: 700;
-  font-style: italic;
+  border-bottom: 2px dotted var(--color-sage);
+  padding-bottom: 1px;
 }
 
 .annotation-block {
   display: inline-flex;
   align-items: center;
   gap: 0.15em;
-  font-weight: 700;
 }
 
 .annotation-block::before {
-  content: "⌐";
-  color: var(--color-ink);
-  font-size: 0.95em;
-  font-weight: 800;
+  content: "•";
+  color: var(--color-ink-muted);
+  font-size: 0.8em;
 }
 
 .annotation-pause {
   display: inline-block;
-  width: 2em;
-  border-bottom: 2px solid var(--color-rule);
+  width: 1.5em;
+  border-bottom: 1px solid var(--color-rule);
   vertical-align: middle;
   margin: 0 0.25em;
 }
 
 .annotation-pause-long {
   display: inline-block;
-  width: 4em;
-  border-bottom: 3px solid var(--color-copper);
+  width: 3em;
+  border-bottom: 2px solid var(--color-ink-faint);
   vertical-align: middle;
   margin: 0 0.25em;
 }

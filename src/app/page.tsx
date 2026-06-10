@@ -105,6 +105,7 @@ function AnimatedWord({ children, delay, type = "normal" }: { children?: React.R
 const sessionsData = [
   {
     id: "01",
+    date: "Oct 12, 2025",
     duration: "04:12",
     fluency: 72,
     trend: "Baseline",
@@ -115,12 +116,13 @@ const sessionsData = [
       <>
         The <span className="annotation-repetition text-copper">q-q-quarterly</span> metrics indicate a 
         <span className="annotation-pause" /> <span className="annotation-prolongation">sssslight</span> 
-        increase in <span className="annotation-block">⌐revenue</span>.
+        increase in <span className="annotation-block">revenue</span>.
       </>
     )
   },
   {
     id: "12",
+    date: "Nov 04, 2025",
     duration: "05:30",
     fluency: 78,
     trend: "+6%",
@@ -131,12 +133,13 @@ const sessionsData = [
       <>
         The quarterly metrics indicate a 
         <span className="annotation-pause" /> <span className="annotation-prolongation">sssslight</span> 
-        increase in <span className="annotation-block">⌐revenue</span>.
+        increase in <span className="annotation-block">revenue</span>.
       </>
     )
   },
   {
     id: "24",
+    date: "Dec 18, 2025",
     duration: "06:15",
     fluency: 85,
     trend: "+7%",
@@ -146,12 +149,13 @@ const sessionsData = [
     transcript: (
       <>
         The quarterly metrics indicate a slight 
-        increase in <span className="annotation-block">⌐revenue</span>.
+        increase in <span className="annotation-block">revenue</span>.
       </>
     )
   },
   {
     id: "40",
+    date: "Jan 22, 2026",
     duration: "12:45",
     fluency: 94,
     trend: "+9%",
@@ -181,7 +185,10 @@ function ProgressJourney() {
           {/* Header */}
           <div className="flex justify-between items-start border-b border-rule pb-4">
             <div>
-              <h4 className="font-sans text-xs font-bold tracking-widest text-ink dark:text-white uppercase">Session {session.id}</h4>
+              <div className="flex items-center gap-3 mb-1">
+                <h4 className="font-sans text-xs font-bold tracking-widest text-ink uppercase">Session {session.id}</h4>
+                <span className="font-mono text-[9px] text-ink-muted uppercase tracking-widest bg-rule-light/50 px-2 py-0.5 rounded-sm">{session.date}</span>
+              </div>
               <p className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mt-1">Duration: {session.duration}</p>
             </div>
             <div className="text-right">
@@ -233,15 +240,14 @@ export default function Home() {
     <div className="min-h-screen bg-paper flex flex-col selection:bg-copper-faint selection:text-ink relative transition-colors duration-700 overflow-x-hidden">
       
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full px-6 sm:px-8 py-6 flex justify-between items-center z-50 mix-blend-difference text-paper dark:mix-blend-normal dark:text-ink">
-        <h1 className="font-display text-2xl font-semibold tracking-tight">
-          Voice<em className="not-italic font-bold">Scribe</em>
+      <header className="fixed top-0 left-0 w-full px-6 sm:px-8 py-6 flex justify-between items-center z-50 text-ink">
+        <h1 className="font-display text-2xl font-medium tracking-tight">
+          Voice<span className="font-bold">Scribe</span>
         </h1>
         <div className="flex items-center gap-8">
           <nav className="hidden sm:flex gap-6 font-mono text-[10px] tracking-widest uppercase opacity-70">
-            <span className="font-bold">Demonstration</span>
+            <span className="font-bold text-ink">Demonstration</span>
           </nav>
-          <ThemeToggle />
         </div>
       </header>
 
@@ -270,7 +276,7 @@ export default function Home() {
                   href="/practice"
                   className="group relative inline-flex justify-center items-center px-8 py-4 bg-ink dark:bg-paper text-paper dark:text-ink text-[11px] font-mono tracking-widest uppercase font-bold overflow-hidden rounded-full"
                 >
-                  <div className="absolute inset-0 w-full h-full bg-copper translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.21,0.47,0.32,0.98]" />
+                  <div className="absolute inset-0 w-full h-full bg-rule-light translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.21,0.47,0.32,0.98]" />
                   <span className="relative z-10 flex items-center gap-3">
                     Open The Instrument
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-x-1 transition-transform">
@@ -286,8 +292,8 @@ export default function Home() {
         {/* 2. Living Transcript */}
         <section className="relative min-h-[100svh] flex items-center justify-center px-6 py-24 bg-paper-warm dark:bg-[#110F0E] border-y border-rule z-10">
           <div className="w-full max-w-6xl mx-auto">
-            <div className="font-mono text-[10px] text-copper uppercase tracking-widest mb-12 flex items-center gap-4">
-              <span className="w-8 h-px bg-copper" />
+            <div className="font-sans font-bold text-xs text-ink-muted uppercase tracking-[0.2em] mb-12 flex items-center gap-4">
+              <span className="w-8 h-px bg-rule" />
               The Living Transcript
             </div>
             
@@ -344,37 +350,39 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Premium Footer */}
-      <footer className="bg-ink dark:bg-[#0A0908] text-paper py-16 sm:py-24 border-t border-ink-light dark:border-rule">
+      {/* Useful Footer */}
+      <footer className="bg-rule-faint py-16 sm:py-24 border-t border-rule">
         <div className="mx-auto max-w-5xl px-6 sm:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
-            <div className="md:col-span-1">
-              <h2 className="font-display text-3xl font-semibold tracking-tight text-paper mb-6">
-                Voice<em className="not-italic font-bold text-copper">Scribe</em>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div className="md:col-span-2">
+              <h2 className="font-display text-2xl font-medium tracking-tight text-ink mb-4">
+                Voice<span className="font-bold">Scribe</span>
               </h2>
+              <p className="font-sans text-sm text-ink-muted max-w-xs leading-relaxed">
+                A private, browser-based instrument built to help people who stutter practice speaking freely.
+              </p>
             </div>
             
-            <div className="md:col-span-2 grid grid-cols-2 gap-8">
-              <div className="flex flex-col gap-4 font-mono text-[10px] tracking-widest uppercase">
-                <span className="text-ink-muted mb-2">The Instrument</span>
-                <Link href="/practice" className="text-paper hover:text-copper transition-colors">Enter Studio</Link>
-                <span className="text-ink-faint hover:text-paper transition-colors cursor-pointer">Manifesto</span>
-              </div>
+            <div className="md:col-span-1 flex flex-col gap-3 font-sans text-xs font-medium text-ink-muted">
+              <span className="font-bold text-ink uppercase tracking-widest mb-2 text-[10px]">Product</span>
+              <Link href="/practice" className="hover:text-ink transition-colors">Enter Studio</Link>
+              <span className="hover:text-ink transition-colors cursor-pointer">How it works</span>
+              <span className="hover:text-ink transition-colors cursor-pointer">Manifesto</span>
+            </div>
 
-              <div className="flex flex-col gap-4 font-mono text-[10px] tracking-widest uppercase">
-                <span className="text-ink-muted mb-2">Commitment</span>
-                <span className="text-ink-faint hover:text-paper transition-colors cursor-pointer">Privacy First</span>
-                <span className="text-ink-faint hover:text-paper transition-colors cursor-pointer">Local Data Only</span>
-                <span className="text-ink-faint hover:text-paper transition-colors cursor-pointer">Accessibility</span>
-              </div>
+            <div className="md:col-span-1 flex flex-col gap-3 font-sans text-xs font-medium text-ink-muted">
+              <span className="font-bold text-ink uppercase tracking-widest mb-2 text-[10px]">Principles</span>
+              <span className="hover:text-ink transition-colors cursor-pointer">Privacy First</span>
+              <span className="hover:text-ink transition-colors cursor-pointer">Local Data Only</span>
+              <span className="hover:text-ink transition-colors cursor-pointer">Accessibility</span>
             </div>
           </div>
           
-          <div className="pt-8 border-t border-ink-light dark:border-rule flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-            <p className="font-mono text-[9px] tracking-widest text-ink-muted uppercase">
+          <div className="pt-8 border-t border-rule flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+            <p className="font-sans text-xs text-ink-faint">
               © 2026 VoiceScribe. Built for dignity.
             </p>
-            <p className="font-mono text-[9px] tracking-widest text-ink-faint max-w-sm text-left sm:text-right leading-relaxed uppercase">
+            <p className="font-sans text-xs text-ink-faint text-left sm:text-right">
               Not a medical tool. Designed for personal practice and reflection.
             </p>
           </div>
