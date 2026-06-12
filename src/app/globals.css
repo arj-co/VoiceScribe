@@ -1,81 +1,82 @@
 @import "tailwindcss";
 
 /* ============================================================
-   VoiceScribe — Editorial Design System
-   "Clinical warmth meets literary editorial design."
+   VoiceScribe — Warm Parchment Editorial Design System
+   "Cream, warmth, and clarity — like ink on old paper."
+   Primary: #EBE6D6 (parchment) · Surface: #FBF8EE (cream)
    ============================================================ */
 
-:root, .dark {
-  /* Deep forest-green foundation */
-  --color-paper: #0F1A16;
-  --color-paper-warm: #15231D;
-  --color-paper-deep: #1B2D25;
-  --color-cream: #1B2D25;
+:root {
+  /* ── Surface Layers ─────────────────────────────────────── */
+  --color-paper:       #FBF8EE;   /* lightest cream — main bg  */
+  --color-paper-warm:  #F5F0E0;   /* slightly warmer mid-layer */
+  --color-paper-deep:  #EBE6D6;   /* parchment — panels, cards */
+  --color-cream:       #EBE6D6;   /* alias for paper-deep      */
 
-  /* Soft light typography */
-  --color-ink: #F2EEE6;
-  --color-ink-light: #DFE4DF;
-  --color-ink-muted: #C8CFC8;
-  --color-ink-faint: #819889;
-  --color-ink-ghost: #4B6355;
+  /* ── Ink (Typography) ────────────────────────────────────── */
+  --color-ink:         #2C2520;   /* rich warm near-black      */
+  --color-ink-light:   #4A403A;   /* secondary text            */
+  --color-ink-muted:   #7A6E66;   /* muted labels              */
+  --color-ink-faint:   #A89F96;   /* ghost text                */
+  --color-ink-ghost:   #C8BFB6;   /* disabled / placeholder    */
 
-  /* Accent (Replacing Copper) */
-  --color-copper: #8DB8A0;
-  --color-copper-light: #A3C9B4;
-  --color-copper-faint: #2C4236;
-  --color-copper-wash: #172920;
+  /* ── Accent — Warm Terracotta/Amber ─────────────────────── */
+  --color-copper:      #A0704A;   /* primary accent            */
+  --color-copper-light:#C4956C;   /* hover / highlight         */
+  --color-copper-faint:#F0E4D4;   /* very light wash           */
+  --color-copper-wash: #F8F1E8;   /* ultra-light tint          */
 
-  /* Soft Highlight (Replacing Sage) */
-  --color-sage: #D6E3D4;
-  --color-sage-light: #E4ECE3;
-  --color-sage-faint: #3B5445;
-  --color-sage-wash: #1F3328;
+  /* ── Secondary Accent — Sage/Olive ──────────────────────── */
+  --color-sage:        #6B8C6A;   /* success / positive        */
+  --color-sage-light:  #8AAB89;   /* lighter sage              */
+  --color-sage-faint:  #E4EDE3;   /* sage wash                 */
+  --color-sage-wash:   #F2F6F2;   /* ultra-light sage          */
 
-  /* Borders & surfaces */
-  --color-rule: #283D33;
-  --color-rule-light: #1F3328;
-  --color-rule-faint: #15231D;
+  /* ── Borders & Dividers ──────────────────────────────────── */
+  --color-rule:        #D8D0C4;   /* standard border           */
+  --color-rule-light:  #E6E0D6;   /* subtle dividers           */
+  --color-rule-faint:  #F0EBE2;   /* hairline / barely visible */
 
-  /* Typography */
+  /* ── Typography ─────────────────────────────────────────── */
   --font-display: "Montserrat", system-ui, -apple-system, sans-serif;
-  --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
-  --font-mono: "IBM Plex Mono", "Menlo", monospace;
-  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-body:    "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --font-mono:    "IBM Plex Mono", "Menlo", monospace;
+  --font-sans:    "Montserrat", system-ui, -apple-system, sans-serif;
 }
 
 @theme {
-  --color-paper: var(--color-paper);
-  --color-paper-warm: var(--color-paper-warm);
-  --color-paper-deep: var(--color-paper-deep);
-  --color-cream: var(--color-cream);
+  --color-paper:        var(--color-paper);
+  --color-paper-warm:   var(--color-paper-warm);
+  --color-paper-deep:   var(--color-paper-deep);
+  --color-cream:        var(--color-cream);
 
-  --color-ink: var(--color-ink);
-  --color-ink-light: var(--color-ink-light);
-  --color-ink-muted: var(--color-ink-muted);
-  --color-ink-faint: var(--color-ink-faint);
-  --color-ink-ghost: var(--color-ink-ghost);
+  --color-ink:          var(--color-ink);
+  --color-ink-light:    var(--color-ink-light);
+  --color-ink-muted:    var(--color-ink-muted);
+  --color-ink-faint:    var(--color-ink-faint);
+  --color-ink-ghost:    var(--color-ink-ghost);
 
-  --color-copper: var(--color-copper);
+  --color-copper:       var(--color-copper);
   --color-copper-light: var(--color-copper-light);
   --color-copper-faint: var(--color-copper-faint);
-  --color-copper-wash: var(--color-copper-wash);
+  --color-copper-wash:  var(--color-copper-wash);
 
-  --color-sage: var(--color-sage);
-  --color-sage-light: var(--color-sage-light);
-  --color-sage-faint: var(--color-sage-faint);
-  --color-sage-wash: var(--color-sage-wash);
+  --color-sage:         var(--color-sage);
+  --color-sage-light:   var(--color-sage-light);
+  --color-sage-faint:   var(--color-sage-faint);
+  --color-sage-wash:    var(--color-sage-wash);
 
-  --color-rule: var(--color-rule);
-  --color-rule-light: var(--color-rule-light);
-  --color-rule-faint: var(--color-rule-faint);
+  --color-rule:         var(--color-rule);
+  --color-rule-light:   var(--color-rule-light);
+  --color-rule-faint:   var(--color-rule-faint);
 
-  --font-display: var(--font-display);
-  --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
-  --font-sans: var(--font-sans);
+  --font-display:       var(--font-display);
+  --font-body:          var(--font-body);
+  --font-mono:          var(--font-mono);
+  --font-sans:          var(--font-sans);
 }
 
-/* ---- Base ---- */
+/* ── Base ─────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -93,82 +94,53 @@ body {
   letter-spacing: -0.01em;
 }
 
-/* ---- Typographic scale ---- */
-.font-display {
-  font-family: var(--font-display);
-}
+/* ── Typographic helpers ──────────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.font-mono    { font-family: var(--font-mono); }
+.font-sans    { font-family: var(--font-sans); }
 
-.font-mono {
-  font-family: var(--font-mono);
-}
-
-.font-sans {
-  font-family: var(--font-sans);
-}
-
-/* ---- Subtle paper texture ---- */
+/* ── Subtle warm paper grain ─────────────────────────────── */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.03;
+  opacity: 0.025;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 200px 200px;
 }
 
-/* ---- Custom scrollbar (warm, subtle) ---- */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-paper);
-}
-
+/* ── Custom scrollbar ────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--color-paper-warm); }
 ::-webkit-scrollbar-thumb {
   background: var(--color-rule);
   border-radius: 4px;
-  border: 2px solid var(--color-paper);
+  border: 2px solid var(--color-paper-warm);
 }
+::-webkit-scrollbar-thumb:hover { background: var(--color-ink-faint); }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-ink-faint);
-}
-
-/* ---- Selection ---- */
+/* ── Selection ────────────────────────────────────────────── */
 ::selection {
   background-color: var(--color-copper-faint);
   color: var(--color-ink);
 }
 
-/* ---- Focus ring ---- */
+/* ── Focus ring ───────────────────────────────────────────── */
 *:focus-visible {
   outline: 2px solid var(--color-copper-light);
   outline-offset: 2px;
 }
 
-/* ---- Horizontal rule ---- */
-hr {
-  border: none;
-  border-top: 1px.5px solid var(--color-rule);
-}
+/* ── Horizontal rules ─────────────────────────────────────── */
+hr { border: none; border-top: 1px solid var(--color-rule); }
 
-/* ---- Editorial hairline dividers ---- */
-.editorial-rule {
-  height: 1.5px;
-  background: var(--color-rule);
-}
+.editorial-rule      { height: 1.5px; background: var(--color-rule); }
+.editorial-rule-fine { height: 1px;   background: var(--color-rule-light); }
 
-.editorial-rule-fine {
-  height: 1px;
-  background: var(--color-rule);
-}
-
-/* ---- Dysfluency annotation styles (Analytical & Clinical) ---- */
+/* ── Dysfluency annotations ──────────────────────────────── */
 .annotation-repetition {
   border-bottom: 2px dashed var(--color-copper);
   padding-bottom: 1px;
@@ -184,7 +156,6 @@ hr {
   align-items: center;
   gap: 0.15em;
 }
-
 .annotation-block::before {
   content: "•";
   color: var(--color-ink-muted);
@@ -207,22 +178,15 @@ hr {
   margin: 0 0.25em;
 }
 
-/* ---- Gentle pulse for recording ---- */
+/* ── Animations ───────────────────────────────────────────── */
 @keyframes gentle-pulse {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  50%       { opacity: 0.4; }
 }
+.animate-gentle-pulse { animation: gentle-pulse 2.5s ease-in-out infinite; }
 
-.animate-gentle-pulse {
-  animation: gentle-pulse 2.5s ease-in-out infinite;
-}
-
-/* ---- Breathing animation ---- */
 @keyframes breathe {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
+  50%       { transform: scale(1.04); }
 }
-
-.animate-breathe {
-  animation: breathe 4s ease-in-out infinite;
-}
+.animate-breathe { animation: breathe 4s ease-in-out infinite; }
