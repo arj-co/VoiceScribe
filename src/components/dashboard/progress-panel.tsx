@@ -15,11 +15,11 @@ import {
 function CustomTooltip({ active, payload, label }: any) {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-cream border border-rule px-4 py-3 shadow-sm">
-        <p className="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-faint mb-1">
+      <div className="bg-paper border border-rule px-4 py-3 shadow-[0_4px_16px_rgba(44,37,32,0.1)] rounded-md">
+        <p className="font-mono text-[10px] tracking-[0.1em] uppercase text-ink-muted mb-1">
           {label}
         </p>
-        <p className="font-mono text-lg text-ink">
+        <p className="font-mono text-lg font-bold text-ink">
           {payload[0].value}
         </p>
       </div>
@@ -51,20 +51,14 @@ export function ProgressPanel() {
             margin={{ top: 10, right: 4, left: -24, bottom: 0 }}
           >
             <defs>
-              <linearGradient
-                id="warmGradient"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-                <stop offset="0%" stopColor="#B0845B" stopOpacity={0.15} />
-                <stop offset="100%" stopColor="#B0845B" stopOpacity={0.02} />
+              <linearGradient id="warmGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#A0704A" stopOpacity={0.2} />
+                <stop offset="100%" stopColor="#A0704A" stopOpacity={0.01} />
               </linearGradient>
             </defs>
             <CartesianGrid
               strokeDasharray="0"
-              stroke="#E8E3DC"
+              stroke="#D8D0C4"
               vertical={false}
             />
             <XAxis
@@ -72,7 +66,7 @@ export function ProgressPanel() {
               axisLine={false}
               tickLine={false}
               tick={{
-                fill: "#78716C",
+                fill: "#7A6E66",
                 fontSize: 11,
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontWeight: 600
@@ -83,7 +77,7 @@ export function ProgressPanel() {
               axisLine={false}
               tickLine={false}
               tick={{
-                fill: "#78716C",
+                fill: "#7A6E66",
                 fontSize: 11,
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontWeight: 600
@@ -94,14 +88,14 @@ export function ProgressPanel() {
             <Area
               type="monotone"
               dataKey="fluencyScore"
-              stroke="#B0845B"
-              strokeWidth={3}
+              stroke="#A0704A"
+              strokeWidth={2.5}
               fill="url(#warmGradient)"
               dot={false}
               activeDot={{
                 r: 5,
-                fill: "#B0845B",
-                stroke: "#F6F1EB",
+                fill: "#A0704A",
+                stroke: "#FBF8EE",
                 strokeWidth: 3,
               }}
             />

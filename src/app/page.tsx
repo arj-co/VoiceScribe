@@ -1,34 +1,38 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent, MotionValue } from "framer-motion";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 // --- Signature Experience 1: Speech Landscape ---
 function SpeechLandscape() {
   const fragments = [
-    { text: "s-s-sometimes", top: "25%", left: "65%", delay: 1.5, opacity: 0.6, type: "rep" },
-    { text: "⌐to find", top: "75%", left: "70%", delay: 2.5, opacity: 0.5, type: "block" },
-    { text: "the right woooords", top: "45%", left: "80%", delay: 4, opacity: 0.7, type: "pro" }
+    { text: "s-s-sometimes", top: "25%", left: "65%", delay: 1.5, opacity: 0.5, type: "rep" },
+    { text: "⌐to find", top: "75%", left: "70%", delay: 2.5, opacity: 0.4, type: "block" },
+    { text: "the right woooords", top: "45%", left: "80%", delay: 4, opacity: 0.55, type: "pro" }
   ];
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
-      {/* Atmospheric Cinematic Glows */}
+      {/* Atmospheric warm glows */}
       <motion.div 
-        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.35, 0.2] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-copper/20 blur-[100px] mix-blend-multiply dark:mix-blend-screen"
+        className="absolute w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-copper/15 blur-[120px]"
       />
       <motion.div 
-        animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.25, 0.1] }}
+        animate={{ scale: [1, 1.3, 1], opacity: [0.12, 0.22, 0.12] }}
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-sage/20 blur-[120px] mix-blend-multiply dark:mix-blend-screen -translate-x-1/4 translate-y-1/4"
+        className="absolute w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-sage/15 blur-[130px] -translate-x-1/4 translate-y-1/4"
+      />
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.2, 0.1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 5 }}
+        className="absolute w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] rounded-full bg-paper-deep/80 blur-[80px] translate-x-1/3 -translate-y-1/4"
       />
 
-      {/* Subliminal Waveform Core */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-20 dark:opacity-40">
+      {/* Subliminal Waveform */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-15">
         {[2, 4, 3, 6, 8, 12, 7, 4, 9, 5, 3, 2].map((h, i) => (
           <motion.div
             key={i}
@@ -54,7 +58,7 @@ function SpeechLandscape() {
         >
           {frag.type === "rep" ? <span className="annotation-repetition text-copper">{frag.text}</span> :
            frag.type === "block" ? <span className="annotation-block">{frag.text}</span> :
-           frag.type === "pro" ? <span className="annotation-prolongation">{frag.text}</span> :
+           frag.type === "pro" ? <span className="annotation-prolongation text-sage">{frag.text}</span> :
            frag.text}
         </motion.div>
       ))}
@@ -91,7 +95,7 @@ function AnimatedWord({ children, delay, type = "normal" }: { children?: React.R
           {children}
         </span>
       ) : type === "pro" ? (
-        <span className="annotation-prolongation relative text-sage dark:text-sage-light">
+        <span className="annotation-prolongation relative text-sage">
           {children}
         </span>
       ) : (
@@ -109,125 +113,201 @@ const sessionMilestones = [
   { id: "40", date: "Jun 22, 2026", duration: "12:45" },
 ];
 
-function AnimatedNumber({ value }: { value: MotionValue<number> }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  useMotionValueEvent(value, "change", (latest) => {
-    if (ref.current) {
-      ref.current.textContent = Math.round(latest).toString();
-    }
-  });
-  return <span ref={ref}>{Math.round(value.get())}</span>;
+function AnimatedNumber({ value }: { value: number }) {
+  return <span>{Math.round(value)}</span>;
 }
 
 function ProgressJourney() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start center", "end end"] });
-  
-  const [activeIndex, setActiveIndex] = useState(0);
+  // Wheel-capture approach:
+  // Section is exactly h-screen with card centered.
+  // When section is in view, wheel events drive internal progress 0→1.
+  // At progress=0 + scroll-up → release (page scrolls up).
+  // At progress=1 + scroll-down → release (page scrolls to footer).
+  // No 500vh container, no blank space.
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef(0);
+  const [progress, setProgress] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const hasSnapped = useRef(false);
 
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (latest < 0.25) setActiveIndex(0);
-    else if (latest < 0.5) setActiveIndex(1);
-    else if (latest < 0.75) setActiveIndex(2);
-    else setActiveIndex(3);
-  });
+  // Observe section visibility — activate when 60%+ visible
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+          setIsActive(true);
+        } else if (!entry.isIntersecting) {
+          setIsActive(false);
+          hasSnapped.current = false;
+        }
+      },
+      { threshold: [0.6] }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
+  // Snap section into view when first activated (only if progress near 0)
+  useEffect(() => {
+    if (isActive && !hasSnapped.current && progressRef.current < 0.05) {
+      hasSnapped.current = true;
+      sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [isActive]);
+
+  // Capture wheel events to drive progress internally
+  useEffect(() => {
+    if (!isActive) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      const p = progressRef.current;
+
+      // At boundaries, let page scroll naturally
+      if (e.deltaY > 0 && p >= 1) return;
+      if (e.deltaY < 0 && p <= 0) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const step = e.deltaY / 2000;
+      progressRef.current = Math.max(0, Math.min(1, p + step));
+      setProgress(progressRef.current);
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [isActive]);
+
+  // Derived animation values from progress
+  const activeIndex = progress < 0.25 ? 0 : progress < 0.5 ? 1 : progress < 0.75 ? 2 : 3;
   const activeSession = sessionMilestones[activeIndex];
 
-  // Interpolate numerical metrics smoothly across the scroll
-  const fluencyValue = useTransform(scrollYProgress, [0, 1], [41, 96]);
-  const repValue = useTransform(scrollYProgress, [0, 1], [18, 0]);
-  const proValue = useTransform(scrollYProgress, [0, 1], [11, 1]);
-  const blockValue = useTransform(scrollYProgress, [0, 1], [9, 0]);
-  const pauseValue = useTransform(scrollYProgress, [0, 1], [14, 1]);
+  const fluency = 41 + progress * 55;
+  const rep = 18 * (1 - progress);
+  const pro = 11 - progress * 10;
+  const block = 9 * (1 - progress);
+  const pause = 14 - progress * 13;
 
-  // Transcript Morphing Transforms
-  const repWidth = useTransform(scrollYProgress, [0.0, 0.3], ["2em", "0em"]);
-  const repOpacity = useTransform(scrollYProgress, [0.0, 0.25], [1, 0]);
-
-  const pauseWidth = useTransform(scrollYProgress, [0.2, 0.6], ["3em", "0em"]);
-  const pauseOpacity = useTransform(scrollYProgress, [0.2, 0.5], [1, 0]);
-
-  const proWidth = useTransform(scrollYProgress, [0.5, 0.8], ["1.5em", "0em"]);
-  const proOpacity = useTransform(scrollYProgress, [0.5, 0.75], [1, 0]);
-
-  const blockWidth = useTransform(scrollYProgress, [0.7, 0.95], ["1em", "0em"]);
-  const blockOpacity = useTransform(scrollYProgress, [0.7, 0.9], [1, 0]);
+  // Transcript disfluency fade-out values
+  const repOpacity = Math.max(0, 1 - progress / 0.25);
+  const repWidthEm = Math.max(0, 2 * (1 - progress / 0.3));
+  const pauseOpacity = progress < 0.2 ? 1 : Math.max(0, 1 - (progress - 0.2) / 0.3);
+  const pauseWidthEm = progress < 0.2 ? 3 : Math.max(0, 3 * (1 - (progress - 0.2) / 0.4));
+  const proOpacity = progress < 0.5 ? 1 : Math.max(0, 1 - (progress - 0.5) / 0.25);
+  const proWidthEm = progress < 0.5 ? 1.5 : Math.max(0, 1.5 * (1 - (progress - 0.5) / 0.3));
+  const blockOpacity = progress < 0.7 ? 1 : Math.max(0, 1 - (progress - 0.7) / 0.2);
+  const blockWidthEm = progress < 0.7 ? 1 : Math.max(0, 1 * (1 - (progress - 0.7) / 0.25));
+  const pauseMargin = pauseWidthEm > 0 ? "0 0.25em" : "0";
 
   return (
-    <div ref={containerRef} className="relative w-full h-[250vh] mt-[-10vh]">
-      <div className="sticky top-0 h-screen w-full flex items-center justify-center px-6">
-        <div className="w-full max-w-3xl bg-paper dark:bg-[#141211] border border-rule shadow-2xl rounded-2xl p-6 sm:p-8 flex flex-col gap-6 sm:gap-8 transition-colors duration-500">
-          
-          {/* Header */}
-          <div className="flex justify-between items-start border-b border-rule pb-4">
-            <div>
-              <div className="flex items-center gap-3 mb-1">
-                <h4 className="font-sans text-xs font-bold tracking-widest text-ink uppercase">
-                  Session {activeSession.id}
-                </h4>
-                <span className="font-mono text-[9px] text-ink-muted uppercase tracking-widest bg-rule-light/50 px-2 py-0.5 rounded-sm">
-                  {activeSession.date}
-                </span>
-              </div>
-              <p className="font-mono text-[10px] text-ink-muted uppercase tracking-widest mt-1">
-                Duration: {activeSession.duration}
-              </p>
-            </div>
-            <div className="text-right">
-              <div className="font-display text-3xl sm:text-4xl font-bold text-ink dark:text-white">
-                <AnimatedNumber value={fluencyValue} /><span className="text-xl sm:text-2xl text-ink-muted">%</span>
-              </div>
-              <div className="font-sans text-[9px] sm:text-[10px] uppercase tracking-widest font-bold mt-1 text-sage dark:text-sage-light">
-                Fluency Index • up
-              </div>
-            </div>
-          </div>
+    <div
+      ref={sectionRef}
+      className="h-screen w-full flex flex-col items-center justify-center gap-4 px-6 bg-paper"
+    >
+      {/* Label */}
+      <div className="w-full max-w-2xl">
+        <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.2em] mb-1">
+          Longitudinal Analysis
+        </p>
+        <p className="font-display text-xl sm:text-2xl font-medium text-ink tracking-tight">
+          Speech data across sessions.
+        </p>
+      </div>
 
-          {/* Metrics Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
-              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Repetitions</div>
-              <div className="font-sans text-xl font-medium text-ink dark:text-white">
-                <AnimatedNumber value={repValue} />
-              </div>
+      {/* Card */}
+      <div className="w-full max-w-2xl bg-paper border border-rule shadow-[0_4px_32px_rgba(160,112,74,0.07)] rounded-xl p-5 sm:p-6 flex flex-col gap-5">
+        {/* Header row */}
+        <div className="flex justify-between items-start border-b border-rule pb-3">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <h4 className="font-sans text-[10px] font-bold tracking-widest text-ink uppercase">
+                Session {activeSession.id}
+              </h4>
+              <span className="font-mono text-[9px] text-ink-muted uppercase tracking-widest bg-rule-faint px-2 py-0.5 rounded-sm">
+                {activeSession.date}
+              </span>
             </div>
-            <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
-              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Prolongations</div>
-              <div className="font-sans text-xl font-medium text-ink dark:text-white">
-                <AnimatedNumber value={proValue} />
-              </div>
-            </div>
-            <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
-              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Blocks</div>
-              <div className="font-sans text-xl font-medium text-ink dark:text-white">
-                <AnimatedNumber value={blockValue} />
-              </div>
-            </div>
-            <div className="bg-cream dark:bg-white/5 rounded-lg p-3 sm:p-4 border border-rule-faint dark:border-white/5">
-              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">Long Pauses</div>
-              <div className="font-sans text-xl font-medium text-ink dark:text-white">
-                <AnimatedNumber value={pauseValue} />
-              </div>
-            </div>
+            <p className="font-mono text-[9px] text-ink-muted uppercase tracking-widest">
+              Duration: {activeSession.duration}
+            </p>
           </div>
-
-          {/* Affected Phrase & Transcript */}
-          <div className="flex flex-col gap-4 border-t border-rule pt-6">
-            <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-2">
-              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest">Transcript Fragment</div>
-              <div className="font-sans text-[10px] text-ink-muted bg-rule-light/50 dark:bg-white/5 px-2 py-1 rounded-md w-fit">Context: Quarterly Metrics</div>
+          <div className="text-right">
+            <div className="font-display text-2xl sm:text-3xl font-bold text-ink">
+              <AnimatedNumber value={fluency} />
+              <span className="text-base sm:text-lg text-ink-muted">%</span>
             </div>
-            <div className="relative min-h-[5rem] sm:min-h-[4rem] flex items-center">
-              <p className="font-display text-2xl sm:text-3xl text-ink dark:text-white leading-relaxed w-full">
-                The <motion.span style={{ opacity: repOpacity, width: repWidth, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap" }} className="annotation-repetition text-copper">q-q-</motion.span>quarterly metrics indicate a 
-                <motion.span style={{ opacity: pauseOpacity, width: pauseWidth, display: "inline-flex", margin: useTransform(pauseWidth, v => v === "0em" ? "0" : "0 0.25em") }} className="annotation-pause-long" /> 
-                <motion.span style={{ opacity: proOpacity, width: proWidth, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap" }} className="annotation-prolongation">sss</motion.span>slight increase in 
-                <motion.span style={{ opacity: blockOpacity, width: blockWidth, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap" }} className="annotation-block mr-1" />revenue.
-              </p>
+            <div className="font-sans text-[9px] uppercase tracking-widest font-bold mt-0.5 text-sage">
+              Fluency Index • up
             </div>
           </div>
         </div>
+
+        {/* Metrics */}
+        <div className="grid grid-cols-4 gap-2">
+          {[
+            { label: "Rep.", value: rep },
+            { label: "Prol.", value: pro },
+            { label: "Blocks", value: block },
+            { label: "Pauses", value: pause },
+          ].map(({ label, value }) => (
+            <div key={label} className="bg-paper-deep rounded-md p-3 border border-rule-light">
+              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">{label}</div>
+              <div className="font-sans text-lg font-semibold text-ink"><AnimatedNumber value={value} /></div>
+            </div>
+          ))}
+        </div>
+
+        {/* Transcript fragment */}
+        <div className="flex flex-col gap-3 border-t border-rule pt-4">
+          <div className="flex justify-between items-end">
+            <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest">Transcript Fragment</div>
+            <div className="font-sans text-[9px] text-ink-muted bg-rule-faint px-2 py-0.5 rounded">Quarterly Metrics</div>
+          </div>
+          <p className="font-display text-lg sm:text-xl text-ink leading-relaxed">
+            The{" "}
+            <span
+              style={{ opacity: repOpacity, width: `${repWidthEm}em`, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap", transition: "all 0.15s ease-out" }}
+              className="annotation-repetition text-copper"
+            >q-q-</span>
+            quarterly metrics indicate a
+            <span
+              style={{ opacity: pauseOpacity, width: `${pauseWidthEm}em`, display: "inline-flex", margin: pauseMargin, transition: "all 0.15s ease-out" }}
+              className="annotation-pause-long"
+            />{" "}
+            <span
+              style={{ opacity: proOpacity, width: `${proWidthEm}em`, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap", transition: "all 0.15s ease-out" }}
+              className="annotation-prolongation text-sage"
+            >sss</span>
+            slight increase in{" "}
+            <span
+              style={{ opacity: blockOpacity, width: `${blockWidthEm}em`, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap", transition: "all 0.15s ease-out" }}
+              className="annotation-block mr-1"
+            />
+            revenue.
+          </p>
+        </div>
+      </div>
+
+      {/* Progress indicator */}
+      <div className="w-full max-w-2xl flex items-center justify-between">
+        <div className="flex gap-1.5">
+          {sessionMilestones.map((_, i) => (
+            <motion.div
+              key={i}
+              animate={{
+                opacity: i === activeIndex ? 1 : 0.2,
+                width: i === activeIndex ? "20px" : "6px",
+              }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+              className="h-[3px] rounded-full bg-copper"
+            />
+          ))}
+        </div>
+        <p className="font-mono text-[9px] text-ink-faint uppercase tracking-widest">
+          Scroll to advance
+        </p>
       </div>
     </div>
   );
@@ -238,71 +318,68 @@ export default function Home() {
     <div className="min-h-screen bg-paper flex flex-col selection:bg-copper-faint selection:text-ink relative transition-colors duration-700 overflow-x-hidden">
       
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full px-6 sm:px-8 py-6 flex justify-between items-center z-50 text-ink">
-        <h1 className="font-display text-2xl font-medium tracking-tight">
-          Voice<span className="font-bold">Scribe</span>
+      <header className="fixed top-0 left-0 w-full px-6 sm:px-10 py-4 flex justify-between items-center z-50 bg-paper/85 backdrop-blur-sm border-b border-rule-faint">
+        <h1 className="font-display text-lg font-semibold tracking-tight text-ink">
+          Voice<span className="font-bold text-copper">Scribe</span>
         </h1>
-        <div className="flex items-center gap-8">
-          <nav className="hidden sm:flex gap-6 font-mono text-[10px] tracking-widest uppercase opacity-70">
-            <span className="font-bold text-ink">Demonstration</span>
-          </nav>
-        </div>
+        <nav className="hidden sm:flex gap-6 font-mono text-[10px] tracking-widest uppercase text-ink-muted">
+          <span className="text-ink font-bold">Demonstration</span>
+        </nav>
       </header>
 
       <main className="flex-grow w-full">
-        {/* 1. Speech Landscape Hero */}
-        <section className="relative min-h-[100svh] flex flex-col items-center justify-center px-6">
+        {/* 1. Hero */}
+        <section className="relative flex flex-col items-center justify-center px-6 min-h-screen bg-paper overflow-hidden">
           <SpeechLandscape />
           
-          <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-start justify-center">
+          <div className="relative z-10 w-full max-w-3xl mx-auto flex flex-col items-start">
             <motion.div 
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
-              className="max-w-4xl mix-blend-darken dark:mix-blend-lighten"
+              transition={{ duration: 1, ease: [0.21, 0.47, 0.32, 0.98] }}
             >
-              <h2 className="font-display text-6xl sm:text-8xl md:text-9xl font-bold tracking-tighter text-ink dark:text-white leading-[0.9] mb-8">
-                Speech, <br />
-                <span className="italic font-light text-ink-light dark:text-ink-ghost">visualized.</span>
+              <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-muted mb-5">
+                A practice space for your voice
+              </p>
+              <h2 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-ink leading-[1.1] mb-4">
+                Speech,{" "}
+                <span className="italic font-light text-ink-muted">visualized.</span>
               </h2>
-              <p className="font-sans text-xs sm:text-sm tracking-widest uppercase text-ink-muted dark:text-ink-ghost max-w-md leading-relaxed">
-                A private, browser-based instrument built for people who stutter. Not a dashboard. Not a clinic. A sanctuary.
+              <p className="font-sans text-sm text-ink-muted max-w-sm leading-relaxed mb-8">
+                A private, browser-based instrument for people who stutter — not a clinic, a sanctuary.
               </p>
               
-              <motion.div className="mt-16">
-                <Link 
-                  href="/practice"
-                  className="group relative inline-flex justify-center items-center px-8 py-4 bg-ink dark:bg-paper text-paper dark:text-ink text-[11px] font-mono tracking-widest uppercase font-bold overflow-hidden rounded-full"
-                >
-                  <div className="absolute inset-0 w-full h-full bg-rule-light translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.21,0.47,0.32,0.98]" />
-                  <span className="relative z-10 flex items-center gap-3">
-                    Open The Instrument
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="group-hover:translate-x-1 transition-transform">
-                      <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                  </span>
-                </Link>
-              </motion.div>
+              <Link 
+                href="/practice"
+                className="group relative inline-flex items-center gap-2.5 px-6 py-3 bg-ink text-paper text-[11px] font-mono tracking-widest uppercase font-bold overflow-hidden rounded-full"
+              >
+                <div className="absolute inset-0 w-full h-full bg-copper translate-y-full group-hover:translate-y-0 transition-transform duration-400 ease-[0.21,0.47,0.32,0.98]" />
+                <span className="relative z-10 flex items-center gap-2">
+                  Open The Instrument
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="group-hover:translate-x-0.5 transition-transform">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </span>
+              </Link>
             </motion.div>
           </div>
         </section>
 
         {/* 2. Living Transcript */}
-        <section className="relative min-h-[100svh] flex items-center justify-center px-6 py-24 bg-paper-warm dark:bg-[#110F0E] border-y border-rule z-10">
-          <div className="w-full max-w-6xl mx-auto">
-            <div className="font-sans font-bold text-xs text-ink-muted uppercase tracking-[0.2em] mb-12 flex items-center gap-4">
-              <span className="w-8 h-px bg-rule" />
+        <section className="relative px-6 py-16 bg-paper-deep border-y border-rule z-10">
+          <div className="w-full max-w-3xl mx-auto">
+            <div className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
+              <span className="w-6 h-px bg-rule" />
               The Living Transcript
             </div>
             
-            <div className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] leading-[1.15] text-ink dark:text-white tracking-tight">
+            <div className="font-display text-2xl sm:text-3xl leading-[1.4] text-ink tracking-tight">
               <AnimatedWord delay={0.1}>I</AnimatedWord>
               <AnimatedWord delay={0.3} type="rep">w-w-want</AnimatedWord>
               <AnimatedWord delay={0.8}>to</AnimatedWord>
               <AnimatedWord delay={1.0}>speak</AnimatedWord>
               <AnimatedWord delay={1.2}>more</AnimatedWord>
               <AnimatedWord delay={1.4}>confidently.</AnimatedWord>
-              <br className="hidden md:block" />
               <AnimatedWord delay={1.8} type="pause" />
               <AnimatedWord delay={2.4}>But</AnimatedWord>
               <AnimatedWord delay={2.8} type="pro">ssssometimes</AnimatedWord>
@@ -314,75 +391,53 @@ export default function Home() {
             <motion.div 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              transition={{ delay: 5, duration: 1 }}
-              className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 font-mono text-[10px] uppercase tracking-widest text-ink-muted border-t border-rule pt-8"
+              transition={{ delay: 4.5, duration: 1 }}
+              className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono text-[10px] uppercase tracking-widest text-ink-muted border-t border-rule-light pt-6"
             >
-              <div>
-                <span className="block text-copper mb-2 font-sans font-medium">Double Underline</span>
-                Repetition
-              </div>
-              <div>
-                <span className="block text-sage dark:text-sage-light mb-2 font-sans font-medium">Spaced Italic</span>
-                Prolongation
-              </div>
-              <div>
-                <span className="block text-ink dark:text-white font-bold mb-2 font-sans font-medium">Bracket Marker</span>
-                Block
-              </div>
-              <div>
-                <span className="block text-ink-light dark:text-ink-faint mb-2 font-sans font-medium">Line Break</span>
-                Long Pause
-              </div>
+              <div><span className="block text-copper mb-1 font-sans font-medium text-xs">Dashed underline</span>Repetition</div>
+              <div><span className="block text-sage mb-1 font-sans font-medium text-xs">Dotted underline</span>Prolongation</div>
+              <div><span className="block text-ink font-bold mb-1 font-sans font-medium text-xs">Bullet prefix</span>Block</div>
+              <div><span className="block text-ink-faint mb-1 font-sans font-medium text-xs">Line gap</span>Long Pause</div>
             </motion.div>
           </div>
         </section>
 
-        {/* 3. Longitudinal Dashboard */}
+        {/* 3. Longitudinal — wheel-captured scroll section.
+            h-screen with card centered. Wheel events drive internal animation.
+            Footer is hidden until progress reaches 1. */}
         <section className="relative w-full z-10">
-          <div className="w-full max-w-5xl mx-auto pt-32 mb-16 text-center px-6">
-            <h3 className="font-sans text-xs sm:text-sm uppercase tracking-[0.2em] font-bold text-ink-muted mb-4">Longitudinal Analysis</h3>
-            <p className="font-display text-4xl sm:text-5xl font-medium text-ink dark:text-white tracking-tight">Speech data across recorded sessions.</p>
-          </div>
-          
           <ProgressJourney />
         </section>
       </main>
 
-      {/* Useful Footer */}
-      <footer className="bg-rule-faint py-16 sm:py-24 border-t border-rule">
-        <div className="mx-auto max-w-5xl px-6 sm:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            <div className="md:col-span-2">
-              <h2 className="font-display text-2xl font-medium tracking-tight text-ink mb-4">
-                Voice<span className="font-bold">Scribe</span>
-              </h2>
-              <p className="font-sans text-sm text-ink-muted max-w-xs leading-relaxed">
-                A private, browser-based instrument built to help people who stutter practice speaking freely.
+      {/* Footer */}
+      <footer className="bg-paper-deep py-10 border-t border-rule">
+        <div className="mx-auto max-w-3xl px-6 sm:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
+            <div>
+              <p className="font-display text-base font-semibold tracking-tight text-ink mb-1">
+                Voice<span className="text-copper">Scribe</span>
+              </p>
+              <p className="font-sans text-xs text-ink-muted max-w-xs leading-relaxed">
+                A private practice space for people who stutter.
               </p>
             </div>
-            
-            <div className="md:col-span-1 flex flex-col gap-3 font-sans text-xs font-medium text-ink-muted">
-              <span className="font-bold text-ink uppercase tracking-widest mb-2 text-[10px]">Product</span>
-              <Link href="/practice" className="hover:text-ink transition-colors">Enter Studio</Link>
-              <span className="hover:text-ink transition-colors cursor-pointer">How it works</span>
-              <span className="hover:text-ink transition-colors cursor-pointer">Manifesto</span>
-            </div>
-
-            <div className="md:col-span-1 flex flex-col gap-3 font-sans text-xs font-medium text-ink-muted">
-              <span className="font-bold text-ink uppercase tracking-widest mb-2 text-[10px]">Principles</span>
-              <span className="hover:text-ink transition-colors cursor-pointer">Privacy First</span>
-              <span className="hover:text-ink transition-colors cursor-pointer">Local Data Only</span>
-              <span className="hover:text-ink transition-colors cursor-pointer">Accessibility</span>
+            <div className="flex gap-8 font-sans text-xs text-ink-muted">
+              <div className="flex flex-col gap-2">
+                <span className="font-bold text-ink uppercase tracking-widest text-[9px] mb-1">Product</span>
+                <Link href="/practice" className="hover:text-copper transition-colors">Enter Studio</Link>
+                <span className="hover:text-ink transition-colors cursor-pointer">How it works</span>
+              </div>
+              <div className="flex flex-col gap-2">
+                <span className="font-bold text-ink uppercase tracking-widest text-[9px] mb-1">Principles</span>
+                <span className="hover:text-ink transition-colors cursor-pointer">Privacy First</span>
+                <span className="hover:text-ink transition-colors cursor-pointer">Local Data Only</span>
+              </div>
             </div>
           </div>
-          
-          <div className="pt-8 border-t border-rule flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-            <p className="font-sans text-xs text-ink-faint">
-              © 2026 VoiceScribe. Built for dignity.
-            </p>
-            <p className="font-sans text-xs text-ink-faint text-left sm:text-right">
-              Not a medical tool. Designed for personal practice and reflection.
-            </p>
+          <div className="pt-6 border-t border-rule-light flex justify-between">
+            <p className="font-sans text-[11px] text-ink-faint">© 2026 VoiceScribe. Built for dignity.</p>
+            <p className="font-sans text-[11px] text-ink-faint">Not a medical tool.</p>
           </div>
         </div>
       </footer>

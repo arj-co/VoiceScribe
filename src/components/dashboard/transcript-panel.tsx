@@ -62,7 +62,7 @@ export function TranscriptPanel() {
     <section>
       {/* Section heading */}
       <div className="flex items-baseline justify-between mb-6">
-        <h2 className="font-display text-2xl sm:text-3xl font-bold text-ink">
+        <h2 className="font-display text-xl sm:text-2xl font-bold text-ink">
           Transcript
         </h2>
         {hasTranscript && (
@@ -77,7 +77,7 @@ export function TranscriptPanel() {
       {hasTranscript ? (
         <div>
           {/* The living transcript */}
-          <blockquote className="font-display text-2xl sm:text-3xl lg:text-[2.25rem] font-semibold leading-[1.6] text-ink tracking-[-0.01em]">
+          <blockquote className="font-display text-xl sm:text-2xl font-semibold leading-[1.6] text-ink tracking-[-0.01em]">
             {mockTranscript.map((segment, i) => (
               <TranscriptWord key={i} segment={segment} />
             ))}
