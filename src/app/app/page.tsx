@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import ModeSelector from '@/components/app/ModeSelector';
+import SessionHistoryPanel from '@/components/app/SessionHistoryPanel';
+import ProgressSidebar from '@/components/app/ProgressSidebar';
 import { WordToken } from '@/types/app';
 
 const DEMO_SESSION: {
@@ -51,20 +53,25 @@ export default function AppHome() {
   return (
     <div className="flex flex-col min-h-screen bg-paper text-ink">
       {/* TOP BAR */}
-      <header className="flex justify-between items-center px-8 py-5 border-b border-rule">
-        <span className="font-display font-bold text-lg tracking-tight text-ink">VoiceScribe</span>
-        <nav className="flex items-center gap-6">
+      <header className="flex justify-between items-center px-6 sm:px-10 border-b border-rule-faint bg-paper/90 backdrop-blur-md h-14">
+        <Link href="/" className="flex items-center gap-2 group">
+          <span className="w-[7px] h-[7px] rounded-full bg-sage group-hover:scale-110 transition-transform duration-300" />
+          <span className="font-display text-[15px] font-semibold tracking-tight text-ink">
+            Voice<span className="text-sage">Scribe</span>
+          </span>
+        </Link>
+        <nav className="flex items-center gap-3 font-mono text-[10px] tracking-widest uppercase">
           <Link
             href="/app/history"
-            className="text-xs font-display uppercase tracking-widest text-ink-muted hover:text-ink transition-colors duration-200"
+            className="px-3 py-1 text-ink-muted hover:text-ink transition-colors duration-200 rounded-md hover:bg-rule-faint"
           >
             History
           </Link>
           <Link
-            href="/"
-            className="text-xs font-display uppercase tracking-widest text-ink-muted hover:text-ink transition-colors duration-200"
+            href="/about"
+            className="px-3 py-1 text-ink-muted hover:text-ink transition-colors duration-200 rounded-md hover:bg-rule-faint"
           >
-            Dashboard
+            About
           </Link>
         </nav>
       </header>
@@ -88,6 +95,24 @@ export default function AppHome() {
 
         {/* MODE CARDS */}
         <ModeSelector />
+
+        {/* SESSION HISTORY + PROGRESS */}
+        <div className="editorial-rule my-8 w-full max-w-4xl mx-auto" />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl mx-auto px-6 mb-4">
+          <div className="md:col-span-2">
+            <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-muted mb-3">
+              Sessions
+            </p>
+            <SessionHistoryPanel />
+          </div>
+          <div className="md:col-span-1">
+            <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-muted mb-3">
+              Analysis
+            </p>
+            <ProgressSidebar />
+          </div>
+        </div>
 
         {/* DEMO CTA */}
         <div className="flex justify-center pb-16 mt-2">

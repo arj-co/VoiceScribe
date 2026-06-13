@@ -36,7 +36,7 @@ export default function ModeSelector() {
           <button
             key={mode.id}
             onClick={() => handleNavigate(mode.id)}
-            className="group relative text-left p-7 bg-paper-warm border border-rule rounded-2xl cursor-pointer transition-all duration-300 hover:bg-paper-deep hover:border-ink hover:-translate-y-1 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-copper"
+            className="group relative text-left p-7 bg-paper-warm border border-rule rounded-2xl cursor-pointer transition-all duration-300 hover:bg-paper-deep hover:border-ink hover:-translate-y-1 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage"
           >
             {/* Number label */}
             <span className="absolute top-6 right-6 text-[11px] font-display text-ink-ghost tracking-widest">
@@ -44,7 +44,7 @@ export default function ModeSelector() {
             </span>
 
             {/* Icon */}
-            <span className="block text-2xl text-ink-muted mb-5 transition-colors duration-300 group-hover:text-copper">
+            <span className="block text-2xl text-ink-muted mb-5 transition-colors duration-300 group-hover:text-sage">
               {MODE_ICONS[mode.id]}
             </span>
 
@@ -63,13 +63,13 @@ export default function ModeSelector() {
               <span className="text-[11px] font-display uppercase tracking-widest text-ink-ghost">
                 {mode.id === 'custom' ? 'Your content' : `${mode.prompts.length} prompts`}
               </span>
-              <span className="text-ink-ghost text-sm transition-all duration-300 group-hover:translate-x-1 group-hover:text-copper">
+              <span className="text-ink-ghost text-sm transition-all duration-300 group-hover:translate-x-1 group-hover:text-sage">
                 →
               </span>
             </div>
 
             {/* Bottom border accent on hover */}
-            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-copper rounded-b-2xl scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-sage rounded-b-2xl scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
           </button>
         ))}
       </div>

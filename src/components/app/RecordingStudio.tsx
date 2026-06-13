@@ -97,7 +97,7 @@ export default function RecordingStudio({
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="px-7 py-3 rounded-full bg-ink text-paper font-display text-xs uppercase tracking-widest hover:bg-copper transition-colors duration-300 cursor-pointer"
+            className="px-7 py-3 rounded-full bg-ink text-paper font-display text-xs uppercase tracking-widest hover:bg-sage transition-colors duration-300 cursor-pointer"
           >
             Refresh Page
           </button>
@@ -123,17 +123,17 @@ export default function RecordingStudio({
           onClick={handleMicClick}
           disabled={isAnalysing}
           aria-label={isRecording ? 'Stop Recording' : 'Start Recording'}
-          className={`relative w-28 h-28 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-copper ${
+          className={`relative w-28 h-28 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage ${
             isRecording
-              ? 'bg-copper text-paper shadow-xl scale-105'
+              ? 'bg-sage text-paper shadow-xl scale-105'
               : isAnalysing
                 ? 'bg-rule text-ink-ghost cursor-not-allowed'
-                : 'bg-ink text-paper hover:bg-copper hover:scale-105 shadow-lg'
+                : 'bg-ink text-paper hover:bg-sage hover:scale-105 shadow-lg'
           }`}
         >
           {/* Pulse ring when recording */}
           {isRecording && (
-            <span className="absolute inset-0 rounded-full bg-copper animate-ping opacity-20" />
+            <span className="absolute inset-0 rounded-full bg-sage animate-ping opacity-20" />
           )}
           <span className="text-3xl relative z-10">
             {isRecording ? '⏹' : '🎙'}
@@ -147,8 +147,8 @@ export default function RecordingStudio({
           ) : emptyTranscriptError ? (
             <p className="text-xs font-display uppercase tracking-widest text-red-500">{emptyTranscriptError}</p>
           ) : isRecording ? (
-            <p className="text-xs font-display uppercase tracking-[0.15em] text-copper flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-copper animate-pulse inline-block" />
+            <p className="text-xs font-display uppercase tracking-[0.15em] text-sage flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse inline-block" />
               Recording — click to stop
             </p>
           ) : hasRecorded ? (
@@ -192,8 +192,8 @@ export default function RecordingStudio({
 
       {/* REVIEW BANNER */}
       {hasRecorded && !isAnalysing && (
-        <div className="w-full bg-copper-faint border border-copper-light rounded-xl px-5 py-3 text-center">
-          <p className="text-[11px] font-display uppercase tracking-widest text-copper">
+        <div className="w-full bg-sage-faint border border-sage-light rounded-xl px-5 py-3 text-center">
+          <p className="text-[11px] font-display uppercase tracking-widest text-sage">
             Recording complete — review your transcript then click Analyse
           </p>
         </div>
@@ -209,7 +209,7 @@ export default function RecordingStudio({
         disabled={!hasRecorded || processedWords.length === 0 || isAnalysing}
         className={`w-full py-4 rounded-full font-display text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-3 ${
           hasRecorded && processedWords.length > 0 && !isAnalysing
-            ? 'bg-ink text-paper hover:bg-copper cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-0.5'
+            ? 'bg-ink text-paper hover:bg-sage cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-0.5'
             : 'bg-rule text-ink-ghost cursor-not-allowed'
         }`}
       >

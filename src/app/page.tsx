@@ -154,7 +154,7 @@ export default function Home() {
               </div>
               {/* Stat 3 */}
               <div className="sm:px-8 last:pr-0">
-                <p className="font-display text-4xl sm:text-5xl font-bold text-sage">₹0</p>
+                <p className="font-display text-4xl sm:text-5xl font-bold text-sage">$0</p>
                 <p className="font-sans text-sm text-ink-muted mt-2 max-w-[180px] mx-auto sm:mx-0 leading-snug">
                   hardware or subscription required to use VoiceScribe
                 </p>

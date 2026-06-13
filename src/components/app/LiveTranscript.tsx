@@ -34,9 +34,9 @@ export default function LiveTranscript({ words, isRecording }: LiveTranscriptPro
             <div className="flex items-center gap-2 text-ink-muted text-sm font-display uppercase tracking-widest">
               <span>Listening</span>
               <span className="flex gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-copper animate-bounce" />
-                <span className="w-1.5 h-1.5 rounded-full bg-copper animate-bounce [animation-delay:150ms]" />
-                <span className="w-1.5 h-1.5 rounded-full bg-copper animate-bounce [animation-delay:300ms]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-sage animate-bounce" />
+                <span className="w-1.5 h-1.5 rounded-full bg-sage animate-bounce [animation-delay:150ms]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-sage animate-bounce [animation-delay:300ms]" />
               </span>
             </div>
           </div>

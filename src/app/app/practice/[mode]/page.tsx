@@ -27,7 +27,7 @@ export default function PracticePage() {
         <h2 className="font-display text-xl font-bold mb-4">Mode not found</h2>
         <button
           onClick={() => router.push('/app')}
-          className="px-7 py-3 rounded-full bg-ink text-paper font-display text-xs uppercase tracking-widest hover:bg-copper transition-colors duration-300 cursor-pointer"
+          className="px-7 py-3 rounded-full bg-ink text-paper font-display text-xs uppercase tracking-widest hover:bg-sage transition-colors duration-300 cursor-pointer"
         >
           Back
         </button>
@@ -53,14 +53,22 @@ export default function PracticePage() {
   return (
     <div className="flex flex-col min-h-screen bg-paper text-ink">
       {/* TOP BAR */}
-      <header className="flex justify-between items-center px-8 py-5 border-b border-rule">
-        <span className="font-display font-bold text-lg tracking-tight">VoiceScribe</span>
+      <header className="flex justify-between items-center px-6 sm:px-10 border-b border-rule-faint bg-paper/90 backdrop-blur-md h-14">
+        <button onClick={() => router.push('/')} className="flex items-center gap-2 group">
+          <span className="w-[7px] h-[7px] rounded-full bg-sage group-hover:scale-110 transition-transform duration-300" />
+          <span className="font-display text-[15px] font-semibold tracking-tight text-ink">
+            Voice<span className="text-sage">Scribe</span>
+          </span>
+        </button>
         <button
           onClick={() => router.push('/app')}
-          className="group text-xs font-display uppercase tracking-widest text-ink-muted hover:text-ink transition-colors duration-200 flex items-center gap-2 cursor-pointer"
+          className="group flex items-center gap-2 px-4 py-1.5 bg-ink text-paper font-mono text-[10px] tracking-widest uppercase font-bold rounded-full overflow-hidden relative cursor-pointer"
         >
-          <span className="inline-block transition-transform duration-200 group-hover:-translate-x-1">←</span>
-          <span>Back</span>
+          <span className="absolute inset-0 bg-sage translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[0.21,0.47,0.32,0.98]" />
+          <svg className="relative z-10 w-3 h-3 rotate-180 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+          <span className="relative z-10">Back</span>
         </button>
       </header>
 
@@ -116,7 +124,7 @@ export default function PracticePage() {
               </div>
 
               <textarea
-                className={`w-full bg-paper border border-rule rounded-xl p-4 text-sm text-ink resize-none focus:outline-none focus:ring-2 focus:ring-copper/50 transition-all placeholder:text-ink-ghost ${
+                className={`w-full bg-paper border border-rule rounded-xl p-4 text-sm text-ink resize-none focus:outline-none focus:ring-2 focus:ring-sage/50 transition-all placeholder:text-ink-ghost ${
                   customInputMode === 'paste' ? 'min-h-40' : 'min-h-24'
                 }`}
                 placeholder={
@@ -139,7 +147,7 @@ export default function PracticePage() {
                 disabled={customPrompt.trim().length < 10}
                 className={`mt-6 w-full rounded-full py-3 font-display text-xs uppercase tracking-widest transition-all duration-300 ${
                   customPrompt.trim().length >= 10
-                    ? 'bg-ink text-paper hover:bg-copper cursor-pointer'
+                    ? 'bg-ink text-paper hover:bg-sage cursor-pointer'
                     : 'bg-rule text-ink-ghost cursor-not-allowed'
                 }`}
               >
