@@ -1,32 +1,31 @@
 # VoiceScribe
 
-**A thoughtful speech space centering the dignity of human speech.**
+**A real-time speech coaching tool for anyone who wants to speak with more confidence.**
 
-VoiceScribe is an AI-powered speech fluency coach that helps people who stutter practice speaking in a private, browser-based environment. Evolving past cold startup metrics and clinical dashboards, VoiceScribe approaches dysfluency not as a bug to be fixed, but as an aspect of speech to be understood, visualised, and respected. Through browser-native audio capture, typography-first transcription, and Gemini-powered analysis, VoiceScribe offers a gentle, private sanctuary for voice training.
+VoiceScribe is a browser-based speech practice environment. Through browser-native audio capture, typography-first transcription, and Gemini-powered analysis, it offers a private, low-pressure space for improving how you speak — whether you're preparing for an interview, a presentation, or working on everyday fluency.
 
 ---
 
 <div align="left">
-  <img src="https://img.shields.io/badge/Next.js-15.0-1C1917?style=flat-square&logo=nextdotjs&logoColor=F6F1EB&labelColor=B0845B" alt="Next.js" />
+  <img src="https://img.shields.io/badge/Next.js-16.2-1C1917?style=flat-square&logo=nextdotjs&logoColor=F6F1EB&labelColor=B0845B" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-19.2-1C1917?style=flat-square&logo=react&logoColor=F6F1EB&labelColor=B0845B" alt="React" />
   <img src="https://img.shields.io/badge/TypeScript-5.0-1C1917?style=flat-square&logo=typescript&logoColor=F6F1EB&labelColor=B0845B" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-4.0-1C1917?style=flat-square&logo=tailwindcss&logoColor=F6F1EB&labelColor=B0845B" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Framer_Motion-12.0-1C1917?style=flat-square&logo=framer&logoColor=F6F1EB&labelColor=B0845B" alt="Framer Motion" />
   <img src="https://img.shields.io/badge/Gemini_AI-2.5_Flash-1C1917?style=flat-square&logo=google&logoColor=F6F1EB&labelColor=B0845B" alt="Gemini" />
-  <img src="https://img.shields.io/badge/SQLite-3.0-1C1917?style=flat-square&logo=sqlite&logoColor=F6F1EB&labelColor=B0845B" alt="SQLite" />
-  <img src="https://img.shields.io/badge/Recharts-2.0-1C1917?style=flat-square&logo=chartmogul&logoColor=F6F1EB&labelColor=B0845B" alt="Recharts" />
-  <img src="https://img.shields.io/badge/Vercel-Deploy-1C1917?style=flat-square&logo=vercel&logoColor=F6F1EB&labelColor=B0845B" alt="Vercel" />
+  <img src="https://img.shields.io/badge/SQLite_(better--sqlite3)-12.0-1C1917?style=flat-square&logo=sqlite&logoColor=F6F1EB&labelColor=B0845B" alt="SQLite" />
+  <img src="https://img.shields.io/badge/Recharts-3.0-1C1917?style=flat-square&logo=chartmogul&logoColor=F6F1EB&labelColor=B0845B" alt="Recharts" />
 </div>
 
 ---
 
 ## Table of Contents
 
-- [Why VoiceScribe Exists](#why-voicescribe-exists)
+- [Overview](#overview)
 - [Features](#features)
 - [Product Experience](#product-experience)
-- [Screenshots](#screenshots)
 - [Architecture](#architecture)
 - [Technology Stack](#technology-stack)
-- [Accessibility First](#accessibility-first)
 - [Design Philosophy](#design-philosophy)
 - [Local Development](#local-development)
 - [Future Roadmap](#future-roadmap)
@@ -35,32 +34,27 @@ VoiceScribe is an AI-powered speech fluency coach that helps people who stutter 
 
 ---
 
-## Why VoiceScribe Exists
+## Overview
 
-Stuttering affects over 80 million people globally, representing a profound human challenge. In a fast-paced digital world, individuals who experience repetitions, prolongations, blocks, or long pauses frequently encounter communication fatigue, digital exclusion, and social anxiety. 
-
-Traditional speech therapy is incredibly valuable but often inaccessible due to cost, geography, or scheduling. Meanwhile, existing speech tools fall short because they adopt a rigid "error-correction" model: they flag stuttered words like spelling mistakes, using jarring red warnings or scoring scales that treat dysfluency as a system failure. This clinical detachment can undermine confidence.
-
-VoiceScribe was created to offer an alternative: a **private, browser-native sanctuary**. By visualising speech as a fluid, artistic medium rather than a set of errors, VoiceScribe allows users to practice independently, view their dysfluencies mapped in beautiful, non-judgmental editorial typography, and develop self-reflection at their own pace.
+VoiceScribe was built for anyone who wants to speak more clearly and confidently. It runs entirely in the browser, keeping your audio and session data local. There are no accounts, no servers receiving your voice, and no gamified pressure — just a quiet space to practice and reflect.
 
 ---
 
 ## Features
 
-VoiceScribe is built as a highly responsive, single-workspace application that is completely free of dashboard clutter:
-
-*   **Browser Microphone Recording** — Zero setups, zero extensions. Captures raw audio locally through the browser API in a quiet, breathing interface that encourages steady breathing and calm.
-*   **AI-Powered Transcription** — Seamlessly converts speech to text, allowing you to review your exact phrasing and patterns.
-*   **Dysfluency Detection Pipeline** — Elegant server-side integration that analyzes text patterns to capture:
-    *   *Repetitions* (words or phrases repeated back-to-back)
-    *   *Prolongations* (drawn-out syllables)
-    *   *Blocks* (silent pauses before a word starts)
-    *   *Filler Words* ("um", "like", "ah")
-    *   *Long Pauses* (breathing gaps)
-*   **The Living Transcript** — Speech visualised with dignity. Dysfluencies are represented typographically (e.g. copper double underlines for repetitions, spaced italic letters for prolongations, and clean bracket markers for blocks) instead of red warning badges.
-*   **Reflective Session Summaries** — A written editorial recap summarizing what went well and areas to explore, moving away from gamified SaaS checkmarks.
-*   **Progress Analytics** — Custom charts displaying long-term fluency trends, utilizing a warm, print-style layout.
-*   **Privacy-First Architecture** — Session data is recorded and processed using local databases, keeping your voice files and history secure.
+- **Browser Microphone Recording** — Zero setup, zero extensions. Audio is captured locally via the Web Audio API.
+- **AI-Powered Transcription** — Converts speech to text using Gemini, letting you review phrasing and patterns.
+- **Speech Analysis Pipeline** — Server-side Gemini integration detects:
+  - *Repetitions* — words or phrases repeated back-to-back
+  - *Prolongations* — drawn-out syllables
+  - *Blocks* — silent pauses before a word starts
+  - *Filler Words* — "um", "like", "ah"
+  - *Long Pauses* — significant breathing gaps
+- **The Living Transcript** — Dysfluencies rendered typographically (copper underlines for repetitions, dotted underlines for prolongations, bullet prefixes for blocks) rather than warning badges.
+- **Reflective Session Summaries** — A written editorial recap of each session, generated by Gemini.
+- **Progress Analytics** — Long-term fluency trend charts built with Recharts, styled to resemble print infographics.
+- **Dark Mode** — Full light/dark theme support via `next-themes`.
+- **Privacy-First** — All session data is stored in a local SQLite database via `better-sqlite3`. Nothing leaves your machine.
 
 ---
 
@@ -73,28 +67,15 @@ VoiceScribe is built as a highly responsive, single-workspace application that i
          ▲                                                 │
          │                                                 ▼
 ┌─────────────────┐                               ┌─────────────────┐
-│ 5. Track Growth │ <──────────────────────────── │ 4. Reflect &    │
-└─────────────────┘                               │    Read Summary │
-                                                  └─────────────────┘
+│ 5. Track Growth │ <──────────────────────────── │ 4. Read Summary │
+└─────────────────┘                               └─────────────────┘
 ```
 
-1.  **Open VoiceScribe** — Enter a quiet, warm paper workspace designed to lower heart rates and remove distractions.
-2.  **Speak Freely** — Click "Start Practice" and begin speaking into your microphone. A subtle breathing animation visualises your rhythm.
-3.  **Receive Live Analysis** — Your speech populates the screen instantly, with dysfluencies gracefully highlighted via typographic annotations.
-4.  **Review the Living Transcript** — Read your speech mapped onto the screen, coupled with clinical-warmth observations and paragraph-style insights.
-5.  **Track Progress Over Time** — Visit your journey log to see fluency charts, reflecting on consistent practice without pressure.
-
----
-
-## Screenshots
-
-### Landing Experience
-![Landing Page Screenshot](/Users/arjun/.gemini/antigravity/brain/3ed85bef-b98e-412c-b0da-9c34e85c196b/artifacts/voicescribe_mascot.png)
-*A minimalist, editorial landing page introducing VoiceScribe's core vision, and featuring the brand mascot and a clean call to action.*
-
-### Practice Studio
-![Practice Workspace Screenshot](/Users/arjun/.gemini/antigravity/brain/3ed85bef-b98e-412c-b0da-9c34e85c196b/artifacts/voicescribe_bold.png)
-*The workspace layout with less side margin space, prioritizing the recording interface, live transcript, and observation charts.*
+1. **Open VoiceScribe** — Enter a warm, distraction-free workspace.
+2. **Speak Freely** — Click "Start Practice" and speak into your microphone.
+3. **Receive Analysis** — Your speech is transcribed and annotated with typographic markers.
+4. **Read the Summary** — Get a paragraph-style reflection on your session.
+5. **Track Progress** — Review fluency charts across sessions.
 
 ---
 
@@ -106,64 +87,62 @@ graph TD
     classDef processing fill:#EFF2EB,stroke:#7C8E6F,stroke-width:1px,color:#1C1917;
     classDef data fill:#F5EDE3,stroke:#B0845B,stroke-width:1px,color:#1C1917;
 
-    A[User Browser Microphone]:::browser -->|Web Audio API| B[Audio Capture Engine]:::browser
-    B -->|Audio Payload| C[Gemini AI Interface]:::processing
-    C -->|Natural Language Processing| D[Dysfluency Detection Pipeline]:::processing
-    D -->|Annotated Text Model| E[Living Transcript Engine]:::processing
-    E -->|Observations Parser| F[Session Reflections Engine]:::processing
-    F -->|SQLite Connection| G[Local SQLite Database]:::data
-    G -->|Recharts Render| H[Progress Dashboard]:::data
+    A[Browser Microphone]:::browser -->|Web Audio API| B[Audio Capture]:::browser
+    B -->|Audio Payload| C[Next.js API Route]:::processing
+    C -->|Gemini SDK| D[Gemini 2.5 Flash]:::processing
+    D -->|Transcript + Analysis| E[Living Transcript]:::processing
+    E -->|Session Data| F[better-sqlite3]:::data
+    F -->|Recharts| G[Progress Dashboard]:::data
 ```
 
 ---
 
 ## Technology Stack
 
-| Technology | Purpose | Implementation Detail |
+| Technology | Version | Purpose |
 |---|---|---|
-| **Next.js 15** | Framework | Handles client-side workspace views, server-side API endpoints, and optimized page routing. |
-| **TypeScript** | Language | Enforces strict static typing across database schemas, API requests, and UI parameters. |
-| **Tailwind CSS** | Styling | Drives the editorial design system using custom HSL values (`#F6F1EB`, `#1C1917`, `#B0845B`). |
-| **Gemini 2.5 Flash** | AI Engine | Analyzes transcribed audio text to identify filler words, repetitive structures, and speech patterns. |
-| **SQLite & Drizzle** | Storage | Provides local relational schema storage for sessions, statistics, and events. |
-| **Recharts** | Visuals | Powers the custom timeline charts, styled to resemble high-end print infographics. |
+| **Next.js** | 16.2.9 | App framework — App Router, API routes, server components |
+| **React** | 19.2 | UI rendering |
+| **TypeScript** | 5.x | Static typing across the full stack |
+| **Tailwind CSS** | 4.x | Styling via the new CSS-first config (`@tailwindcss/postcss`) |
+| **Framer Motion** | 12.x | Page and component animations — scroll-driven transitions, word reveals |
+| **Gemini 2.5 Flash** | — | Speech transcription and dysfluency analysis via the Gemini API |
+| **better-sqlite3** | 12.x | Synchronous local SQLite database for session and progress storage |
+| **Recharts** | 3.x | Fluency trend charts and session analytics |
+| **next-themes** | 0.4.x | Light/dark mode management |
+| **lucide-react** | 1.x | Icon set |
+| **clsx + tailwind-merge** | — | Conditional class name composition |
+| **class-variance-authority** | 0.7.x | Variant-based component styling |
 
----
-
-## Accessibility First
-
-VoiceScribe was built from the ground up to respect the psychological and physical realities of speech dysfluency:
-
-> [!NOTE]
-> **Dignity-First Design**
-> We reject the idea that stuttering is a failure of communication. Speech blocks, repetitions, and prolongations are simply different rhythms of human expression. The interface displays them with visual beauty, allowing users to understand their speech patterns without feeling judged.
-
-*   **No Time Pressure** — Recording interfaces do not force limits, countdowns, or sudden cut-offs.
-*   **Gentle Success States** — Visual rewards do not require "perfect 100%" scores. Success is defined as the act of practicing and reflecting, not achieving standard fluency.
-*   **Contrast & Legibility** — Designed with heavy display and sans-serif weights to ensure text is visible even in low-light environments, without causing visual fatigue.
-*   **Privacy-Native** — No audio or transcript leaves your machine without your consent, keeping the workspace secure for vulnerable practicing.
+### Fonts (Google Fonts)
+| Font | Usage |
+|---|---|
+| **Montserrat** | Display headings (`font-display`) |
+| **IBM Plex Sans** | Body copy (`font-sans`) |
+| **IBM Plex Mono** | Labels, stats, timestamps (`font-mono`) |
 
 ---
 
 ## Design Philosophy
 
-VoiceScribe represents an aesthetic pivot away from the neon gradients, glassmorphism, and card-heavy layouts of modern SaaS tools:
+VoiceScribe draws from literary editorial design — Aesop, The New York Times Magazine, classic print newspapers — rather than standard SaaS UI patterns.
 
-*   **"Clinical Warmth meets Literary Editorial Design"** — Drawing inspiration from Aesop, The New York Times Magazine, and classic print newspapers, the interface uses a warm paper color palette (`#F6F1EB`), deep charcoal inks, and soft copper underlines.
-*   **Typographical Hierarchy** — High-end Cormorant Garamond is used for headlines, IBM Plex Sans for reading copy, and IBM Plex Mono for statistics and timeline coordinates.
-*   **Subtle Motion** — Only quiet, rhythmic breathing animations are used to lower anxiety levels, avoiding high-contrast flashing lights.
+- **Color palette** — Warm paper (`#F6F1EB`), deep charcoal ink (`#1C1917`), and soft copper accent (`#B0845B`).
+- **Typography-first** — Speech patterns are communicated through typographic annotation, not warning badges or scores.
+- **Subtle motion** — Quiet, rhythmic animations (breathing glows, word reveals) that reduce anxiety rather than demand attention.
+- **No time pressure** — No countdowns, forced limits, or gamified scoring.
 
 ---
 
 ## Local Development
 
-Follow these steps to get VoiceScribe running locally on your computer:
+### Prerequisites
 
-### 1. Prerequisites
-- Node.js (version 18 or higher)
-- npm or yarn
+- Node.js 18+
+- npm
 
-### 2. Clone and Setup
+### Setup
+
 ```bash
 # Clone the repository
 git clone https://github.com/arj-co/VoiceScribe.git
@@ -173,38 +152,35 @@ cd VoiceScribe
 npm install
 ```
 
-### 3. Environment Configuration
-Create a `.env.local` file in the root directory:
-```bash
-touch .env.local
-```
+### Environment
 
-Populate `.env.local` with the following variables:
+Create a `.env.local` file in the project root:
+
 ```env
-# Gemini API Key (get yours at https://aistudio.google.com/)
+# Gemini API key — get yours at https://aistudio.google.com/
 GEMINI_API_KEY=your_gemini_api_key_here
 
-# Local SQLite Database Path
+# Local SQLite database path
 DATABASE_URL=file:./data/voicescribe.db
 ```
 
-### 4. Running the App
+### Run
+
 ```bash
-# Start the local development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to experience VoiceScribe.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
 ## Future Roadmap
 
-- [ ] **Real-Time Streaming** — Provide continuous, live transcription updates as you speak.
-- [ ] **Therapist Portal** — Add support for sharing progress reports securely with speech-language therapists.
-- [ ] **Personalized Focus Plans** — Offer curated exercise tracks depending on dysfluency type.
-- [ ] **Mobile Support** — Introduce responsive viewports for speech practice on smartphones.
-- [ ] **Comparative Analytics** — Track how phrasing modifications impact speech speed and blocks over multiple sessions.
+- [ ] **Real-Time Streaming** — Continuous live transcription as you speak.
+- [ ] **Personalized Focus Plans** — Curated exercise tracks based on speech patterns.
+- [ ] **Mobile Support** — Responsive viewports for practice on smartphones.
+- [ ] **Comparative Analytics** — Track how specific phrasing changes affect fluency over time.
+- [ ] **Export** — Download session transcripts and summaries as PDF or Markdown.
 
 ---
 
@@ -216,4 +192,4 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to experienc
 
 ## License
 
-This project is licensed under the terms of the license file located in [LICENSE.txt](file:///Users/arjun/VoiceScribe/LICENSE.txt).
+This project is licensed under the terms of the license file located in [LICENSE.txt](./LICENSE.txt).

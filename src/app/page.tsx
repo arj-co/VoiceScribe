@@ -1,413 +1,376 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { useState, useEffect, useRef, useCallback } from "react";
-
-// --- Signature Experience 1: Speech Landscape ---
-function SpeechLandscape() {
-  const fragments = [
-    { text: "s-s-sometimes", top: "25%", left: "65%", delay: 1.5, opacity: 0.5, type: "rep" },
-    { text: "⌐to find", top: "75%", left: "70%", delay: 2.5, opacity: 0.4, type: "block" },
-    { text: "the right woooords", top: "45%", left: "80%", delay: 4, opacity: 0.55, type: "pro" }
-  ];
-
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
-      {/* Atmospheric warm glows */}
-      <motion.div 
-        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.35, 0.2] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] rounded-full bg-copper/15 blur-[120px]"
-      />
-      <motion.div 
-        animate={{ scale: [1, 1.3, 1], opacity: [0.12, 0.22, 0.12] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full bg-sage/15 blur-[130px] -translate-x-1/4 translate-y-1/4"
-      />
-      <motion.div
-        animate={{ scale: [1, 1.15, 1], opacity: [0.1, 0.2, 0.1] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 5 }}
-        className="absolute w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] rounded-full bg-paper-deep/80 blur-[80px] translate-x-1/3 -translate-y-1/4"
-      />
-
-      {/* Subliminal Waveform */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-15">
-        {[2, 4, 3, 6, 8, 12, 7, 4, 9, 5, 3, 2].map((h, i) => (
-          <motion.div
-            key={i}
-            animate={{ height: [h * 8, h * 16, h * 8] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
-            className="w-[2px] rounded-full bg-ink"
-          />
-        ))}
-      </div>
-
-      {/* Floating Fragments */}
-      {fragments.map((frag, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: frag.opacity, y: [0, -20, 0] }}
-          transition={{
-            y: { duration: 8 + i, repeat: Infinity, ease: "easeInOut" },
-            opacity: { duration: 3, delay: frag.delay }
-          }}
-          className="absolute font-display text-xl sm:text-3xl tracking-wide whitespace-nowrap text-ink blur-[0.5px] select-none"
-          style={{ top: frag.top, left: frag.left }}
-        >
-          {frag.type === "rep" ? <span className="annotation-repetition text-copper">{frag.text}</span> :
-           frag.type === "block" ? <span className="annotation-block">{frag.text}</span> :
-           frag.type === "pro" ? <span className="annotation-prolongation text-sage">{frag.text}</span> :
-           frag.text}
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-// --- Signature Experience 2: Living Transcript Word ---
-function AnimatedWord({ children, delay, type = "normal" }: { children?: React.ReactNode, delay: number, type?: "normal" | "rep" | "block" | "pro" | "pause" }) {
-  return (
-    <motion.span
-      initial={{ opacity: 0, filter: "blur(8px)", y: 10 }}
-      whileInView={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
-      className="inline-block mr-[0.25em] mb-[0.1em]"
-    >
-      {type === "pause" ? (
-        <span className="annotation-pause" />
-      ) : type === "rep" ? (
-        <span className="annotation-repetition text-copper relative">
-          {children}
-          <motion.span 
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: delay + 0.4, duration: 0.5 }}
-            className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono text-copper uppercase tracking-widest opacity-0 group-hover:opacity-100"
-          >
-            Repetition
-          </motion.span>
-        </span>
-      ) : type === "block" ? (
-        <span className="annotation-block relative">
-          {children}
-        </span>
-      ) : type === "pro" ? (
-        <span className="annotation-prolongation relative text-sage">
-          {children}
-        </span>
-      ) : (
-        children
-      )}
-    </motion.span>
-  );
-}
-
-// --- Signature Experience 3: Longitudinal Dashboard ---
-const sessionMilestones = [
-  { id: "01", date: "Mar 12, 2026", duration: "04:12" },
-  { id: "12", date: "Apr 04, 2026", duration: "05:30" },
-  { id: "24", date: "May 18, 2026", duration: "06:15" },
-  { id: "40", date: "Jun 22, 2026", duration: "12:45" },
-];
-
-function AnimatedNumber({ value }: { value: number }) {
-  return <span>{Math.round(value)}</span>;
-}
-
-function ProgressJourney() {
-  // Wheel-capture approach:
-  // Section is exactly h-screen with card centered.
-  // When section is in view, wheel events drive internal progress 0→1.
-  // At progress=0 + scroll-up → release (page scrolls up).
-  // At progress=1 + scroll-down → release (page scrolls to footer).
-  // No 500vh container, no blank space.
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef(0);
-  const [progress, setProgress] = useState(0);
-  const [isActive, setIsActive] = useState(false);
-  const hasSnapped = useRef(false);
-
-  // Observe section visibility — activate when 60%+ visible
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
-          setIsActive(true);
-        } else if (!entry.isIntersecting) {
-          setIsActive(false);
-          hasSnapped.current = false;
-        }
-      },
-      { threshold: [0.6] }
-    );
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
-
-  // Snap section into view when first activated (only if progress near 0)
-  useEffect(() => {
-    if (isActive && !hasSnapped.current && progressRef.current < 0.05) {
-      hasSnapped.current = true;
-      sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, [isActive]);
-
-  // Capture wheel events to drive progress internally
-  useEffect(() => {
-    if (!isActive) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      const p = progressRef.current;
-
-      // At boundaries, let page scroll naturally
-      if (e.deltaY > 0 && p >= 1) return;
-      if (e.deltaY < 0 && p <= 0) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      const step = e.deltaY / 2000;
-      progressRef.current = Math.max(0, Math.min(1, p + step));
-      setProgress(progressRef.current);
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, [isActive]);
-
-  // Derived animation values from progress
-  const activeIndex = progress < 0.25 ? 0 : progress < 0.5 ? 1 : progress < 0.75 ? 2 : 3;
-  const activeSession = sessionMilestones[activeIndex];
-
-  const fluency = 41 + progress * 55;
-  const rep = 18 * (1 - progress);
-  const pro = 11 - progress * 10;
-  const block = 9 * (1 - progress);
-  const pause = 14 - progress * 13;
-
-  // Transcript disfluency fade-out values
-  const repOpacity = Math.max(0, 1 - progress / 0.25);
-  const repWidthEm = Math.max(0, 2 * (1 - progress / 0.3));
-  const pauseOpacity = progress < 0.2 ? 1 : Math.max(0, 1 - (progress - 0.2) / 0.3);
-  const pauseWidthEm = progress < 0.2 ? 3 : Math.max(0, 3 * (1 - (progress - 0.2) / 0.4));
-  const proOpacity = progress < 0.5 ? 1 : Math.max(0, 1 - (progress - 0.5) / 0.25);
-  const proWidthEm = progress < 0.5 ? 1.5 : Math.max(0, 1.5 * (1 - (progress - 0.5) / 0.3));
-  const blockOpacity = progress < 0.7 ? 1 : Math.max(0, 1 - (progress - 0.7) / 0.2);
-  const blockWidthEm = progress < 0.7 ? 1 : Math.max(0, 1 * (1 - (progress - 0.7) / 0.25));
-  const pauseMargin = pauseWidthEm > 0 ? "0 0.25em" : "0";
-
-  return (
-    <div
-      ref={sectionRef}
-      className="h-screen w-full flex flex-col items-center justify-center gap-4 px-6 bg-paper"
-    >
-      {/* Label */}
-      <div className="w-full max-w-2xl">
-        <p className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.2em] mb-1">
-          Longitudinal Analysis
-        </p>
-        <p className="font-display text-xl sm:text-2xl font-medium text-ink tracking-tight">
-          Speech data across sessions.
-        </p>
-      </div>
-
-      {/* Card */}
-      <div className="w-full max-w-2xl bg-paper border border-rule shadow-[0_4px_32px_rgba(160,112,74,0.07)] rounded-xl p-5 sm:p-6 flex flex-col gap-5">
-        {/* Header row */}
-        <div className="flex justify-between items-start border-b border-rule pb-3">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <h4 className="font-sans text-[10px] font-bold tracking-widest text-ink uppercase">
-                Session {activeSession.id}
-              </h4>
-              <span className="font-mono text-[9px] text-ink-muted uppercase tracking-widest bg-rule-faint px-2 py-0.5 rounded-sm">
-                {activeSession.date}
-              </span>
-            </div>
-            <p className="font-mono text-[9px] text-ink-muted uppercase tracking-widest">
-              Duration: {activeSession.duration}
-            </p>
-          </div>
-          <div className="text-right">
-            <div className="font-display text-2xl sm:text-3xl font-bold text-ink">
-              <AnimatedNumber value={fluency} />
-              <span className="text-base sm:text-lg text-ink-muted">%</span>
-            </div>
-            <div className="font-sans text-[9px] uppercase tracking-widest font-bold mt-0.5 text-sage">
-              Fluency Index • up
-            </div>
-          </div>
-        </div>
-
-        {/* Metrics */}
-        <div className="grid grid-cols-4 gap-2">
-          {[
-            { label: "Rep.", value: rep },
-            { label: "Prol.", value: pro },
-            { label: "Blocks", value: block },
-            { label: "Pauses", value: pause },
-          ].map(({ label, value }) => (
-            <div key={label} className="bg-paper-deep rounded-md p-3 border border-rule-light">
-              <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest mb-1">{label}</div>
-              <div className="font-sans text-lg font-semibold text-ink"><AnimatedNumber value={value} /></div>
-            </div>
-          ))}
-        </div>
-
-        {/* Transcript fragment */}
-        <div className="flex flex-col gap-3 border-t border-rule pt-4">
-          <div className="flex justify-between items-end">
-            <div className="font-mono text-[9px] text-ink-muted uppercase tracking-widest">Transcript Fragment</div>
-            <div className="font-sans text-[9px] text-ink-muted bg-rule-faint px-2 py-0.5 rounded">Quarterly Metrics</div>
-          </div>
-          <p className="font-display text-lg sm:text-xl text-ink leading-relaxed">
-            The{" "}
-            <span
-              style={{ opacity: repOpacity, width: `${repWidthEm}em`, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap", transition: "all 0.15s ease-out" }}
-              className="annotation-repetition text-copper"
-            >q-q-</span>
-            quarterly metrics indicate a
-            <span
-              style={{ opacity: pauseOpacity, width: `${pauseWidthEm}em`, display: "inline-flex", margin: pauseMargin, transition: "all 0.15s ease-out" }}
-              className="annotation-pause-long"
-            />{" "}
-            <span
-              style={{ opacity: proOpacity, width: `${proWidthEm}em`, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap", transition: "all 0.15s ease-out" }}
-              className="annotation-prolongation text-sage"
-            >sss</span>
-            slight increase in{" "}
-            <span
-              style={{ opacity: blockOpacity, width: `${blockWidthEm}em`, display: "inline-flex", overflow: "hidden", whiteSpace: "nowrap", transition: "all 0.15s ease-out" }}
-              className="annotation-block mr-1"
-            />
-            revenue.
-          </p>
-        </div>
-      </div>
-
-      {/* Progress indicator */}
-      <div className="w-full max-w-2xl flex items-center justify-between">
-        <div className="flex gap-1.5">
-          {sessionMilestones.map((_, i) => (
-            <motion.div
-              key={i}
-              animate={{
-                opacity: i === activeIndex ? 1 : 0.2,
-                width: i === activeIndex ? "20px" : "6px",
-              }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
-              className="h-[3px] rounded-full bg-copper"
-            />
-          ))}
-        </div>
-        <p className="font-mono text-[9px] text-ink-faint uppercase tracking-widest">
-          Scroll to advance
-        </p>
-      </div>
-    </div>
-  );
-}
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-paper flex flex-col selection:bg-copper-faint selection:text-ink relative transition-colors duration-700 overflow-x-hidden">
+    <div className="min-h-screen bg-paper flex flex-col selection:bg-sage-faint selection:text-ink relative transition-colors duration-700 overflow-x-hidden">
       
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full px-6 sm:px-10 py-4 flex justify-between items-center z-50 bg-paper/85 backdrop-blur-sm border-b border-rule-faint">
-        <h1 className="font-display text-lg font-semibold tracking-tight text-ink">
-          Voice<span className="font-bold text-copper">Scribe</span>
-        </h1>
-        <nav className="hidden sm:flex gap-6 font-mono text-[10px] tracking-widest uppercase text-ink-muted">
-          <span className="text-ink font-bold">Demonstration</span>
-        </nav>
+      <header className="fixed top-0 left-0 w-full px-6 sm:px-10 py-0 flex justify-between items-center z-50 bg-paper/90 backdrop-blur-md border-b border-rule-faint h-14">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 group">
+          <span className="w-[7px] h-[7px] rounded-full bg-sage group-hover:scale-110 transition-transform duration-300" />
+          <h1 className="font-display text-[15px] font-semibold tracking-tight text-ink">
+            Voice<span className="text-sage">Scribe</span>
+          </h1>
+        </Link>
+
+        {/* Nav + CTA */}
+        <div className="hidden sm:flex items-center gap-7">
+          <nav className="flex items-center gap-1 font-mono text-[10px] tracking-widest uppercase">
+            <Link
+              href="/about"
+              className="px-3 py-1 text-ink-muted hover:text-ink transition-colors duration-200 rounded-md hover:bg-rule-faint"
+            >
+              About
+            </Link>
+          </nav>
+
+          <Link
+            href="/app"
+            className="group flex items-center gap-2 px-4 py-1.5 bg-ink text-paper font-mono text-[10px] tracking-widest uppercase font-bold rounded-full overflow-hidden relative"
+          >
+            <span className="absolute inset-0 bg-sage translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[0.21,0.47,0.32,0.98]" />
+            <span className="relative z-10">Open App</span>
+            <svg className="relative z-10 w-3 h-3 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
       </header>
 
       <main className="flex-grow w-full">
-        {/* 1. Hero */}
-        <section className="relative flex flex-col items-center justify-center px-6 min-h-screen bg-paper overflow-hidden">
-          <SpeechLandscape />
-          
-          <div className="relative z-10 w-full max-w-3xl mx-auto flex flex-col items-start">
-            <motion.div 
+
+        {/* ============================================================
+            SECTION 1 — HERO
+        ============================================================ */}
+        <section className="min-h-screen flex items-center bg-paper pt-24 pb-16 px-6">
+          <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            {/* Left column */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: [0.21, 0.47, 0.32, 0.98] }}
+              transition={{ duration: 0.9, ease: [0.21, 0.47, 0.32, 0.98] }}
             >
-              <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-muted mb-5">
-                A practice space for your voice
+              {/* Eyebrow */}
+              <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-muted mb-5 flex items-center gap-3">
+                <span className="w-6 h-px bg-sage inline-block" />
+                AI-powered speech coaching
               </p>
-              <h2 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-ink leading-[1.1] mb-4">
-                Speech,{" "}
-                <span className="italic font-light text-ink-muted">visualized.</span>
-              </h2>
-              <p className="font-sans text-sm text-ink-muted max-w-sm leading-relaxed mb-8">
-                A private, browser-based instrument for people who stutter — not a clinic, a sanctuary.
+
+              {/* Heading */}
+              <h1 className="font-display text-[2.8rem] sm:text-[3.6rem] font-bold tracking-tight text-ink leading-[1.05] mb-6">
+                Practice speaking.
+                <br />
+                <em className="not-italic font-light text-sage">Get better.</em>
+              </h1>
+
+              {/* Subheading */}
+              <p className="font-sans text-[15px] text-ink-muted max-w-sm leading-relaxed mb-8">
+                Real-time AI feedback on fluency, pacing, filler words, and speech patterns. For interviews, presentations, and everyday speaking.
               </p>
-              
-              <Link 
-                href="/practice"
-                className="group relative inline-flex items-center gap-2.5 px-6 py-3 bg-ink text-paper text-[11px] font-mono tracking-widest uppercase font-bold overflow-hidden rounded-full"
+
+              {/* Buttons */}
+              <div className="flex items-center gap-4 flex-wrap">
+                {/* Primary CTA */}
+                <Link
+                  href="/app"
+                  className="group relative inline-flex items-center gap-2 px-6 py-3 bg-ink text-paper font-mono text-[11px] tracking-widest uppercase font-bold rounded-full overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-sage translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  <span className="relative z-10">Start practising →</span>
+                </Link>
+
+                {/* Ghost */}
+                <Link
+                  href="/about"
+                  className="font-mono text-[11px] tracking-widest uppercase text-ink-muted hover:text-sage transition-colors border-b border-rule-light hover:border-sage pb-px"
+                >
+                  How it works
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Right column — Illustration card */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
+            >
+              <div className="w-full aspect-[4/3] rounded-2xl bg-paper-deep border border-rule overflow-hidden relative flex items-center justify-center">
+                {/* Hero image */}
+                <Image
+                  src="/illustration-hero.png"
+                  alt="Person speaking confidently at a presentation"
+                  fill
+                  className="object-cover"
+                  onError={() => {}}
+                />
+
+                {/* Waveform overlay — positioned right to sit over the speaker */}
+                <div className="absolute right-6 bottom-6 flex items-end gap-2 opacity-20">
+                  {[40, 70, 100, 70, 40].map((baseHeight, i) => (
+                    <motion.div
+                      key={i}
+                      className="rounded-full bg-sage"
+                      style={{ width: 4 }}
+                      animate={{ height: [baseHeight, baseHeight * 1.8, baseHeight] }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: i * 0.2,
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ============================================================
+            SECTION 2 — STATS BAR
+        ============================================================ */}
+        <section className="w-full bg-paper-deep border-y border-rule py-10">
+          <div className="max-w-5xl mx-auto px-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center sm:text-left sm:divide-x divide-rule-light">
+              {/* Stat 1 */}
+              <div className="sm:px-8 first:pl-0 last:pr-0">
+                <p className="font-display text-4xl sm:text-5xl font-bold text-sage">1 in 14</p>
+                <p className="font-sans text-sm text-ink-muted mt-2 max-w-[180px] mx-auto sm:mx-0 leading-snug">
+                  people will have a significant fear of public speaking
+                </p>
+              </div>
+              {/* Stat 2 */}
+              <div className="sm:px-8">
+                <p className="font-display text-4xl sm:text-5xl font-bold text-sage">92%</p>
+                <p className="font-sans text-sm text-ink-muted mt-2 max-w-[180px] mx-auto sm:mx-0 leading-snug">
+                  of people say public speaking anxiety has limited their career
+                </p>
+              </div>
+              {/* Stat 3 */}
+              <div className="sm:px-8 last:pr-0">
+                <p className="font-display text-4xl sm:text-5xl font-bold text-sage">₹0</p>
+                <p className="font-sans text-sm text-ink-muted mt-2 max-w-[180px] mx-auto sm:mx-0 leading-snug">
+                  hardware or subscription required to use VoiceScribe
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============================================================
+            SECTION 3 — HOW IT WORKS
+        ============================================================ */}
+        <section className="bg-paper py-20 px-6">
+          <div className="max-w-5xl mx-auto">
+            {/* Section header */}
+            <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-sage mb-4 flex items-center gap-3">
+              <span className="w-6 h-px bg-sage" />
+              The process
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-ink mb-4">
+              Three steps to speaking with confidence.
+            </h2>
+            <p className="font-sans text-[15px] text-ink-muted max-w-lg mb-14 leading-relaxed">
+              No complex setup. No uploads to the cloud. Just your voice and honest AI feedback.
+            </p>
+
+            {/* Step cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {/* Step 1 — Speak */}
+              <motion.div
+                className="bg-paper-deep border border-rule rounded-2xl p-7 relative overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0 }}
               >
-                <div className="absolute inset-0 w-full h-full bg-copper translate-y-full group-hover:translate-y-0 transition-transform duration-400 ease-[0.21,0.47,0.32,0.98]" />
-                <span className="relative z-10 flex items-center gap-2">
-                  Open The Instrument
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="group-hover:translate-x-0.5 transition-transform">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                <span className="font-display text-6xl font-bold text-rule absolute top-4 right-5 leading-none select-none">01</span>
+                <div className="w-10 h-10 rounded-xl bg-sage-faint flex items-center justify-center mb-5">
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="#4A7C59" strokeWidth="2" fill="none" strokeLinecap="round">
+                    <path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z" />
+                    <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
+                    <line x1="12" y1="19" x2="12" y2="23" />
+                    <line x1="8" y1="23" x2="16" y2="23" />
                   </svg>
-                </span>
-              </Link>
-            </motion.div>
+                </div>
+                <h3 className="font-display text-xl font-bold text-ink mb-2">Speak.</h3>
+                <p className="font-sans text-sm text-ink-muted leading-relaxed">
+                  Choose a mode — job interview, presentation, or custom — and start speaking. Your mic streams live audio directly to Deepgram&apos;s speech engine. Nothing is stored or uploaded.
+                </p>
+              </motion.div>
+
+              {/* Step 2 — See it, live */}
+              <motion.div
+                className="bg-paper-deep border border-rule rounded-2xl p-7 relative overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+              >
+                <span className="font-display text-6xl font-bold text-rule absolute top-4 right-5 leading-none select-none">02</span>
+                <div className="w-10 h-10 rounded-xl bg-sage-faint flex items-center justify-center mb-5">
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="#4A7C59" strokeWidth="2.5" fill="none" strokeLinecap="round">
+                    <line x1="8" y1="16" x2="8" y2="8" />
+                    <line x1="12" y1="18" x2="12" y2="5" />
+                    <line x1="16" y1="16" x2="16" y2="8" />
+                  </svg>
+                </div>
+                <h3 className="font-display text-xl font-bold text-ink mb-2">See it, live.</h3>
+                <p className="font-sans text-sm text-ink-muted leading-relaxed">
+                  Every word appears in real time with colour-coded annotations. Filler words, repetitions, prolonged words, and long pauses are flagged the instant they occur — so you can hear yourself differently.
+                </p>
+              </motion.div>
+
+              {/* Step 3 — Get coached */}
+              <motion.div
+                className="bg-paper-deep border border-rule rounded-2xl p-7 relative overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <span className="font-display text-6xl font-bold text-rule absolute top-4 right-5 leading-none select-none">03</span>
+                <div className="w-10 h-10 rounded-xl bg-sage-faint flex items-center justify-center mb-5">
+                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="#4A7C59" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                </div>
+                <h3 className="font-display text-xl font-bold text-ink mb-2">Get coached.</h3>
+                <p className="font-sans text-sm text-ink-muted leading-relaxed">
+                  Click Analyse and your anonymised transcript is sent to Gemini. Within seconds you receive a fluency score, specific feedback on your answer, and one concrete tip for your next session.
+                </p>
+              </motion.div>
+            </div>
           </div>
         </section>
 
-        {/* 2. Living Transcript */}
-        <section className="relative px-6 py-16 bg-paper-deep border-y border-rule z-10">
-          <div className="w-full max-w-3xl mx-auto">
-            <div className="font-mono text-[10px] text-ink-muted uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
-              <span className="w-6 h-px bg-rule" />
-              The Living Transcript
-            </div>
-            
-            <div className="font-display text-2xl sm:text-3xl leading-[1.4] text-ink tracking-tight">
-              <AnimatedWord delay={0.1}>I</AnimatedWord>
-              <AnimatedWord delay={0.3} type="rep">w-w-want</AnimatedWord>
-              <AnimatedWord delay={0.8}>to</AnimatedWord>
-              <AnimatedWord delay={1.0}>speak</AnimatedWord>
-              <AnimatedWord delay={1.2}>more</AnimatedWord>
-              <AnimatedWord delay={1.4}>confidently.</AnimatedWord>
-              <AnimatedWord delay={1.8} type="pause" />
-              <AnimatedWord delay={2.4}>But</AnimatedWord>
-              <AnimatedWord delay={2.8} type="pro">ssssometimes</AnimatedWord>
-              <AnimatedWord delay={3.6}>my</AnimatedWord>
-              <AnimatedWord delay={3.8}>voice</AnimatedWord>
-              <AnimatedWord delay={4.2} type="block">⌐stops.</AnimatedWord>
-            </div>
+        {/* ============================================================
+            SECTION 4 — TRANSCRIPT FEATURE HIGHLIGHT
+        ============================================================ */}
+        <section className="bg-paper-deep border-y border-rule py-20 px-6">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+              {/* Left — Text */}
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted mb-4">
+                  The annotated transcript
+                </p>
+                <h2 className="font-display text-3xl font-bold text-ink mb-5 leading-tight">
+                  Your speech, visible for the first time.
+                </h2>
+                <p className="font-sans text-[15px] text-ink-muted leading-relaxed mb-8">
+                  Most people have no idea how many times they say &lsquo;um&rsquo; in a sentence. VoiceScribe makes every speech pattern visible in real time — not as a judgment, but as information you can act on.
+                </p>
 
-            <motion.div 
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 4.5, duration: 1 }}
-              className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono text-[10px] uppercase tracking-widest text-ink-muted border-t border-rule-light pt-6"
+                {/* Annotation legend */}
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3">
+                    <span className="w-6 h-px border-b-2 border-dashed border-copper inline-block flex-shrink-0" />
+                    <span className="font-sans text-sm text-ink">Repetition — same word said twice in a row</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="w-6 h-px border-b-2 border-dotted border-sage inline-block flex-shrink-0" />
+                    <span className="font-sans text-sm text-ink">Prolongation — word held longer than average</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-ink-muted mr-1">•</span>
+                    <span className="font-sans text-sm text-ink">Block — sudden stop mid-word</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="w-6 h-px bg-rule inline-block flex-shrink-0" />
+                    <span className="font-sans text-sm text-ink">Long pause — gap over 1.5 seconds</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right — Live demo card */}
+              <div className="bg-paper border border-rule rounded-2xl p-8 shadow-[0_2px_24px_rgba(0,0,0,0.04)]">
+                <p className="font-mono text-[9px] uppercase tracking-widest text-ink-faint mb-6">
+                  Sample transcript · Job Interview
+                </p>
+
+                <p className="font-display text-lg text-ink leading-[1.8]">
+                  I{" "}
+                  <span className="annotation-repetition text-copper">think think</span>
+                  {" "}I&apos;m a strong candidate because{" "}
+                  <span className="annotation-prolongation text-sage">reaaally</span>
+                  {" "}I{" "}
+                  <span className="annotation-block">⌐care</span>
+                  {" "}deeply about{" "}
+                  <span className="annotation-pause-long inline-block" />
+                  {" "}about the work.
+                </p>
+
+                {/* Mini legend */}
+                <div className="mt-6 pt-4 border-t border-rule-light flex gap-4 flex-wrap font-mono text-[9px] uppercase tracking-widest text-ink-faint">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-copper" />
+                    Repetition
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-sage" />
+                    Prolongation
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-ink-muted" />
+                    Block
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-ink-ghost" />
+                    Pause
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+        {/* ============================================================
+            SECTION 6 — BOTTOM CTA
+        ============================================================ */}
+        <section className="bg-paper-deep border-t border-rule py-20 px-6 text-center">
+          <div className="max-w-2xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
             >
-              <div><span className="block text-copper mb-1 font-sans font-medium text-xs">Dashed underline</span>Repetition</div>
-              <div><span className="block text-sage mb-1 font-sans font-medium text-xs">Dotted underline</span>Prolongation</div>
-              <div><span className="block text-ink font-bold mb-1 font-sans font-medium text-xs">Bullet prefix</span>Block</div>
-              <div><span className="block text-ink-faint mb-1 font-sans font-medium text-xs">Line gap</span>Long Pause</div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-muted mb-5 flex items-center justify-center gap-3">
+                <span className="w-6 h-px bg-rule" />
+                Built for the Steminate Hackathon
+              </p>
+              <h2 className="font-display text-3xl sm:text-4xl font-bold text-ink mb-4">
+                Start your first session.{" "}
+                <span className="text-sage">It takes 60 seconds.</span>
+              </h2>
+              <p className="font-sans text-[15px] text-ink-muted mb-10 leading-relaxed">
+                No account. No upload. No audience. Just you and honest feedback on how you speak.
+              </p>
+
+              <Link
+                href="/app"
+                className="group relative inline-flex items-center gap-2 px-6 py-3 bg-ink text-paper font-mono text-[11px] tracking-widest uppercase font-bold rounded-full overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-sage translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                <span className="relative z-10">Open VoiceScribe →</span>
+              </Link>
+
+              <p className="mt-6 font-mono text-[10px] uppercase tracking-widest text-ink-faint">
+                Free · Private · Browser-based
+              </p>
             </motion.div>
           </div>
         </section>
 
-        {/* 3. Longitudinal — wheel-captured scroll section.
-            h-screen with card centered. Wheel events drive internal animation.
-            Footer is hidden until progress reaches 1. */}
-        <section className="relative w-full z-10">
-          <ProgressJourney />
-        </section>
       </main>
 
       {/* Footer */}
@@ -416,16 +379,17 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
             <div>
               <p className="font-display text-base font-semibold tracking-tight text-ink mb-1">
-                Voice<span className="text-copper">Scribe</span>
+                Voice<span className="text-sage">Scribe</span>
               </p>
               <p className="font-sans text-xs text-ink-muted max-w-xs leading-relaxed">
-                A private practice space for people who stutter.
+                A private practice space for anyone who wants to speak with more confidence.
               </p>
             </div>
             <div className="flex gap-8 font-sans text-xs text-ink-muted">
               <div className="flex flex-col gap-2">
                 <span className="font-bold text-ink uppercase tracking-widest text-[9px] mb-1">Product</span>
-                <Link href="/practice" className="hover:text-copper transition-colors">Enter Studio</Link>
+                <Link href="/practice" className="hover:text-sage transition-colors">Enter Studio</Link>
+                <Link href="/about" className="hover:text-sage transition-colors">About</Link>
                 <span className="hover:text-ink transition-colors cursor-pointer">How it works</span>
               </div>
               <div className="flex flex-col gap-2">
