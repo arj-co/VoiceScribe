@@ -11,10 +11,10 @@ export function PracticeArea() {
         {/* Record button */}
         <div className="relative group mb-6">
           <button
-            className="relative flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full border-2 border-copper bg-copper-wash shadow-[0_0_24px_rgba(160,112,74,0.12)] transition-all duration-500 hover:bg-copper-faint hover:border-copper-light hover:shadow-[0_0_40px_rgba(160,112,74,0.22)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-copper focus-visible:ring-offset-4 focus-visible:ring-offset-paper animate-breathe"
+            className="relative flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-full border-2 border-sage bg-sage-wash shadow-[0_0_24px_rgba(74,124,89,0.12)] transition-all duration-500 hover:bg-sage-faint hover:border-sage-light hover:shadow-[0_0_40px_rgba(74,124,89,0.22)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-4 focus-visible:ring-offset-paper animate-breathe"
             aria-label="Begin recording"
           >
-            <div className="h-4 w-4 rounded-full bg-copper transition-transform duration-500 group-hover:scale-125" />
+            <div className="h-4 w-4 rounded-full bg-sage transition-transform duration-500 group-hover:scale-125" />
           </button>
         </div>
 
@@ -30,7 +30,7 @@ export function PracticeArea() {
             Stop
           </button>
           <span className="text-rule font-bold">·</span>
-          <button className="text-ink hover:text-copper transition-colors duration-300 cursor-pointer font-mono text-xs tracking-wider uppercase font-semibold">
+          <button className="text-ink hover:text-sage transition-colors duration-300 cursor-pointer font-mono text-xs tracking-wider uppercase font-semibold">
             Upload a recording
           </button>
         </div>
