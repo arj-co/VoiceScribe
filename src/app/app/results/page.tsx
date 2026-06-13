@@ -131,14 +131,22 @@ export default function ResultsPage() {
       )}
 
       {/* TOP BAR */}
-      <header className="flex justify-between items-center px-8 py-5 border-b border-rule">
-        <span className="font-display font-bold text-lg tracking-tight">VoiceScribe</span>
+      <header className="flex justify-between items-center px-6 sm:px-10 border-b border-rule-faint bg-paper/90 backdrop-blur-md h-14">
+        <button onClick={() => router.push('/')} className="flex items-center gap-2 group">
+          <span className="w-[7px] h-[7px] rounded-full bg-sage group-hover:scale-110 transition-transform duration-300" />
+          <span className="font-display text-[15px] font-semibold tracking-tight text-ink">
+            Voice<span className="text-sage">Scribe</span>
+          </span>
+        </button>
         <button
           onClick={() => router.push('/app')}
-          className="group text-xs font-display uppercase tracking-widest text-ink-muted hover:text-ink transition-colors duration-200 flex items-center gap-2 cursor-pointer"
+          className="group flex items-center gap-2 px-4 py-1.5 bg-ink text-paper font-mono text-[10px] tracking-widest uppercase font-bold rounded-full overflow-hidden relative cursor-pointer"
         >
-          <span className="inline-block transition-transform duration-200 group-hover:-translate-x-1">←</span>
-          <span>Back</span>
+          <span className="absolute inset-0 bg-copper translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[0.21,0.47,0.32,0.98]" />
+          <svg className="relative z-10 w-3 h-3 rotate-180 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+          <span className="relative z-10">Back</span>
         </button>
       </header>
 
