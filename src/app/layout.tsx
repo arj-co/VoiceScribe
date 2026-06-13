@@ -4,10 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "VoiceScribe — A Practice Space for Your Voice",
   description:
-    "A thoughtful tool for people who stutter. Practice speaking, see your speech come alive through elegant transcription, and track your journey with care.",
+    "A real-time speech coaching tool for anyone who wants to speak with more confidence. Practice interviews, presentations, or everyday speaking — and track your improvement over time.",
   keywords: [
     "speech therapy",
-    "stuttering",
+    "public speaking",
     "dysfluency",
     "speech practice",
     "voice coaching",

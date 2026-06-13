@@ -8,34 +8,34 @@
 
 :root {
   /* ── Surface Layers ─────────────────────────────────────── */
-  --color-paper:       #FBF8EE;   /* lightest cream — main bg  */
-  --color-paper-warm:  #F5F0E0;   /* slightly warmer mid-layer */
-  --color-paper-deep:  #EBE6D6;   /* parchment — panels, cards */
-  --color-cream:       #EBE6D6;   /* alias for paper-deep      */
+  --color-paper:       #F5F3EE;   /* warm cream — main bg                    */
+  --color-paper-warm:  #EDE9E1;   /* slightly deeper warm mid-layer          */
+  --color-paper-deep:  #C9DEC9;   /* light stone green — panels, cards (20%) */
+  --color-cream:       #C9DEC9;   /* alias for paper-deep                    */
 
   /* ── Ink (Typography) ────────────────────────────────────── */
-  --color-ink:         #2C2520;   /* rich warm near-black      */
-  --color-ink-light:   #4A403A;   /* secondary text            */
-  --color-ink-muted:   #7A6E66;   /* muted labels              */
-  --color-ink-faint:   #A89F96;   /* ghost text                */
-  --color-ink-ghost:   #C8BFB6;   /* disabled / placeholder    */
+  --color-ink:         #1C1E1A;   /* rich warm near-black                    */
+  --color-ink-light:   #363830;   /* secondary text                          */
+  --color-ink-muted:   #7A7870;   /* muted labels — warm grey                */
+  --color-ink-faint:   #A8A69E;   /* ghost text                              */
+  --color-ink-ghost:   #C8C6BE;   /* disabled / placeholder                  */
 
-  /* ── Accent — Warm Terracotta/Amber ─────────────────────── */
-  --color-copper:      #A0704A;   /* primary accent            */
-  --color-copper-light:#C4956C;   /* hover / highlight         */
-  --color-copper-faint:#F0E4D4;   /* very light wash           */
-  --color-copper-wash: #F8F1E8;   /* ultra-light tint          */
+  /* ── Primary Accent — Sage Green (PROMOTED) ─────────────── */
+  --color-sage:        #3E8B5C;   /* medium-light sage green — buttons, links */
+  --color-sage-light:  #5BAA78;   /* hover / highlight                        */
+  --color-sage-faint:  #C9DEC9;   /* light wash — badges, pills              */
+  --color-sage-wash:   #E3F0E4;   /* ultra-light tint                         */
 
-  /* ── Secondary Accent — Sage/Olive ──────────────────────── */
-  --color-sage:        #6B8C6A;   /* success / positive        */
-  --color-sage-light:  #8AAB89;   /* lighter sage              */
-  --color-sage-faint:  #E4EDE3;   /* sage wash                 */
-  --color-sage-wash:   #F2F6F2;   /* ultra-light sage          */
+  /* ── Secondary Accent — Copper (DEMOTED) ────────────────── */
+  --color-copper:      #A0703E;   /* supporting accent only           */
+  --color-copper-light:#C4956C;   /* hover states                     */
+  --color-copper-faint:#EDE0D0;   /* very light wash                  */
+  --color-copper-wash: #F6EFE6;   /* ultra-light tint                 */
 
   /* ── Borders & Dividers ──────────────────────────────────── */
-  --color-rule:        #D8D0C4;   /* standard border           */
-  --color-rule-light:  #E6E0D6;   /* subtle dividers           */
-  --color-rule-faint:  #F0EBE2;   /* hairline / barely visible */
+  --color-rule:        #CCC9C0;   /* standard border — warm grey             */
+  --color-rule-light:  #DAD7CE;   /* subtle dividers                          */
+  --color-rule-faint:  #E8E5DC;   /* hairline / barely visible                */
 
   /* ── Typography ─────────────────────────────────────────── */
   --font-display: "Montserrat", system-ui, -apple-system, sans-serif;
@@ -124,13 +124,13 @@ body::before {
 
 /* ── Selection ────────────────────────────────────────────── */
 ::selection {
-  background-color: var(--color-copper-faint);
+  background-color: var(--color-sage-faint);
   color: var(--color-ink);
 }
 
 /* ── Focus ring ───────────────────────────────────────────── */
 *:focus-visible {
-  outline: 2px solid var(--color-copper-light);
+  outline: 2px solid var(--color-sage-light);
   outline-offset: 2px;
 }
 
