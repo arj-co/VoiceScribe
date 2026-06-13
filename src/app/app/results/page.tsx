@@ -132,9 +132,9 @@ export default function ResultsPage() {
 
       {/* TOP BAR */}
       <header className="flex justify-between items-center px-6 sm:px-10 border-b border-rule-faint bg-paper/90 backdrop-blur-md h-14">
-        <button onClick={() => router.push('/')} className="flex items-center gap-2 group">
-          <span className="w-[7px] h-[7px] rounded-full bg-sage group-hover:scale-110 transition-transform duration-300" />
-          <span className="font-display text-[15px] font-semibold tracking-tight text-ink">
+        <button onClick={() => router.push('/')} className="flex items-center gap-2.5 group">
+          <span className="w-2.5 h-2.5 rounded-full bg-sage group-hover:scale-110 transition-transform duration-300" />
+          <span className="font-display text-xl font-bold tracking-tight text-ink">
             Voice<span className="text-sage">Scribe</span>
           </span>
         </button>

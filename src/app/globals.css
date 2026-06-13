@@ -10,8 +10,8 @@
   /* ── Surface Layers ─────────────────────────────────────── */
   --color-paper:       #F5F3EE;   /* warm cream — main bg                    */
   --color-paper-warm:  #EDE9E1;   /* slightly deeper warm mid-layer          */
-  --color-paper-deep:  #C9DEC9;   /* light stone green — panels, cards (20%) */
-  --color-cream:       #C9DEC9;   /* alias for paper-deep                    */
+  --color-paper-deep:  #E5E1D8;   /* warm stone — panels, cards              */
+  --color-cream:       #E5E1D8;   /* alias for paper-deep                    */
 
   /* ── Ink (Typography) ────────────────────────────────────── */
   --color-ink:         #1C1E1A;   /* rich warm near-black                    */
@@ -23,7 +23,7 @@
   /* ── Primary Accent — Sage Green (PROMOTED) ─────────────── */
   --color-sage:        #3E8B5C;   /* medium-light sage green — buttons, links */
   --color-sage-light:  #5BAA78;   /* hover / highlight                        */
-  --color-sage-faint:  #C9DEC9;   /* light wash — badges, pills              */
+  --color-sage-faint:  #DDE9DD;   /* light wash — badges, pills              */
   --color-sage-wash:   #E3F0E4;   /* ultra-light tint                         */
 
   /* ── Secondary Accent — Copper (DEMOTED) ────────────────── */

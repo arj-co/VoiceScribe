@@ -9,11 +9,11 @@ export default function Home() {
     <div className="min-h-screen bg-paper flex flex-col selection:bg-sage-faint selection:text-ink relative transition-colors duration-700 overflow-x-hidden">
       
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full px-6 sm:px-10 py-0 flex justify-between items-center z-50 bg-paper/90 backdrop-blur-md border-b border-rule-faint h-14">
+      <header className="fixed top-0 left-0 w-full pl-16 pr-6 sm:pr-10 py-0 flex justify-between items-center z-50 bg-paper/90 backdrop-blur-md border-b border-rule-faint h-14">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="w-[7px] h-[7px] rounded-full bg-sage group-hover:scale-110 transition-transform duration-300" />
-          <h1 className="font-display text-[15px] font-semibold tracking-tight text-ink">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <span className="w-2.5 h-2.5 rounded-full bg-sage group-hover:scale-110 transition-transform duration-300" />
+          <h1 className="font-display text-xl font-bold tracking-tight text-ink">
             Voice<span className="text-sage">Scribe</span>
           </h1>
         </Link>
@@ -86,7 +86,7 @@ export default function Home() {
 
                 {/* Ghost */}
                 <Link
-                  href="/about"
+                  href="/about#how-it-works"
                   className="font-mono text-[11px] tracking-widest uppercase text-ink-muted hover:text-sage transition-colors border-b border-rule-light hover:border-sage pb-px"
                 >
                   How it works
@@ -99,7 +99,18 @@ export default function Home() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
+              className="relative"
             >
+              {/* Green shadow holder — sits behind the card, offset right & down */}
+              <div
+                className="absolute top-3 left-3 w-full h-full rounded-2xl"
+                style={{
+                  background: 'linear-gradient(135deg, #3E8B5C 0%, #2D6B44 50%, #1F5233 100%)',
+                  boxShadow: '4px 4px 20px rgba(62,139,92,0.25)',
+                }}
+              />
+
+              {/* Main image card */}
               <div className="w-full aspect-[4/3] rounded-2xl bg-paper-deep border border-rule overflow-hidden relative flex items-center justify-center">
                 {/* Hero image */}
                 <Image
@@ -109,24 +120,6 @@ export default function Home() {
                   className="object-cover"
                   onError={() => {}}
                 />
-
-                {/* Waveform overlay — positioned right to sit over the speaker */}
-                <div className="absolute right-6 bottom-6 flex items-end gap-2 opacity-20">
-                  {[40, 70, 100, 70, 40].map((baseHeight, i) => (
-                    <motion.div
-                      key={i}
-                      className="rounded-full bg-sage"
-                      style={{ width: 4 }}
-                      animate={{ height: [baseHeight, baseHeight * 1.8, baseHeight] }}
-                      transition={{
-                        duration: 1.5,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 0.2,
-                      }}
-                    />
-                  ))}
-                </div>
               </div>
             </motion.div>
           </div>
@@ -140,23 +133,32 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center sm:text-left sm:divide-x divide-rule-light">
               {/* Stat 1 */}
               <div className="sm:px-8 first:pl-0 last:pr-0">
-                <p className="font-display text-4xl sm:text-5xl font-bold text-sage">1 in 14</p>
+                <p className="font-display text-4xl sm:text-5xl font-bold text-sage">77%</p>
                 <p className="font-sans text-sm text-ink-muted mt-2 max-w-[180px] mx-auto sm:mx-0 leading-snug">
-                  people will have a significant fear of public speaking
+                  of people report some level of fear when speaking in public
+                  <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3647380/" target="_blank" rel="noopener noreferrer" className="inline-block text-[8px] align-super text-ink/40 hover:text-sage transition-colors ml-0.5">
+                    [1]
+                  </a>
                 </p>
               </div>
               {/* Stat 2 */}
               <div className="sm:px-8">
-                <p className="font-display text-4xl sm:text-5xl font-bold text-sage">92%</p>
+                <p className="font-display text-4xl sm:text-5xl font-bold text-sage">1/8</p>
                 <p className="font-sans text-sm text-ink-muted mt-2 max-w-[180px] mx-auto sm:mx-0 leading-snug">
-                  of people say public speaking anxiety has limited their career
+                  adults experience social anxiety disorder during their lifetime
+                  <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2019.00488/full" target="_blank" rel="noopener noreferrer" className="inline-block text-[8px] align-super text-ink/40 hover:text-sage transition-colors ml-0.5">
+                    [2]
+                  </a>
                 </p>
               </div>
               {/* Stat 3 */}
               <div className="sm:px-8 last:pr-0">
-                <p className="font-display text-4xl sm:text-5xl font-bold text-sage">$0</p>
+                <p className="font-display text-4xl sm:text-5xl font-bold text-sage">61%</p>
                 <p className="font-sans text-sm text-ink-muted mt-2 max-w-[180px] mx-auto sm:mx-0 leading-snug">
-                  hardware or subscription required to use VoiceScribe
+                  of college students report fear of public speaking
+                  <a href="https://link.springer.com/article/10.1007/s12144-024-06216-w" target="_blank" rel="noopener noreferrer" className="inline-block text-[8px] align-super text-ink/40 hover:text-sage transition-colors ml-0.5">
+                    [3]
+                  </a>
                 </p>
               </div>
             </div>
@@ -166,7 +168,7 @@ export default function Home() {
         {/* ============================================================
             SECTION 3 — HOW IT WORKS
         ============================================================ */}
-        <section className="bg-paper py-20 px-6">
+        <section id="how-it-works" className="bg-paper py-20 px-6">
           <div className="max-w-5xl mx-auto">
             {/* Section header */}
             <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-sage mb-4 flex items-center gap-3">
@@ -243,7 +245,7 @@ export default function Home() {
                 </div>
                 <h3 className="font-display text-xl font-bold text-ink mb-2">Get coached.</h3>
                 <p className="font-sans text-sm text-ink-muted leading-relaxed">
-                  Click Analyse and your anonymised transcript is sent to Gemini. Within seconds you receive a fluency score, specific feedback on your answer, and one concrete tip for your next session.
+                  Click Analyse and your anonymised transcript is sent to a Large Language Model. Within seconds you receive a fluency score, specific feedback on your answer, and one concrete tip for your next session.
                 </p>
               </motion.div>
             </div>
@@ -331,7 +333,84 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ============================================================
+            SECTION 5 — USE CASES
+        ============================================================ */}
+        <section className="bg-paper py-24 px-6 border-b border-rule">
+          <div className="max-w-5xl mx-auto">
+            <div className="mb-16">
+              <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-muted mb-4 flex items-center gap-3">
+                <span className="w-6 h-px bg-rule inline-block" />
+                WHO IS THIS FOR
+              </p>
+              <h2 className="font-display text-4xl sm:text-5xl font-bold text-ink mb-6">
+                Practice for the moments<br className="hidden sm:block" /> that actually matter.
+              </h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Use Case 1 */}
+              <motion.div 
+                className="bg-paper-warm border border-rule rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                <div className="w-10 h-10 rounded-full bg-paper flex items-center justify-center mb-6 border border-rule-light text-sage">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                </div>
+                <h3 className="font-display text-xl font-bold text-ink mb-3">Job Interviews</h3>
+                <p className="font-sans text-sm text-ink-muted leading-relaxed">
+                  Rehearse your answers to common behavioral questions. Identify where you ramble and learn to structure your thoughts concisely under pressure.
+                </p>
+              </motion.div>
 
+              {/* Use Case 2 */}
+              <motion.div 
+                className="bg-paper-warm border border-rule rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <div className="w-10 h-10 rounded-full bg-paper flex items-center justify-center mb-6 border border-rule-light text-sage">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <line x1="3" y1="9" x2="21" y2="9" />
+                    <line x1="9" y1="21" x2="9" y2="9" />
+                  </svg>
+                </div>
+                <h3 className="font-display text-xl font-bold text-ink mb-3">Presentations</h3>
+                <p className="font-sans text-sm text-ink-muted leading-relaxed">
+                  Run through your deck aloud before the big day. Track your pacing and eliminate filler words to ensure your message lands with authority.
+                </p>
+              </motion.div>
+
+              {/* Use Case 3 */}
+              <motion.div 
+                className="bg-paper-warm border border-rule rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <div className="w-10 h-10 rounded-full bg-paper flex items-center justify-center mb-6 border border-rule-light text-sage">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                  </svg>
+                </div>
+                <h3 className="font-display text-xl font-bold text-ink mb-3">Daily Fluency</h3>
+                <p className="font-sans text-sm text-ink-muted leading-relaxed">
+                  Improve your spoken English in a completely private environment. See exactly where you struggle to find the right words or repeat yourself.
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </section>
 
         {/* ============================================================
             SECTION 6 — BOTTOM CTA
@@ -374,7 +453,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-paper-deep py-10 border-t border-rule">
+      <footer className="bg-paper py-10 border-t border-rule">
         <div className="mx-auto max-w-3xl px-6 sm:px-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
             <div>
@@ -388,9 +467,8 @@ export default function Home() {
             <div className="flex gap-8 font-sans text-xs text-ink-muted">
               <div className="flex flex-col gap-2">
                 <span className="font-bold text-ink uppercase tracking-widest text-[9px] mb-1">Product</span>
-                <Link href="/practice" className="hover:text-sage transition-colors">Enter Studio</Link>
                 <Link href="/about" className="hover:text-sage transition-colors">About</Link>
-                <span className="hover:text-ink transition-colors cursor-pointer">How it works</span>
+                <Link href="/about#how-it-works" className="hover:text-ink transition-colors">How it works</Link>
               </div>
               <div className="flex flex-col gap-2">
                 <span className="font-bold text-ink uppercase tracking-widest text-[9px] mb-1">Principles</span>

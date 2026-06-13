@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 };
 
 import { ThemeProvider } from "@/components/theme-provider";
+import Sidebar from "@/components/Sidebar";
 
 export default function RootLayout({
   children,
@@ -41,9 +42,11 @@ export default function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange
         >
+          <Sidebar />
           {children}
         </ThemeProvider>
       </body>
     </html>
   );
 }
+

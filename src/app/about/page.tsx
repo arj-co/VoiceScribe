@@ -5,16 +5,16 @@ import Image from 'next/image';
 
 const creators = [
   {
-    name: 'Arjun',
+    name: 'Arjun S',
     role: 'Builder & Designer',
     bio: 'Built VoiceScribe to make honest speech feedback accessible to everyone.',
-    initials: 'AJ',
+    initials: 'AS',
   },
   {
-    name: 'Neytiri',
+    name: 'Neytiri C',
     role: 'Research & Product',
     bio: 'Shaped VoiceScribe\'s approach to fluency analysis and coaching.',
-    initials: 'NY',
+    initials: 'NC',
   },
 ];
 
@@ -23,9 +23,9 @@ export default function AboutPage() {
     <div className="flex flex-col min-h-screen bg-paper text-ink">
       {/* TOP BAR */}
       <header className="flex justify-between items-center px-6 sm:px-10 border-b border-rule-faint bg-paper/90 backdrop-blur-md h-14">
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="w-[7px] h-[7px] rounded-full bg-sage group-hover:scale-110 transition-transform duration-300" />
-          <span className="font-display text-[15px] font-semibold tracking-tight text-ink">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <span className="w-2.5 h-2.5 rounded-full bg-sage group-hover:scale-110 transition-transform duration-300" />
+          <span className="font-display text-xl font-bold tracking-tight text-ink">
             Voice<span className="text-sage">Scribe</span>
           </span>
         </Link>
@@ -134,7 +134,7 @@ export default function AboutPage() {
         <div className="editorial-rule max-w-3xl mx-auto px-6" />
 
         {/* HOW IT WORKS */}
-        <section className="max-w-3xl mx-auto px-6 py-12">
+        <section id="how-it-works" className="max-w-3xl mx-auto px-6 py-12">
           <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-muted mb-6">
             How It Works
           </p>
