@@ -22,12 +22,9 @@ export interface GeminiServiceResult {
   fluencyScore: number;
 }
 
-// Models in priority order — falls back automatically on quota errors.
-// gemini-2.5-flash is the primary; gemini-2.0-flash-lite is cheaper on quota.
+// Active model
 const MODELS = [
-  'gemini-2.5-flash',
-  'gemini-2.0-flash-lite',
-  'gemini-2.0-flash',
+  'gemini-3.5-flash',
 ];
 
 async function callGemini(
@@ -37,10 +34,13 @@ async function callGemini(
   userPrompt: string
 ): Promise<Response> {
   return fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
     {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-goog-api-key': apiKey,
+      },
       body: JSON.stringify({
         system_instruction: {
           parts: [{ text: systemPrompt }],
@@ -52,7 +52,8 @@ async function callGemini(
         ],
         generationConfig: {
           temperature: 0.4,
-          maxOutputTokens: 512,
+          maxOutputTokens: 2048,
+          responseMimeType: 'application/json',
         },
       }),
     }
@@ -62,51 +63,68 @@ async function callGemini(
 export async function analyseWithGemini(
   options: GeminiServiceOptions
 ): Promise<GeminiServiceResult> {
-  const systemPrompt = `You are an expert speech coach and communication trainer. 
-You are analysing a speech practice session and must return a JSON object only. 
-No markdown, no explanation, no code fences. Raw JSON only.`;
+  const systemPrompt = `You are a brutally honest, no-nonsense speech coach. Your job is to give the speaker unfiltered, specific feedback — not to make them feel good. Every piece of feedback must be grounded in what actually happened in their transcript. Do not give hollow encouragement. Do not soften criticism. If the answer was weak, say so clearly. If the fluency was poor, the score must reflect that. Your feedback should feel like tough love from a coach who genuinely wants them to improve, not a cheerleader who wants them to feel validated. Return a single valid JSON object. No markdown, no code fences, no explanation.`;
+
+  // JSON-encode both strings so that quotes or newlines inside them
+  // cannot break the model's JSON output or prematurely end the string.
+  const encodedTranscript = JSON.stringify(options.transcript);
+  const encodedPrompt = JSON.stringify(options.prompt);
 
   const userPrompt = `The user was practising: ${options.mode}
-The question or prompt they were answering: "${options.prompt}"
+The question or prompt they were answering: ${encodedPrompt}
 
 Their speech transcript:
-"${options.transcript}"
+${encodedTranscript}
 
-Speech statistics:
+Measured speech statistics:
 - Total words spoken: ${options.stats.totalWords}
-- Filler words (um, uh, like, etc): ${options.stats.fillers}
-- Pauses longer than 1.5 seconds: ${options.stats.pauses}
+- Filler words (um, uh, like, basically, etc): ${options.stats.fillers}
+- Long pauses (>1.5s): ${options.stats.pauses}
 - Word repetitions: ${options.stats.repetitions}
 - Prolonged words: ${options.stats.prolongations}
-- Calculated fluency score: ${options.stats.fluencyScore}/100
+- Algorithm-computed fluency score: ${options.stats.fluencyScore}/100
+
+Your instructions:
+1. overallFeedback: 2-3 sentences. Be direct. Call out the biggest problem explicitly. Do not open with a compliment. Reference what actually happened in their transcript.
+2. questionFeedback: Did they actually answer the question well? If not, say so bluntly. If the answer was vague, generic, or too short, name it. 1-2 sentences.
+3. coachingTip: One hyper-specific drill or technique they can do RIGHT NOW in their next session. Not generic advice like "practice more." Give a method, structure, or exercise.
+4. strengths: Maximum 2 items. Only list genuine strengths that are actually visible in the transcript. If there are no real strengths beyond "they tried," say so honestly with one item.
+5. improvements: Minimum 2, maximum 3. These must be specific to what happened in the transcript — reference actual words, patterns, or moments. No vague advice.
+6. fluencyScore: Your honest reassessment. The algorithm gave ${options.stats.fluencyScore}. If the content was weak, the answer was off-topic, or the delivery had obvious issues, adjust DOWN accordingly. If they performed well despite some stumbles, you can adjust UP. Do not just echo the algorithm.
 
 Return ONLY a valid JSON object with exactly these fields:
 {
-  "overallFeedback": "2-3 sentence overall assessment of their performance, specific and encouraging",
-  "questionFeedback": "1-2 sentences specifically about how well they answered this particular question or prompt",
-  "coachingTip": "One specific, actionable tip they can apply in their very next practice session. Be concrete, not generic.",
-  "strengths": ["strength 1", "strength 2"],
-  "improvements": ["improvement 1", "improvement 2"],
-  "fluencyScore": a number between 0 and 100 representing your assessment of fluency
+  "overallFeedback": "...",
+  "questionFeedback": "...",
+  "coachingTip": "...",
+  "strengths": ["...", "..."],
+  "improvements": ["...", "...", "..."],
+  "fluencyScore": <number 0-100>
 }`;
 
   let lastError: Error = new Error('No models available');
+  let lastStatus: number | null = null;
+  let lastBody: string = '';
 
-  // Try each model in order — if one is rate-limited (429) move to the next
   for (const model of MODELS) {
     try {
       console.log(`[Gemini] Trying model: ${model}`);
       const response = await callGemini(options.apiKey, model, systemPrompt, userPrompt);
 
       if (response.status === 429) {
-        console.warn(`[Gemini] ${model} quota exceeded, trying next model...`);
+        const body = await response.text();
+        console.warn(`[Gemini] ${model} rate limited (429):`, body);
+        lastStatus = 429;
+        lastBody = body;
         continue;
       }
 
       if (!response.ok) {
         const body = await response.text();
         console.error(`[Gemini] ${model} error ${response.status}:`, body);
-        lastError = new Error(`Gemini API error: ${response.status} ${response.statusText}`);
+        lastStatus = response.status;
+        lastBody = body;
+        lastError = new Error(`Gemini API error: ${response.status} — ${body}`);
         continue;
       }
 
@@ -136,14 +154,17 @@ Return ONLY a valid JSON object with exactly these fields:
     }
   }
 
-  // All models exhausted
-  console.error('[Gemini] All models failed. Last error:', lastError);
+  // All models exhausted — surface the real error
+  const statusHint = lastStatus ? ` (HTTP ${lastStatus})` : '';
+  console.error(`[Gemini] All models failed${statusHint}. Last error:`, lastError.message);
+  if (lastBody) console.error('[Gemini] Last API response body:', lastBody);
+
   return {
-    overallFeedback: 'Analysis could not be completed right now — the Gemini API quota may be temporarily exhausted. Your session has been saved.',
-    questionFeedback: 'Unable to analyse this session due to API quota limits.',
-    coachingTip: 'Try again in a few minutes. Free-tier Gemini quotas reset regularly.',
-    strengths: ['You completed a practice session — that takes courage'],
-    improvements: ['Retry analysis in a few minutes for detailed feedback'],
+    overallFeedback: `Analysis could not be completed — the Gemini API returned an error${statusHint}. Your session has been saved. Check the browser console for details.`,
+    questionFeedback: `API error${statusHint}: ${lastError.message}`,
+    coachingTip: 'Open the browser console (F12 → Console) to see the exact error from Gemini and verify your API key has the correct permissions.',
+    strengths: ['You completed a practice session'],
+    improvements: ['Retry once the API issue is resolved'],
     fluencyScore: options.stats.fluencyScore,
   };
 }

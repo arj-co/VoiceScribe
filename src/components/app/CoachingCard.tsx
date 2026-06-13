@@ -13,8 +13,8 @@ export default function CoachingCard({ tip, strengths, improvements }: CoachingC
     <div className="bg-paper-warm border border-rule rounded-2xl overflow-hidden">
       {/* Coaching Tip */}
       <div>
-        <div className="px-6 py-3 border-b border-rule bg-copper-wash">
-          <span className="text-[11px] font-display uppercase tracking-[0.15em] text-copper">
+        <div className="px-6 py-3 border-b border-rule bg-sage-wash">
+          <span className="text-[11px] font-display uppercase tracking-[0.15em] text-sage">
             ◈ Coaching Tip
           </span>
         </div>
