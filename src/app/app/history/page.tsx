@@ -65,7 +65,7 @@ export default function HistoryPage() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-paper">
         <div className="relative w-16 h-16">
           <div className="absolute inset-0 rounded-full border-[3px] border-rule" />
-          <div className="absolute inset-0 rounded-full border-[3px] border-t-sage border-l-transparent border-r-transparent border-b-transparent animate-spin" />
+          <div className="absolute inset-0 rounded-full border-[3px] border-t-copper border-l-transparent border-r-transparent border-b-transparent animate-spin" />
         </div>
       </div>
     );
@@ -138,7 +138,7 @@ export default function HistoryPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/app/analysis"
-            className="flex items-center gap-2 px-4 py-1.5 bg-paper-deep text-ink font-mono text-[10px] tracking-widest uppercase font-bold rounded-full border border-rule hover:bg-paper-warm transition-colors duration-200"
+            className="flex items-center gap-2 px-4 py-1.5 bg-sage-wash text-ink font-mono text-[10px] tracking-widest uppercase font-bold rounded-full border border-rule hover:bg-sage-faint transition-colors duration-200"
           >
             Analysis →
           </Link>
@@ -146,7 +146,7 @@ export default function HistoryPage() {
             onClick={() => router.push('/app')}
             className="group flex items-center gap-2 px-4 py-1.5 bg-ink text-paper font-mono text-[10px] tracking-widest uppercase font-bold rounded-full overflow-hidden relative cursor-pointer"
           >
-            <span className="absolute inset-0 bg-sage translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[0.21,0.47,0.32,0.98]" />
+            <span className="absolute inset-0 bg-copper translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-[0.21,0.47,0.32,0.98]" />
             <svg className="relative z-10 w-3 h-3 rotate-180 group-hover:-translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
@@ -203,8 +203,8 @@ export default function HistoryPage() {
                   <>
                     <defs>
                       <linearGradient id="journeyGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#3E8B5C" stopOpacity="0.2" />
-                        <stop offset="100%" stopColor="#3E8B5C" stopOpacity="0" />
+                        <stop offset="0%" stopColor="#A0703E" stopOpacity="0.2" />
+                        <stop offset="100%" stopColor="#A0703E" stopOpacity="0" />
                       </linearGradient>
                     </defs>
 
@@ -245,7 +245,7 @@ export default function HistoryPage() {
                     {linePath && (
                       <path
                         d={linePath}
-                        stroke="#3E8B5C"
+                        stroke="#A0703E"
                         strokeWidth="2"
                         fill="none"
                         strokeLinecap="round"
@@ -300,7 +300,7 @@ export default function HistoryPage() {
                         cx={p.x}
                         cy={p.y}
                         r={hoveredIndex === i ? 6 : 4}
-                        fill="#3E8B5C"
+                        fill="#A0703E"
                         stroke="white"
                         strokeWidth="2"
                         cursor="pointer"
@@ -349,7 +349,7 @@ export default function HistoryPage() {
                 </p>
                 <button
                   onClick={() => router.push('/app')}
-                  className="group inline-flex items-center gap-2 px-7 py-3 rounded-full bg-ink text-paper font-display text-xs uppercase tracking-widest hover:bg-sage transition-all duration-300 cursor-pointer"
+                  className="group inline-flex items-center gap-2 px-7 py-3 rounded-full bg-ink text-paper font-display text-xs uppercase tracking-widest hover:bg-copper transition-all duration-300 cursor-pointer"
                 >
                   <span>Start Practising</span>
                   <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -370,7 +370,7 @@ export default function HistoryPage() {
                     >
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-[9px] uppercase tracking-widest bg-sage-faint text-sage font-semibold px-2 py-0.5 rounded-sm">
+                          <span className="font-mono text-[9px] uppercase tracking-widest bg-sage-faint text-sage px-2 py-0.5 rounded-sm">
                             {session.mode}
                           </span>
                           <span className="font-sans text-sm text-ink">{truncatedPrompt}</span>
@@ -471,7 +471,7 @@ export default function HistoryPage() {
 
                   <button
                     onClick={() => router.push('/app/session/' + latest.id)}
-                    className="mt-4 block font-mono text-[10px] uppercase tracking-widest text-sage hover:text-sage-light transition-colors cursor-pointer"
+                    className="mt-4 block font-mono text-[10px] uppercase tracking-widest text-copper hover:text-sage transition-colors cursor-pointer"
                   >
                     View full analysis →
                   </button>

@@ -151,8 +151,8 @@ export default function ResultsPage() {
       </header>
 
       {/* SESSION META BAR */}
-      <div className="bg-paper-warm border-b border-rule px-8 py-2.5 flex flex-wrap gap-5 items-center">
-        <span className="font-display text-[10px] uppercase tracking-widest bg-ink text-paper rounded-full px-3 py-1 capitalize">
+      <div className="bg-sage-wash border-b border-rule px-8 py-2.5 flex flex-wrap gap-5 items-center">
+        <span className="font-mono text-[10px] uppercase tracking-widest bg-sage-faint text-sage rounded-full px-3 py-1 capitalize">
           {mode}
         </span>
         <span className="text-xs text-ink-muted truncate max-w-xs">{truncatedPrompt}</span>

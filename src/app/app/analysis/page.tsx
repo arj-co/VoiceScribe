@@ -157,7 +157,7 @@ export default function AnalysisPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/app/history"
-            className="flex items-center gap-2 px-4 py-1.5 bg-paper-deep text-ink font-mono text-[10px] tracking-widest uppercase font-bold rounded-full border border-rule hover:bg-paper-warm transition-colors duration-200"
+            className="flex items-center gap-2 px-4 py-1.5 bg-sage-wash text-ink font-mono text-[10px] tracking-widest uppercase font-bold rounded-full border border-rule hover:bg-sage-faint transition-colors duration-200"
           >
             History →
           </Link>
@@ -321,7 +321,7 @@ export default function AnalysisPage() {
                         key={session.id}
                         className={`flex justify-between items-center py-3 border-b border-rule-light last:border-b-0 cursor-pointer px-3 -mx-3 rounded-lg transition-colors ${
                           isActive
-                            ? 'bg-paper-deep border-l-2 border-l-sage pl-3'
+                            ? 'bg-sage-wash border-l-2 border-l-sage pl-3'
                             : 'hover:bg-rule-faint'
                         }`}
                         onClick={() => setSelectedId(session.id)}

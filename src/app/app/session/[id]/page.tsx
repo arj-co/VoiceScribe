@@ -80,8 +80,8 @@ export default function SessionDetailPage() {
       </header>
 
       {/* METADATA BAR */}
-      <div className="bg-paper-deep border-b border-rule-light px-6 py-3 flex gap-6 items-center flex-wrap">
-        <span className="font-mono text-[10px] uppercase tracking-widest text-ink-faint bg-rule-faint text-ink-muted px-2 py-0.5 rounded-sm">
+      <div className="bg-sage-wash border-b border-rule-light px-6 py-3 flex gap-6 items-center flex-wrap">
+        <span className="font-mono text-[10px] uppercase tracking-widest bg-sage-faint text-sage px-2 py-0.5 rounded-sm">
           {modeLabel}
         </span>
         <span className="font-mono text-[10px] uppercase tracking-widest text-ink">
@@ -121,19 +121,19 @@ export default function SessionDetailPage() {
 
         {/* SECTION 2 — Stats grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
-          <div className="bg-paper-deep border border-rule-light rounded-xl p-4 text-center">
+          <div className="bg-sage-wash border border-rule-light rounded-xl p-4 text-center">
             <p className="font-display text-3xl font-bold text-copper">{session.stats.pauses}</p>
             <p className="font-mono text-[9px] uppercase tracking-widest text-ink-faint mt-1">
               Pauses
             </p>
           </div>
-          <div className="bg-paper-deep border border-rule-light rounded-xl p-4 text-center">
+          <div className="bg-sage-wash border border-rule-light rounded-xl p-4 text-center">
             <p className="font-display text-3xl font-bold text-sage">{session.stats.fillers}</p>
             <p className="font-mono text-[9px] uppercase tracking-widest text-ink-faint mt-1">
               Fillers
             </p>
           </div>
-          <div className="bg-paper-deep border border-rule-light rounded-xl p-4 text-center">
+          <div className="bg-sage-wash border border-rule-light rounded-xl p-4 text-center">
             <p className="font-display text-3xl font-bold text-copper">
               {session.stats.repetitions}
             </p>
@@ -141,7 +141,7 @@ export default function SessionDetailPage() {
               Repetitions
             </p>
           </div>
-          <div className="bg-paper-deep border border-rule-light rounded-xl p-4 text-center">
+          <div className="bg-sage-wash border border-rule-light rounded-xl p-4 text-center">
             <p className="font-display text-3xl font-bold text-sage">
               {session.stats.prolongations}
             </p>
@@ -220,7 +220,7 @@ export default function SessionDetailPage() {
             <p className="font-mono text-[9px] uppercase tracking-widest text-ink-faint mb-4">
               Full Transcript
             </p>
-            <div className="bg-paper-deep border border-rule-light rounded-xl p-5 font-display text-base leading-relaxed text-ink">
+            <div className="bg-sage-wash border border-rule-light rounded-xl p-5 font-display text-base leading-relaxed text-ink">
               {session.transcript.words.map((token, i) => {
                 if (token.type === 'pause') {
                   return (
