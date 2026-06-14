@@ -186,7 +186,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {/* Step 1 — Speak */}
               <motion.div
-                className="bg-paper-deep border border-rule rounded-2xl p-7 relative overflow-hidden"
+                className="bg-sage-wash border border-rule rounded-2xl p-7 relative overflow-hidden"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -209,7 +209,7 @@ export default function Home() {
 
               {/* Step 2 — See it, live */}
               <motion.div
-                className="bg-paper-deep border border-rule rounded-2xl p-7 relative overflow-hidden"
+                className="bg-sage-wash border border-rule rounded-2xl p-7 relative overflow-hidden"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -231,7 +231,7 @@ export default function Home() {
 
               {/* Step 3 — Get coached */}
               <motion.div
-                className="bg-paper-deep border border-rule rounded-2xl p-7 relative overflow-hidden"
+                className="bg-sage-wash border border-rule rounded-2xl p-7 relative overflow-hidden"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -255,7 +255,7 @@ export default function Home() {
         {/* ============================================================
             SECTION 4 — TRANSCRIPT FEATURE HIGHLIGHT
         ============================================================ */}
-        <section className="bg-paper-deep border-y border-rule py-20 px-6">
+        <section className="bg-sage-wash border-y border-rule py-20 px-6">
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
               {/* Left — Text */}
@@ -351,7 +351,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Use Case 1 */}
               <motion.div 
-                className="bg-paper-warm border border-rule rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300"
+                className="bg-sage-wash border border-rule rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -370,7 +370,7 @@ export default function Home() {
 
               {/* Use Case 2 */}
               <motion.div 
-                className="bg-paper-warm border border-rule rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300"
+                className="bg-sage-wash border border-rule rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -391,7 +391,7 @@ export default function Home() {
 
               {/* Use Case 3 */}
               <motion.div 
-                className="bg-paper-warm border border-rule rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300"
+                className="bg-sage-wash border border-rule rounded-2xl p-8 hover:-translate-y-1 transition-transform duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -415,7 +415,7 @@ export default function Home() {
         {/* ============================================================
             SECTION 6 — BOTTOM CTA
         ============================================================ */}
-        <section className="bg-paper-deep border-t border-rule py-20 px-6 text-center">
+        <section className="bg-sage-wash border-t border-rule py-20 px-6 text-center">
           <div className="max-w-2xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
