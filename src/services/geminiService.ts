@@ -52,7 +52,7 @@ async function callGemini(
         ],
         generationConfig: {
           temperature: 0.4,
-          maxOutputTokens: 2048,
+          maxOutputTokens: 20480,
           responseMimeType: 'application/json',
         },
       }),
@@ -70,8 +70,10 @@ export async function analyseWithGemini(
   const encodedTranscript = JSON.stringify(options.transcript);
   const encodedPrompt = JSON.stringify(options.prompt);
 
+  const isCustomMode = options.mode === 'custom';
+
   const userPrompt = `The user was practising: ${options.mode}
-The question or prompt they were answering: ${encodedPrompt}
+${isCustomMode ? 'The reference script they were trying to read' : 'The question or prompt they were answering'}: ${encodedPrompt}
 
 Their speech transcript:
 ${encodedTranscript}
@@ -85,12 +87,16 @@ Measured speech statistics:
 - Algorithm-computed fluency score: ${options.stats.fluencyScore}/100
 
 Your instructions:
-1. overallFeedback: 2-3 sentences. Be direct. Call out the biggest problem explicitly. Do not open with a compliment. Reference what actually happened in their transcript.
-2. questionFeedback: Did they actually answer the question well? If not, say so bluntly. If the answer was vague, generic, or too short, name it. 1-2 sentences.
+1. overallFeedback: 2-3 sentences. Be direct. Call out the biggest problem explicitly. Do not open with a compliment. Reference what actually happened in their transcript ${isCustomMode ? 'relative to the reference script' : ''}.
+2. questionFeedback: ${
+    isCustomMode
+      ? 'Assess how accurately and completely they read the reference script. If they skipped lines, missed words, or deviated from the script, state it bluntly. 1-2 sentences.'
+      : 'Did they actually answer the question well? If not, say so bluntly. If the answer was vague, generic, or too short, name it. 1-2 sentences.'
+  }
 3. coachingTip: One hyper-specific drill or technique they can do RIGHT NOW in their next session. Not generic advice like "practice more." Give a method, structure, or exercise.
 4. strengths: Maximum 2 items. Only list genuine strengths that are actually visible in the transcript. If there are no real strengths beyond "they tried," say so honestly with one item.
 5. improvements: Minimum 2, maximum 3. These must be specific to what happened in the transcript — reference actual words, patterns, or moments. No vague advice.
-6. fluencyScore: Your honest reassessment. The algorithm gave ${options.stats.fluencyScore}. If the content was weak, the answer was off-topic, or the delivery had obvious issues, adjust DOWN accordingly. If they performed well despite some stumbles, you can adjust UP. Do not just echo the algorithm.
+6. fluencyScore: Your honest reassessment. The algorithm gave ${options.stats.fluencyScore}. If the content was weak, the answer was off-topic, or the delivery ${isCustomMode ? 'or reading accuracy' : ''} had obvious issues, adjust DOWN accordingly. If they performed well despite some stumbles, you can adjust UP. Do not just echo the algorithm.
 
 Return ONLY a valid JSON object with exactly these fields:
 {
