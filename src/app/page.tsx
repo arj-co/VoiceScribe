@@ -128,7 +128,7 @@ export default function Home() {
         {/* ============================================================
             SECTION 2 — STATS BAR
         ============================================================ */}
-        <section className="w-full bg-paper-deep border-y border-rule py-10">
+        <section className="w-full bg-sage-wash border-y border-rule py-10">
           <div className="max-w-5xl mx-auto px-6">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center sm:text-left sm:divide-x divide-rule-light">
               {/* Stat 1 */}
