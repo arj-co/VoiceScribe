@@ -2,10 +2,30 @@ import { useCallback } from 'react';
 import { WordToken, DysfluencyType, DysfluencyStats } from '@/types/app';
 
 export const FILLER_WORDS: string[] = [
-  'um', 'uh', 'er', 'ah', 'like', 'basically', 'literally',
+  'um', 'uh', 'er', 'ah', 'oh', 'uhm', 'like', 'basically', 'literally',
   'actually', 'honestly', 'right', 'okay', 'so', 'well',
   'you know', 'i mean', 'kind of', 'sort of'
 ];
+
+export const isVocalizedFiller = (word: string): boolean => {
+  // Matches variations of:
+  // - uh, uhh, uhhh, uhhhh, etc.
+  // - um, umm, ummm, ummmm, etc.
+  // - uhm, uhmm, uhhmmm, etc.
+  // - er, err, errr, etc.
+  // - ah, ahh, ahhh, etc.
+  // - oh, ohh, ohhh, etc.
+  return (
+    /^u+h+$/.test(word) ||
+    /^u+m+$/.test(word) ||
+    /^u+h+m+$/.test(word) ||
+    /^e+r+$/.test(word) ||
+    /^a+h+$/.test(word) ||
+    /^o+h+$/.test(word)
+  );
+};
+
+const TWO_WORD_FILLERS = ['you know', 'i mean', 'kind of', 'sort of'];
 
 export const PAUSE_THRESHOLD_SECONDS: number = 1.5;
 export const PROLONGATION_MULTIPLIER: number = 2.5;
@@ -42,7 +62,11 @@ export default function useWordProcessor(): UseWordProcessorReturn {
       let isClassified = false;
 
       // RULE 1 — FILLER
-      if (FILLER_WORDS.includes(normalized)) {
+      const isTwoWordFiller =
+        (i + 1 < words.length && TWO_WORD_FILLERS.includes(`${normalized} ${normalizedWords[i + 1]}`)) ||
+        (i - 1 >= 0 && TWO_WORD_FILLERS.includes(`${normalizedWords[i - 1]} ${normalized}`));
+
+      if (FILLER_WORDS.includes(normalized) || isVocalizedFiller(normalized) || isTwoWordFiller) {
         processedWord.type = 'filler';
         isClassified = true;
       }

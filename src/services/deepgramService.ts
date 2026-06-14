@@ -6,6 +6,7 @@ export const DEEPGRAM_CONFIG = {
   utterance_end_ms: 1000,
   vad_events: true,
   punctuate: true,
+  filler_words: true,
 };
 
 export function buildDeepgramUrl(apiKey: string): string {
@@ -17,6 +18,7 @@ export function buildDeepgramUrl(apiKey: string): string {
     utterance_end_ms: '1000',
     vad_events: 'true',
     punctuate: 'true',
+    filler_words: 'true',
   });
   return `wss://api.deepgram.com/v1/listen?${params.toString()}`;
 }
