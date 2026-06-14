@@ -3,13 +3,18 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ResultsPanel from '@/components/app/ResultsPanel';
-import { analyseWithGemini } from '@/services/geminiService';
+import { analyseWithGemini, GeminiServiceResult } from '@/services/geminiService';
 import useWordProcessor from '@/hooks/useWordProcessor';
 import useSessionStore from '@/hooks/useSessionStore';
 import { WordToken, DysfluencyStats, GeminiAnalysis, PracticeMode } from '@/types/app';
 
 const CONFETTI_COLORS = ['bg-copper', 'bg-sage', 'bg-amber-400', 'bg-purple-400', 'bg-ink'];
 const CONFETTI_LEFTS = ['5%','15%','25%','35%','45%','55%','65%','75%','85%','95%','10%','70%'];
+
+// Caches to prevent duplicate runs due to React strict mode double-mounting
+let activeAnalysisPromise: Promise<GeminiServiceResult> | null = null;
+let activeSavedSessionId: string | null = null;
+let currentAnalyzingSessionStr: string | null = null;
 
 export default function ResultsPage() {
   const router = useRouter();
@@ -35,6 +40,14 @@ export default function ResultsPage() {
           setIsLoading(false);
           return;
         }
+
+        // If it's a new session, clear the caches
+        if (pendingSessionStr !== currentAnalyzingSessionStr) {
+          activeAnalysisPromise = null;
+          activeSavedSessionId = null;
+          currentAnalyzingSessionStr = pendingSessionStr;
+        }
+
         const session = JSON.parse(pendingSessionStr);
         const sessionWords: WordToken[] = session.words || [];
         const rawText: string = session.rawText || '';
@@ -42,32 +55,55 @@ export default function ResultsPage() {
         const sessionMode: string = session.mode || '';
         const sessionPrompt: string = session.prompt || '';
         const computedStats = computeStats(sessionWords);
+
         setWords(sessionWords);
         setMode(sessionMode);
         setPrompt(sessionPrompt);
         setDuration(sessionDuration);
         setStats(computedStats);
+
         const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY || '';
-        const result = await analyseWithGemini({ apiKey, transcript: rawText, mode: sessionMode, prompt: sessionPrompt, stats: computedStats });
+
+        // Reuse existing promise if present, otherwise start new analysis
+        if (!activeAnalysisPromise) {
+          activeAnalysisPromise = analyseWithGemini({
+            apiKey,
+            transcript: rawText,
+            mode: sessionMode,
+            prompt: sessionPrompt,
+            stats: computedStats,
+          });
+        }
+
+        const result = await activeAnalysisPromise;
         setAnalysis(result);
-        const saved = saveSession({
-          mode: sessionMode as PracticeMode,
-          prompt: sessionPrompt,
-          transcript: { words: sessionWords, rawText, durationSeconds: sessionDuration },
-          stats: computedStats,
-          analysis: result,
-        });
-        setSavedSessionId(saved.id);
+
+        // Only save session to local storage once
+        let savedId = activeSavedSessionId;
+        if (!savedId) {
+          const saved = saveSession({
+            mode: sessionMode as PracticeMode,
+            prompt: sessionPrompt,
+            transcript: { words: sessionWords, rawText, durationSeconds: sessionDuration },
+            stats: computedStats,
+            analysis: result,
+          });
+          savedId = saved.id;
+          activeSavedSessionId = savedId;
+        }
+
+        setSavedSessionId(savedId);
         setIsLoading(false);
         sessionStorage.removeItem('voicescribe_pending_session');
       } catch (err) {
         console.error('Failed to parse or analyze session:', err);
+        activeAnalysisPromise = null;
         setError('An error occurred during speech analysis. Please try again.');
         setIsLoading(false);
       }
     };
     fetchAnalysis();
-  }, [computeStats]);
+  }, [computeStats, saveSession]);
 
   // Loading
   if (isLoading) {
